@@ -5,6 +5,9 @@
 - [`./main.js`](/main.js) is the main server file
 - any CSS files is TBD (still deciding on how to style our pages)
 
+## Installation
+Make sure to run `npm install` before executing any other commands
+
 ## Dev Server
 To host a development server to check your work, execute these commands in two seperate terminals: \
 `npm run dev-client` \
