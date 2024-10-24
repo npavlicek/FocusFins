@@ -1,3 +1,58 @@
 body {
-    background-image: url('./res/websiteback.jpeg');
+    background-color: #dfede8;
+   /* background-image: url('./res/websiteback.jpeg');*/
 }
+body {
+    background-color: #dfede8;
+    display: flex;                
+    justify-content: center;     
+    align-items: center;        
+    height: 100vh;              
+    margin: 0;                   
+}
+
+form {
+    background-color: white;     
+    padding: 20px;                
+    border-radius: 15px;           
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+}
+
+form div {
+    margin-bottom: 10px; /* Adjust the spacing as needed */
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;                /* Make the input fields full width */
+    padding: 10px;             /* Add padding for better spacing */
+    border: 2px solid #ccc;    /* Set a border */
+    border-radius: 15px;       /* Change the border radius for rounded corners */
+    box-sizing: border-box;     /* Include padding and border in the element's total width and height */
+    transition: border-color 0.3s; /* Smooth transition for border color */
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #66afe9;      /* Change border color on focus */
+    outline: none;              /* Remove default outline */
+}
+input[type="submit"] {
+    width: 100%;                /* Make the submit button full width */
+    padding: 10px;             /* Add padding for better spacing */
+    border: none;              /* Remove default border */
+    border-radius: 15px;       /* Change the border radius for rounded corners */
+    background-color: #83b7a2; /* Set a background color */
+    color: #fff;               /* Set text color */
+    cursor: pointer;           /* Change cursor shape on hover */
+    transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+input[type="submit"]:hover {
+    background-color: #83b7a2; /* Change background color on hover */
+}
+
+input[type="submit"]:focus {
+    outline: none;              /* Remove default outline */
+}
+
