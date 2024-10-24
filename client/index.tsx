@@ -27,32 +27,38 @@ interface LoginFormProps {
 }
 
 function LoginForm({ setUsername, setPassword }: LoginFormProps) {
-  function doLogin(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault(); 
-    console.log("Form submitted");
+    function doLogin(event: React.FormEvent<HTMLFormElement>) {
+      event.preventDefault(); 
+      console.log("Form submitted");
+    }
+  
+    function updateUsername(event: React.ChangeEvent<HTMLInputElement>) {
+      setUsername(event.target.value); 
+    }
+  
+    function updatePassword(event: React.ChangeEvent<HTMLInputElement>) {
+      setPassword(event.target.value); 
+    }
+  
+    return (
+      <form onSubmit={doLogin}>
+        <div>
+          <input
+            type="text"
+            placeholder="Username"
+            onChange={updateUsername}
+          />
+        </div>
+        <div>
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={updatePassword}
+          />
+        </div>
+        <div>
+          <input type="submit" value="Submit" />
+        </div>
+      </form>
+    );
   }
-
-  function updateUsername(event: React.ChangeEvent<HTMLInputElement>) {
-    setUsername(event.target.value); 
-  }
-
-  function updatePassword(event: React.ChangeEvent<HTMLInputElement>) {
-    setPassword(event.target.value); 
-  }
-
-  return (
-    <form onSubmit={doLogin}>
-      <input
-        type="text"
-        placeholder="Username"
-        onChange={updateUsername}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={updatePassword}
-      />
-      <input type="submit" value="Submit" />
-    </form>
-  );
-}
