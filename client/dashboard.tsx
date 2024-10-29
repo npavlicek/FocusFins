@@ -1,3 +1,5 @@
+import Timer from './timer';
+
 export default function Dashboard() {
-  return <div>at dashboard</div>;
+  return <Timer timeLimit={10} />
 }

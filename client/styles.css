@@ -73,3 +73,40 @@
     margin-bottom: 20px;      /* Space below the heading */
     font-family: 'Work Sans', sans-serif; /* Apply the custom font */
   }
+
+
+  /* CircularTimer.css */
+.timer {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg); /* Start the circle from the top */
+}
+
+.circle-background {
+  fill: none;
+  stroke: #e6e6e6;
+  stroke-width: 15;
+}
+
+.circle-foreground {
+  fill: none;
+  stroke: #3498db;
+  stroke-width: 15;
+  stroke-dasharray: 283; /* Full circumference */
+  transition: stroke-dashoffset 1s linear;
+}
+
+.time-display {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  color: #333;
+}
