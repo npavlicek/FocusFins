@@ -1,43 +1,53 @@
-body {
-    background-color: #dfede8;
-   /* background-image: url('./res/websiteback.jpeg');*/
-}
-body {
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;400;700;900&display=swap');
+
+.work-sans-login {
+    font-family: "Work Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 520; 
+    font-style: normal;
+  }
+    
+  form div {
+    margin-bottom: 10px; /* Adjust the spacing as needed */
+  }
+  body {
+    font-family: 'Work Sans', sans-serif; /* Apply the custom font */
     background-color: #dfede8;
     display: flex;                
     justify-content: center;     
     align-items: center;        
     height: 100vh;              
     margin: 0;                   
-}
-
-form {
+  }
+  
+  form {
     background-color: white;     
     padding: 20px;                
     border-radius: 15px;           
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
-}
-
-form div {
-    margin-bottom: 10px; /* Adjust the spacing as needed */
-}
-
-input[type="text"],
-input[type="password"] {
+  }
+  
+  form div {
+    margin-bottom: 20px; /* Adjust the spacing as needed */
+  }
+  
+  input[type="text"],
+  input[type="password"] {
     width: 100%;                /* Make the input fields full width */
     padding: 10px;             /* Add padding for better spacing */
     border: 2px solid #ccc;    /* Set a border */
     border-radius: 15px;       /* Change the border radius for rounded corners */
     box-sizing: border-box;     /* Include padding and border in the element's total width and height */
     transition: border-color 0.3s; /* Smooth transition for border color */
-}
-
-input[type="text"]:focus,
-input[type="password"]:focus {
+  }
+  
+  input[type="text"]:focus,
+  input[type="password"]:focus {
     border-color: #66afe9;      /* Change border color on focus */
     outline: none;              /* Remove default outline */
-}
-input[type="submit"] {
+  }
+  
+  input[type="submit"] {
     width: 100%;                /* Make the submit button full width */
     padding: 10px;             /* Add padding for better spacing */
     border: none;              /* Remove default border */
@@ -45,14 +55,21 @@ input[type="submit"] {
     background-color: #83b7a2; /* Set a background color */
     color: #fff;               /* Set text color */
     cursor: pointer;           /* Change cursor shape on hover */
-    transition: background-color 0.3s; /* Smooth transition for background color */
-}
-
-input[type="submit"]:hover {
-    background-color: #83b7a2; /* Change background color on hover */
-}
-
-input[type="submit"]:focus {
-    outline: none;              /* Remove default outline */
-}
-
+    transition: background-color 0.3s; 
+  }
+  
+  input[type="submit"]:hover {
+    background-color: #83b7a2; 
+  }
+  
+  input[type="submit"]:focus {
+    outline: none;              
+  }
+  
+  .login-title {
+    font-size: 28px;          /* Adjust font size */
+    color: #333;              /* Text color */
+    text-align: center;       /* Center the text */
+    margin-bottom: 20px;      /* Space below the heading */
+    font-family: 'Work Sans', sans-serif; /* Apply the custom font */
+  }

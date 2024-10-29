@@ -15,8 +15,8 @@ function App() {
   return (
     <>   
       <LoginForm setUsername={setUsername} setPassword={setPassword} />
-      <h1>{Username}</h1>
-      <h1>{Password}</h1>
+      <h1 className="work-sans-login">{Username}</h1>
+      <h1 className="work-sans-login">{Password}</h1>
     </>
   );
 }
@@ -42,6 +42,7 @@ function LoginForm({ setUsername, setPassword }: LoginFormProps) {
   
     return (
       <form onSubmit={doLogin}>
+        <h2 className="login-title work-sans-login">Login</h2> {/* Added Login heading with Work Sans font */}
         <div>
           <input
             type="text"
@@ -61,4 +62,4 @@ function LoginForm({ setUsername, setPassword }: LoginFormProps) {
         </div>
       </form>
     );
-  }
+}
