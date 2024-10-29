@@ -14,6 +14,7 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={doLogin}>
+      <h2 className="login-title work-sans-login">Login</h2>
       <div>
         <input
           type="text"
