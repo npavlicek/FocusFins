@@ -1,0 +1,39 @@
+import bcrypt from 'bcrypt';
+import MongoClient from 'mongodb';
+import jwt from 'jsonwebtoken';
+
+export default async function loginHandler(req, res) {
+    // connect to db
+    const dbClient = new MongoClient(process.env.MONGODB_URI);
+    try {
+        await dbClient.connect();
+        let db = dbClient.db();
+
+        const { username, password } = req.body;
+
+        const user = await db.collection('users').findOne({ username: username });
+
+        // If username doesnt exist
+        if (!user)
+            return res.status(401).json({ error: "Invalid login credentials" });
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        // if passwords dont match
+        if (!passwordMatch)
+            return res.status(401).json({ error: "Invalid login credentials" });
+
+        const token = jwt.sign(username, req.secretToken, { expiresIn: '1800s' });
+
+        res.status(200).json({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            token
+        });
+    } catch (err) {
+        console.err("Error connecting to database: " + err);
+        return res.status(500).json({ error: "Internal server error" });
+    } finally {
+        await dbClient.close();
+    }
+}
