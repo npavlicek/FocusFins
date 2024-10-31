@@ -31,7 +31,7 @@ module.exports = async function loginHandler(req, res) {
             token
         });
     } catch (err) {
-        console.err("Error connecting to database: " + err);
+        console.error("Error connecting to database: " + err);
         return res.status(500).json({ error: "Internal server error" });
     } finally {
         await dbClient.close();

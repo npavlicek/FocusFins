@@ -29,7 +29,7 @@ module.exports = async function registerHandler(req, res) {
 
         res.status(201).json({ message: 'User registered successfully' });
     } catch (err) {
-        console.err("Error connecting to database: " + err);
+        console.error("Error connecting to database: " + err);
         return res.status(500).json({ error: "Internal server error" });
     } finally {
         await dbClient.close();

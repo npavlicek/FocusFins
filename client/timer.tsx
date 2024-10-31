@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-export default function Timer() {
+export default function Timer(params: any) {
   const [timeLimit, setTimeLimit] = useState(1); // Default: 1 minute
-  const [timeLeft, setTimeLeft] = useState({ minutes: timeLimit, seconds: 0 });
+  const [timeLeft, setTimeLeft] = useState({ minutes: params.timeLimit, seconds: 0 });
   const [isRunning, setIsRunning] = useState(false);
   const [offset, setOffset] = useState(283); // Full circle dash array at start
 
