@@ -43,7 +43,7 @@ export default function Timer() {
     setOffset(newOffset);
   }, [timeLeft, timeLimit]);
 
-  const handleTimeLimitChange = (e) => {
+  const handleTimeLimitChange = (e: { target: { value: string; }; }) => {
     const newLimit = parseInt(e.target.value, 10);
     if (!isNaN(newLimit) && newLimit >= 0) {
       setTimeLimit(newLimit);
