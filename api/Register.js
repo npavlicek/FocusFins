@@ -14,7 +14,7 @@ app.post('/api/register', async (req, res, next) =>
     {
         const{username, password, firstName, lastName, email} = req.body;
 
-        const existingUser = await db.collection('users').findOne({Login: username});
+        const existingUser = await db.collection('users').findOne({username: username});
 
         if (existingUser)
         {
@@ -25,11 +25,11 @@ app.post('/api/register', async (req, res, next) =>
 
         await db.collection('users').insertOne(
         {
-            Login: username,
-            Password: hashedPass,
-            FirstName: firstName,
-            LastName: lastName,
-            Email: email
+            username: username,
+            password: hashedPass,
+            firstName: firstName,
+            lastName: lastName,
+            email: email
         });
 
     res.status(201).json({message: 'User registered successfully'});

@@ -1,6 +1,9 @@
 const express = require("express");
 const setUpLoginHandler = require("./api/Login");
 const setUpRegisterHandler = require("./api/Register");
+const setUpGetReefHandler = require("./api/getReef");
+const setUpAddFriendHandler = require("./api/addFriend");
+const setUpGetFriendsHandler = require("./api/getFriends");
 
 const app = express();
 
@@ -17,6 +20,9 @@ client.connect()
 
 setUpLoginHandler(app);
 setUpRegisterHandler(app);
+setUpGetReefHandler(app);
+setUpAddFriendHandler(app);
+setUpGetFriendsHandler(app);
 
 app.use(express.static('./build/'));
 

@@ -12,9 +12,9 @@ app.post('/api/login', async (req, res, next) =>
 {
     try
     {
-        const {login, password} = req.body;
+        const {username, password} = req.body;
 
-        const user = await db.collection('users').findOne({Login: login});
+        const user = await db.collection('users').findOne({username: username});
 
         if (!user)
         {
@@ -28,9 +28,8 @@ app.post('/api/login', async (req, res, next) =>
             return res.status(401).json({error: 'Invalid login credentials'});
         }
 
-        const {UserId: id, FirstName: fn, LastName: ln, } = user;
+        const {id: id, firstName: fn, lastName: ln, } = user;
         return res.status(200).json({id, firstName: fn, lastName: ln, error: ''});
-
     }
 
     catch (err)

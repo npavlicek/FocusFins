@@ -2,12 +2,12 @@ const express = require('express');
 const {MongoClient} = require('mongodb');
 require('dotenv').config();
 
-export default function setGetReefHandler(app, db) {
+export default function setGetFriendsHandler(app, db) {
 app.use(express.json());
 
 const client = new MongoClient(process.env.MONGODB_URI);
 
-app.post('/api/getReef', async (req, res, next) =>
+app.post('/api/getFriends', async (req, res, next) =>
 {
     try
     {
@@ -17,10 +17,17 @@ app.post('/api/getReef', async (req, res, next) =>
 
         if (!user)
         {
-            return res.status(404).json({error: 'Reef not found for the given user ID'});
+            return res.status(404).json({error: 'User not found'});
         }
 
-        return res.status(200).json({id, error: ''});
+        if (user.friends.length == 0)
+        {
+            return res.json({friends: []});
+        }
+
+        const friends = await db.collection('users').findOne({uID: {$in: user.friends}});
+
+        res.json({friends});
     }
 
     catch (err)

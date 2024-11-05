@@ -2,7 +2,7 @@ const express = require('express');
 const {MongoClient} = require('mongodb');
 require('dotenv').config();
 
-export default function setGetReefHandler(app, db) {
+export default function setAddFriendHandler(app, db) {
 app.use(express.json());
 
 const client = new MongoClient(process.env.MONGODB_URI);
@@ -15,11 +15,11 @@ app.post('/api/addFriend', async (req, res, next) =>
 
         if (!uID || !fID)
         {
-            return res.status(400).json({error: 'Both user ID and friend ID are required'})
+            return res.status(400).json({error: 'Both user ID and friend ID are required'});
         }
 
-        const user = await db.collections('users').findOne({id: uID});
-        const friend = await db.collections('users').findOne({id: fID});
+        const user = await db.collection('users').findOne({id: uID});
+        const friend = await db.collection('users').findOne({id: fID});
 
         if (!user)
         {
@@ -39,7 +39,7 @@ app.post('/api/addFriend', async (req, res, next) =>
         user.friends.push(fID);
         await user.save();
 
-        res.json({message: 'Friend added successfully!', user})
+        res.json({message: 'Friend added successfully!', user});
     }
 
     catch (err)
