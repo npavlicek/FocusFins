@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 
 export default function Timer(params: any) {
-  const [timeLimit, setTimeLimit] = useState(1); // Default: 1 minute
+  const [timeLimit, setTimeLimit] = useState(25); // Default: 25 minute for pomodoro
   const [timeLeft, setTimeLeft] = useState({ minutes: params.timeLimit, seconds: 0 });
   const [isRunning, setIsRunning] = useState(false);
-  const [offset, setOffset] = useState(283); // Full circle dash array at start
+  const [offset, setOffset] = useState(530); // Updated dash array at start for larger circle
 
-  const FULL_DASH_ARRAY = 420; // Full circumference of the circle
+  const FULL_DASH_ARRAY = 315; // Updated circumference for larger circle
 
   useEffect(() => {
-    // Reset the timer when time limit changes
     setTimeLeft({ minutes: timeLimit, seconds: 0 });
-    setOffset(FULL_DASH_ARRAY); // Reset the circle to full
-    setIsRunning(false); // Stop the timer if the time limit changes
+    setOffset(FULL_DASH_ARRAY);
+    setIsRunning(false);
   }, [timeLimit]);
 
   useEffect(() => {
@@ -51,20 +50,30 @@ export default function Timer(params: any) {
   };
 
   const handleStart = () => {
-    if (timeLeft.minutes > 0 || timeLeft.seconds > 0) {
+    if ((timeLeft.minutes > 0 || timeLeft.seconds > 0) && !isRunning) {
       setIsRunning(true);
     }
   };
 
+  const handleStop = () => {
+    setIsRunning(false);
+  };
+
+  const handleReset = () => {
+    setTimeLeft({ minutes: timeLimit, seconds: 0 });
+    setOffset(FULL_DASH_ARRAY);
+    setIsRunning(false);
+  };
+
   return (
     <div className="timer-container">
-      <div className="timer">
-        <svg>
-          <circle cx="50%" cy="50%" r="45%" className="circle-background" />
+      <div className="timer" style={{ width: '200px', height: '200px' }}>
+        <svg viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" className="circle-background" />
           <circle
-            cx="50%"
-            cy="50%"
-            r="45%"
+            cx="60"
+            cy="60"
+            r="50"
             className="circle-foreground"
             style={{
               strokeDasharray: FULL_DASH_ARRAY,
@@ -72,14 +81,14 @@ export default function Timer(params: any) {
             }}
           />
         </svg>
-        <div className="time-display">
+        <div className="time-display" style={{ fontSize: '2.5rem' }}>
           {String(timeLeft.minutes).padStart(2, '0')}:
           {String(timeLeft.seconds).padStart(2, '0')}
         </div>
       </div>
       <div className="controls">
         <label>
-          Set Timer (minutes):{' '}
+          Set Timer:{' '}
           <input
             type="number"
             min="0"
@@ -87,9 +96,17 @@ export default function Timer(params: any) {
             onChange={handleTimeLimitChange}
           />
         </label>
-        <button onClick={handleStart} disabled={isRunning}>
-          Start
-        </button>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', gap: '5px' }}>
+          <button onClick={handleStart} disabled={isRunning}>
+            Start
+          </button>
+          <button onClick={handleStop} disabled={!isRunning}>
+            Stop
+          </button>
+          <button onClick={handleReset}>
+            Reset
+          </button>
+        </div>
       </div>
     </div>
   );
