@@ -11,7 +11,7 @@
 /* Body Styling */
 body {
     font-family: 'Work Sans', sans-serif; 
-    background-color: rgba(0, 0, 255, 0.5); /* Less opaque */
+    background-color: #32585f; /* Less opaque */
     background-image: url('res/blue.png'); 
     background-size: cover; 
     background-position: center;

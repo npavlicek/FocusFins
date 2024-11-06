@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Make sure to import Link
+import { Link } from 'react-router-dom'; 
 
 export default function LoginForm() {
   function doLogin(event: React.FormEvent<HTMLFormElement>) {
