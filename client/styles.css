@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;400;700;900&display=swap');
 
-
-/*login page */
+/* General Font */
 .work-sans-login {
     font-family: "Work Sans", sans-serif;
     font-optical-sizing: auto;
@@ -9,9 +8,10 @@
     font-style: normal;
 }
 
+/* Body Styling */
 body {
     font-family: 'Work Sans', sans-serif; 
-    background-color: #dfdfed;
+    background-color: rgba(0, 0, 255, 0.5); /* Less opaque */
     background-image: url('res/blue.png'); 
     background-size: cover; 
     background-position: center;
@@ -20,28 +20,31 @@ body {
     align-items: center;        
     height: 90vh;              
     margin: 0;    
-    background-color: rgba(0, 0, 255, 0.5); /* makes it less opaque */
 }
 
+
+/* ------------------------------------------------------------------------------------ */
+/* --------------------------------------LOGIN PAGE--------------------------------------*/
+/* ------------------------------------------------------------------------------------ */
 form {
-    background-color: rgba(255, 255, 255, 0.9); /* Slightly more opaque for better readability */
+    background-color: rgba(255, 255, 255, 0.9); 
     padding: 30px;                
     border-radius: 15px;           
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
-    max-width: 400px; /* Limit the width of the form */
-    width: 100%; /* Make it responsive */
+    max-width: 400px; 
+    width: 100%; 
 }
 
 .login-title {
     font-size: 36px;          
     color: #333;              
     text-align: center;       
-    margin: 0 0 20px 0;      /*  spacing */
-    font-weight: 400; /* boldness */
+    margin: 0 0 20px 0;      
+    font-weight: 400; /* Boldness */
 }
 
 form div {
-    margin-bottom: 15px; /* spacing between fields */
+    margin-bottom: 15px;
 }
 
 input[type="text"],
@@ -51,87 +54,251 @@ input[type="password"] {
     border: 2px solid #dde6ec;    
     border-radius: 10px;       
     box-sizing: border-box;     
-    transition: border-color 0.3s, box-shadow 0.3s; /* smooth transition for border color and shadow */
+    transition: border-color 0.3s, box-shadow 0.3s; 
 }
 
 input[type="text"]:focus,
 input[type="password"]:focus {
     border-color: #66afe9;     
-    box-shadow: 0 0 5px rgba(102, 175, 233, 0.5); /* adds shadow on focus */
+    box-shadow: 0 0 5px rgba(102, 175, 233, 0.5);
     outline: none;              
 }
 
+/* Submit Button Styling */
 input[type="submit"] {
-    width: 100%;                
-    padding: 12px;             
-    border: none;              
-    border-radius: 10px;       
-    background-color: #32585f; 
-    color: #fff;               
-    cursor: pointer;           
-    transition: background-color 0.3s, transform 0.2s; 
-    margin-top: 10px; /* adds spacing above button */
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background-color: #32585f;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 10px; 
     margin-bottom: 0px;
 }
 
 input[type="submit"]:hover {
-    background-color: #83b7a2; 
-    transform: translateY(-2px); /* lift effect */
+    background-color: #83b7a2;
+    transform: translateY(-2px); /* Lift effect */
 }
 
 input[type="submit"]:focus {
-    outline: none;              
+    outline: none;
 }
 
-/* timer page */
+/*  Register Container */
+.register-container {
+    text-align: center; 
+    font-size:  0.75rem ; 
+    margin-top: 15px; 
+}
+
+/* Register Button as Text */
+.register-button {
+    background: none;
+    border: none;
+    color: #32585f; 
+    font-size: inherit; 
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+}
+
+.register-button:hover {
+    color: #83b7a2;  
+}
+
+/* smaller text for "New to FocusFins?" */
+.small-text {
+  font-size: 0.8rem; 
+  color: #333; 
+}
+
+
+
+/* ------------------------------------------------------------------------------------ */
+/* --------------------------------------  TIMER PAGE--------------------------------------*/
+/* ------------------------------------------------------------------------------------ */
 .timer-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
 
 .timer {
-  position: relative;
-  width: 150px;
-  height: 150px;
+    position: relative;
+    width: 150px;
+    height: 150px;
 }
 
 svg {
-  width: 100%;
-  height: 100%;
-  transform: rotate(-90deg); /* Rotate to start from the top */
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg); /* Rotate to start from the top */
 }
 
 .circle-background {
-  fill: none;
-  stroke: lightgray;
-  stroke-width: 10;
+    fill: none;
+    stroke: lightgray;
+    stroke-width: 10;
 }
 
 .circle-foreground {
-  fill: none;
-  stroke: #22343b;
-  stroke-width: 10;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 1s linear; /* Smooth transition */
+    fill: none;
+    stroke: #22343b;
+    stroke-width: 10;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s linear; /* Smooth transition */
 }
 
 .time-display {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
 }
 
 .controls {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 button {
-  margin-left: 10px;
-  padding: 5px 10px;
-  font-size: 1rem;
+    margin-left: 10px;
+    padding: 5px 10px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+
+
+/* ------------------------------------------------------------------------------------ */
+/* --------------------------------------REGISTER FORM-------------------------------------- */
+/* ------------------------------------------------------------------------------------ */
+.register-form {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+}
+
+.register-title {
+    font-size: 36px;
+    color: #333;
+    text-align: center;
+    margin: 0 0 20px 0;
+    font-weight: 400;
+}
+
+.register-form .input-container {
+    margin-bottom: 15px;
+}
+
+.register-form .input-container input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #dde6ec;
+    border-radius: 10px;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.register-form .input-container input:focus {
+    border-color: #66afe9;
+    box-shadow: 0 0 5px rgba(102, 175, 233, 0.5);
+    outline: none;
+}
+
+.register-form .register-button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background-color: #32585f;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 10px;
+}
+
+.register-form .register-button:hover {
+    background-color: #83b7a2;
+    transform: translateY(-2px);
+}
+
+.register-form .register-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.error-message {
+    color: #d9534f;
+    text-align: center;
+    font-size: 10px;
+    margin-bottom: 15px;
+}
+
+.success-message {
+    color: #5cb85c;
+    font-size: 16px;
+    text-align: center;
+}
+.valid {
+  color: #296c6b;
+  font-weight: bold;
+}
+
+.invalid {
+  color: #a63f41;
+  font-weight: bold;
+}
+
+.password-requirements {
+  text-align: center;
+  font-size: 13px; 
+}
+.password-requirements ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.password-requirements li {
+  display: flex;
+  align-items: center;
+}
+
+.password-requirements li::before {
+  content: attr(data-icon);
+  margin-right: 8px;
+}
+.register-container {
+  text-align: center;
+  font-size: 0.75rem;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px; 
+}
+
+.register-container .login-link {
+  color: #32585f; /* maches theme color */
+  font-size: inherit;
   cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.register-container .login-link:hover {
+  color: #83b7a2;
+}
+
+
+.register-page-button {
+  text-decoration: none;
+  
 }
