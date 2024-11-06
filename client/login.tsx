@@ -1,3 +1,6 @@
+import React from 'react';
+import { Link } from 'react-router-dom'; // Make sure to import Link
+
 export default function LoginForm() {
   function doLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -31,6 +34,12 @@ export default function LoginForm() {
       </div>
       <div>
         <input type="submit" value="Submit" />
+      </div>
+      <div className="register-container">
+        <span className="small-text">New to FocusFins?</span> 
+        <Link to="/register">
+          <button type="button" className="register-button">Register here!</button>
+        </Link>
       </div>
     </form>
   );
