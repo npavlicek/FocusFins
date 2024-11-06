@@ -152,7 +152,7 @@ svg {
 .circle-foreground {
     fill: none;
     stroke: #22343b;
-    stroke-width: 10;
+    stroke-width: 9;
     stroke-linecap: round;
     transition: stroke-dashoffset 1.4s ease, stroke 1.2s ease-in-out;
     }
@@ -175,6 +175,52 @@ button {
     font-size: 1rem;
     cursor: pointer;
 }
+
+.controls button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.3s ease, transform 0.1s ease, border-color 0.3s ease;
+}
+
+.controls button:disabled {
+  background-color: rgba(204, 204, 204, 0.6); 
+  cursor: not-allowed;
+}
+
+.controls button:not(:disabled):hover {
+  background-color: rgba(85, 85, 85, 0.8);
+  color: #fff;
+  border-color: rgba(68, 68, 68, 0.8);
+}
+
+.controls button:active {
+  transform: scale(0.95);
+}
+
+/* Specific styles for each button(start pause reser */
+.controls button:nth-child(1) {
+  background-color: rgba(41,108,107, 0.9); 
+  color: white;
+  border-color: rgba(41,108,107, 0.9); 
+}
+
+.controls button:nth-child(2) {
+  background-color: rgba(166,63,65, 0.8); /* last value is opacity */
+  color: white;
+  border-color: rgba(166,63,65, 0.8); 
+}
+
+.controls button:nth-child(3) {
+  background-color: rgba(41,75,108, 0.8); 
+  color: white;
+  border-color: rgba(41,75,108, 0.8); 
+}
+
+/*#296c6b green    #a63f41  red*/
 
 
 
