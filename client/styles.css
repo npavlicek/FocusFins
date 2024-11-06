@@ -79,7 +79,7 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #83b7a2;
+    background-color: #4f8e8b;
     transform: translateY(-2px); /* Lift effect */
 }
 
@@ -106,7 +106,8 @@ input[type="submit"]:focus {
 }
 
 .register-button:hover {
-    color: #83b7a2;  
+    color: #4f8e8b;  
+    
 }
 
 /* smaller text for "New to FocusFins?" */
@@ -225,11 +226,12 @@ button {
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
+    margin-left: 0px;
     margin-top: 10px;
 }
 
 .register-form .register-button:hover {
-    background-color: #83b7a2;
+    background-color: #4f8e8b;
     transform: translateY(-2px);
 }
 
@@ -297,7 +299,7 @@ button {
 }
 
 .register-container .login-link:hover {
-  color: #83b7a2;
+  color: #4f8e8b;
 }
 
 
