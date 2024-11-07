@@ -1,18 +1,30 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function LoginForm() {
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const navigate = useNavigate();
+
   function doLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log("Form submitted");
-  }
 
-  function updateUsername(event: React.ChangeEvent<HTMLInputElement>) {
-    console.log(event.target.value);
-  }
-
-  function updatePassword(event: React.ChangeEvent<HTMLInputElement>) {
-    console.log(event.target.value);
+    fetch('/api/login', {
+      method: 'POST',
+      body: JSON.stringify({ username, password }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => {
+      if (res.status === 200) {
+        navigate('/dashboard');
+        console.log(res.json());
+      } else {
+        console.error("COULD NOT LOG IN");
+      }
+    }).catch(err => {
+      console.error(err);
+    });
   }
 
   return (
@@ -22,21 +34,21 @@ export default function LoginForm() {
         <input
           type="text"
           placeholder="Username"
-          onChange={updateUsername}
+          onChange={(e) => { setUsername(e.target.value) }}
         />
       </div>
       <div>
         <input
           type="password"
           placeholder="Password"
-          onChange={updatePassword}
+          onChange={(e) => { setPassword(e.target.value) }}
         />
       </div>
       <div>
         <input type="submit" value="Submit" />
       </div>
       <div className="register-container">
-        <span className="small-text">New to FocusFins?</span> 
+        <span className="small-text">New to FocusFins?</span>
         <Link to="/register">
           <button type="button" className="register-button">Register here!</button>
         </Link>
