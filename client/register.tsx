@@ -6,6 +6,8 @@ export default function RegisterForm() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +23,7 @@ export default function RegisterForm() {
 
   const [showRequirements, setShowRequirements] = useState(false);
 
-  const validatePassword = (password) => {
+  const validatePassword = (password: string) => {
     setRequirements({
       length: password.length >= 8,
       uppercase: /[A-Z]/.test(password),
@@ -31,21 +33,16 @@ export default function RegisterForm() {
     });
   };
 
-  const handlePasswordChange = (e) => {
+  const handlePasswordChange = (e: any) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
     validatePassword(newPassword);
     if (newPassword) setShowRequirements(true);
   };
 
-  function doRegister(event) {
+  function doRegister(event: any) {
     event.preventDefault();
     setError('');
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
 
     if (Object.values(requirements).some((req) => !req)) {
       setError("Password does not meet all requirements");
@@ -54,14 +51,16 @@ export default function RegisterForm() {
 
     setIsLoading(true);
 
-    setTimeout(() => {
-      console.log("Registration form submitted");
-      console.log("Username:", username);
-      console.log("Email:", email);
-      console.log("Password:", password);
+    fetch('/api/register', {
+      method: 'post',
+      body: JSON.stringify({ username, password, firstName, lastName, email }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => {
       setIsLoading(false);
       setIsRegistered(true);
-    }, 2000); // Replace with actual API call!!!!!
+    });
   }
 
   if (isRegistered) {
@@ -71,7 +70,7 @@ export default function RegisterForm() {
   return (
     <form onSubmit={doRegister} className="register-form">
       <h2 className="register-title">Register</h2>
-      
+
       {error && <p className="error-message">{error}</p>}
 
       <div className="input-container">
@@ -103,7 +102,25 @@ export default function RegisterForm() {
           required
         />
       </div>
-      
+      <div className="input-container">
+        <input
+          type="text"
+          placeholder="First Name"
+          value={firstName}
+          onChange={(e) => { setFirstName(e.target.value) }}
+          required
+        />
+      </div>
+      <div className="input-container">
+        <input
+          type="text"
+          placeholder="Last Name"
+          value={lastName}
+          onChange={(e) => { setLastName(e.target.value) }}
+          required
+        />
+      </div>
+
       {showRequirements && (
         <div className="password-requirements">
           <h4>Password must include:</h4>
@@ -127,16 +144,15 @@ export default function RegisterForm() {
         </div>
       )}
 
-<button type="submit" className="register-button register-page-button" disabled={isLoading}>
-  {isLoading ? "Registering..." : "Register"}
-</button>
+      <button type="submit" className="register-button register-page-button" disabled={isLoading}>
+        {isLoading ? "Registering..." : "Register"}
+      </button>
 
-      
       {/* Link to Login Page */}
       <div className="register-container">
-                <span className="small-text">Already have an account? </span>
-  <             Link to="/login" className="login-link">Login here!</Link>
-        </div>
+        <span className="small-text">Already have an account? </span>
+        <             Link to="/login" className="login-link">Login here!</Link>
+      </div>
 
     </form>
   );

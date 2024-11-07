@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.static('./build/'));
 app.use((req, res, next) => {
 	req.secretToken = SECRET_TOKEN;
-	next();
+	return next();
 });
 
 app.post('/api/login', loginHandler);
