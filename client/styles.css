@@ -40,7 +40,7 @@ form {
     color: #333;              
     text-align: center;       
     margin: 0 0 20px 0;      
-    font-weight: 400; /* Boldness */
+    font-weight: 400; 
 }
 
 form div {
@@ -154,7 +154,8 @@ svg {
     stroke: #22343b;
     stroke-width: 9;
     stroke-linecap: round;
-    transition: stroke-dashoffset 1.4s ease, stroke 1.2s ease-in-out;
+    transition: stroke-dashoffset 1.4s ease, stroke 1.2s ease;
+
     }
 
 .time-display {
