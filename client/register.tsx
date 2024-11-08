@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './styles.css';
 
 export default function RegisterForm() {
@@ -11,7 +11,6 @@ export default function RegisterForm() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isRegistered, setIsRegistered] = useState(false);
 
   const [requirements, setRequirements] = useState({
     length: false,
@@ -23,7 +22,9 @@ export default function RegisterForm() {
 
   const [showRequirements, setShowRequirements] = useState(false);
 
-  const validatePassword = (password: string) => {
+  const navigate = useNavigate();
+
+  const validatePassword = (password) => {
     setRequirements({
       length: password.length >= 8,
       uppercase: /[A-Z]/.test(password),
@@ -33,38 +34,37 @@ export default function RegisterForm() {
     });
   };
 
-  const handlePasswordChange = (e: any) => {
+  const handlePasswordChange = (e) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
     validatePassword(newPassword);
     if (newPassword) setShowRequirements(true);
   };
 
-  function doRegister(event: any) {
+  function doRegister(event) {
     event.preventDefault();
     setError('');
 
     if (Object.values(requirements).some((req) => !req)) {
-      setError("Password does not meet all requirements");
-      return;
+        setError("Password does not meet all requirements");
+        return;
     }
 
     setIsLoading(true);
 
     fetch('/api/register', {
-      method: 'post',
-      body: JSON.stringify({ username, password, firstName, lastName, email }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+        method: 'post',
+        body: JSON.stringify({ username, password, firstName, lastName, email }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
     }).then(res => {
-      setIsLoading(false);
-      setIsRegistered(true);
+        setIsLoading(false);
+        navigate('/login?registered=true'); // Navigate to login page immediately
+    }).catch(err => {
+        setIsLoading(false);
+        setError('Registration failed. Please try again.');
     });
-  }
-
-  if (isRegistered) {
-    return <p className="success-message">Registration successful! You can now log in.</p>;
   }
 
   return (
@@ -79,6 +79,24 @@ export default function RegisterForm() {
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+      </div>
+      <div className="input-container">
+        <input
+          type="text"
+          placeholder="First Name"
+          value={firstName}
+          onChange={(e) => { setFirstName(e.target.value) }}
+          required
+        />
+      </div>
+      <div className="input-container">
+        <input
+          type="text"
+          placeholder="Last Name"
+          value={lastName}
+          onChange={(e) => { setLastName(e.target.value) }}
           required
         />
       </div>
@@ -99,24 +117,6 @@ export default function RegisterForm() {
           onChange={handlePasswordChange}
           onFocus={() => setShowRequirements(true)}
           onBlur={() => !password && setShowRequirements(false)}
-          required
-        />
-      </div>
-      <div className="input-container">
-        <input
-          type="text"
-          placeholder="First Name"
-          value={firstName}
-          onChange={(e) => { setFirstName(e.target.value) }}
-          required
-        />
-      </div>
-      <div className="input-container">
-        <input
-          type="text"
-          placeholder="Last Name"
-          value={lastName}
-          onChange={(e) => { setLastName(e.target.value) }}
           required
         />
       </div>
@@ -147,11 +147,11 @@ export default function RegisterForm() {
       <button type="submit" className="register-button register-page-button" disabled={isLoading}>
         {isLoading ? "Registering..." : "Register"}
       </button>
-
+        
       {/* Link to Login Page */}
       <div className="register-container">
         <span className="small-text">Already have an account? </span>
-        <             Link to="/login" className="login-link">Login here!</Link>
+        <Link to="/login" className="login-link">Login here!</Link>
       </div>
 
     </form>
