@@ -5,6 +5,7 @@ export default function LoginForm() {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [successMessage, setSuccessMessage] = React.useState('');
+  const [errorMessage, setErrorMessage] = React.useState('');
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -18,6 +19,7 @@ export default function LoginForm() {
 
   function doLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setErrorMessage(''); // Clear any previous error message
 
     fetch('/api/login', {
       method: 'POST',
@@ -29,9 +31,11 @@ export default function LoginForm() {
       if (res.status === 200) {
         navigate('/dashboard');
       } else {
+        setErrorMessage('Invalid username or password');
         console.error("COULD NOT LOG IN");
       }
     }).catch(err => {
+      setErrorMessage('An error occurred. Please try again later.');
       console.error(err);
     });
   }
@@ -42,6 +46,9 @@ export default function LoginForm() {
 
       {/* Display success message if registration was successful */}
       {successMessage && <p className="success-message">{successMessage}</p>}
+
+      {/* Display error message if login failed */}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
 
       <div>
         <input
