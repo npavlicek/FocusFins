@@ -24,7 +24,7 @@ export default function RegisterForm() {
 
   const navigate = useNavigate();
 
-  const validatePassword = (password) => {
+  const validatePassword = (password: string) => {
     setRequirements({
       length: password.length >= 8,
       uppercase: /[A-Z]/.test(password),
@@ -34,36 +34,36 @@ export default function RegisterForm() {
     });
   };
 
-  const handlePasswordChange = (e) => {
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
     validatePassword(newPassword);
     if (newPassword) setShowRequirements(true);
   };
 
-  function doRegister(event) {
+  function doRegister(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError('');
 
     if (Object.values(requirements).some((req) => !req)) {
-        setError("Password does not meet all requirements");
-        return;
+      setError("Password does not meet all requirements");
+      return;
     }
 
     setIsLoading(true);
 
     fetch('/api/register', {
-        method: 'post',
-        body: JSON.stringify({ username, password, firstName, lastName, email }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
+      method: 'post',
+      body: JSON.stringify({ username, password, firstName, lastName, email }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     }).then(res => {
-        setIsLoading(false);
-        navigate('/login?registered=true'); // Navigate to login page immediately
+      setIsLoading(false);
+      navigate('/login?registered=true'); 
     }).catch(err => {
-        setIsLoading(false);
-        setError('Registration failed. Please try again.');
+      setIsLoading(false);
+      setError('Registration failed. Please try again.');
     });
   }
 
@@ -153,7 +153,6 @@ export default function RegisterForm() {
         <span className="small-text">Already have an account? </span>
         <Link to="/login" className="login-link">Login here!</Link>
       </div>
-
     </form>
   );
 }
