@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 export default function Timer(params: any) {
   const [timeLimit, setTimeLimit] = useState(25); // Default: 25 minutes for pomodoro
-  const [timeLeft, setTimeLeft] = useState({ minutes: params.timeLimit, seconds: 0 });
+  const [timeLeft, setTimeLeft] = useState({ minutes: 25, seconds: 0 }); // Start with 25:00
   const [isRunning, setIsRunning] = useState(false);
   const [offset, setOffset] = useState(530); // Updated dash array at start for larger circle
   const [bubbles, setBubbles] = useState(0); // Bubble bank counter
@@ -45,10 +45,11 @@ export default function Timer(params: any) {
     setOffset(newOffset);
   }, [timeLeft, timeLimit]);
 
-  const handleTimeLimitChange = (e: { target: { value: string } }) => {
+  const handleTimeLimitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newLimit = parseInt(e.target.value, 10);
     if (!isNaN(newLimit) && newLimit >= 0) {
       setTimeLimit(newLimit);
+      setTimeLeft({ minutes: newLimit, seconds: 0 });
     }
   };
 
@@ -88,21 +89,29 @@ export default function Timer(params: any) {
             }}
           />
         </svg>
-        <div className="time-display" style={{ fontSize: '2.5rem' }}>
-          {String(timeLeft.minutes).padStart(2, '0')}:
-          {String(timeLeft.seconds).padStart(2, '0')}
-        </div>
+        <div className="time-display" style={{ fontSize: '2.5rem', display: 'flex', alignItems: 'center' }}>
+  {!isRunning ? (
+    <span className="time-input" style={{ display: 'flex', alignItems: 'center' }}>
+      <input
+        type="number"
+        min="0"
+        value={timeLeft.minutes}
+        onChange={handleTimeLimitChange}
+        style={{ marginRight: '0px' }} // Reset any default margin on the input
+      />
+      <span style={{ marginLeft: '-15px' }}>:{String(timeLeft.seconds).padStart(2, '0')}</span>
+    </span>
+  ) : (
+    <>
+      {String(timeLeft.minutes).padStart(2, '0')}:
+      {String(timeLeft.seconds).padStart(2, '0')}
+    </>
+  )}
+</div>
+
+
       </div>
       <div className="controls">
-        <label>
-          Set Timer:{' '}
-          <input
-            type="number"
-            min="0"
-            value={timeLimit}
-            onChange={handleTimeLimitChange}
-          />
-        </label>
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', gap: '5px' }}>
           <button onClick={handleStart} disabled={isRunning}>
             Start

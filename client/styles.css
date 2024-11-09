@@ -134,105 +134,164 @@ input[type="submit"]:focus {
 /* ------------------------------------------------------------------------------------ */
 /* --------------------------------------  TIMER PAGE--------------------------------------*/
 /* ------------------------------------------------------------------------------------ */
+/* Timer Input Styling for the center circle input */
+
+
+/* Timer Page Styling */
+/* Timer Page Styling */
 .timer-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
 .timer {
   position: relative;
-  width: 200px;
-  height: 200px;
-  top: 10px; 
+  width: 220px;
+  height: 220px;
+  margin-top: 20px;
 }
 
-
 svg {
-    width: 100%;
-    height: 100%;
-    transform: rotate(-90deg); /* Rotate to start from the top */
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg); /* Start from the top */
 }
 
 .circle-background {
-    fill: none;
-    stroke: #acf9e4;
-    stroke-width: 10;
+  fill: none;
+  stroke: #b2ece1; /* Lighter stroke for background */
+  stroke-width: 8;
 }
 
 .circle-foreground {
-    fill: none;
-    stroke: #22343b;
-    stroke-width: 9;
-    stroke-linecap: round;
-    transition: stroke-dashoffset 1.4s ease, stroke 1.2s ease;
-
-    }
-
-.time-display {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 2rem;
+  fill: none;
+  stroke: #2c3e50;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1.4s ease, stroke 1.2s ease;
 }
 
+
+
+/* Timer Input Styling for the center circle input */
+.time-display {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Space between input and seconds */
+}
+
+/* Style for the editable minutes input */
+.time-display input {
+  width: 70px; /* Adjusted width */
+  min-width: 70px; /* Prevents shrinking */
+  height: 50px; /* Set a fixed height */
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #2c3e50;
+  border: none;
+  background: none;
+  outline: none;
+
+  transition: border-color 0.3s;
+  /* Remove arrows in number input */
+  -moz-appearance: textfield;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.time-display input:focus {
+  border-color: #2c3e50;
+}
+
+/* For Firefox specifically to remove the spin buttons */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Align :00 with the input */
+.time-input {
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+
+.time-display input:focus {
+    border-color: #2c3e50;
+}
+
+
+
+/* Align :00 with the input */
+.time-input {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+
+/* Controls Styling */
 .controls {
-    margin-top: 20px;
+  margin-top: 25px;
+  display: flex;
+  gap: 15px;
 }
 
 button {
-    margin-left: 10px;
-    padding: 5px 10px;
-    font-size: 1rem;
-    cursor: pointer;
-}
-
-.controls button {
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: 12px 24px;
+  font-size: 1rem;
   font-weight: bold;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   border: 1px solid transparent;
-  transition: background-color 0.3s ease, transform 0.1s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s;
 }
 
-.controls button:disabled {
-  background-color: rgba(204, 204, 204, 0.6); 
+button:disabled {
+  background-color: rgba(204, 204, 204, 0.6);
   cursor: not-allowed;
+  color: #666;
 }
 
-.controls button:not(:disabled):hover {
-  background-color: rgba(85, 85, 85, 0.8);
-  color: #fff;
-  border-color: rgba(68, 68, 68, 0.8);
-}
-
-.controls button:active {
-  transform: scale(0.95);
-}
-
-/* Specific styles for each button(start pause reser */
-.controls button:nth-child(1) {
-  background-color: rgba(41,108,107, 0.9); 
+button:not(:disabled):hover {
+  background-color: #4f8e8b;
   color: white;
-  border-color: rgba(41,108,107, 0.9); 
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* Specific Button Styles */
+.controls button:nth-child(1) {
+  background-color: rgba(41, 108, 107, 0.9);
+  color: white;
+  border-color: rgba(41, 108, 107, 0.9);
 }
 
 .controls button:nth-child(2) {
-  background-color: rgba(166,63,65, 0.8); /* last value is opacity */
+  background-color: rgba(166, 63, 65, 0.8);
   color: white;
-  border-color: rgba(166,63,65, 0.8); 
+  border-color: rgba(166, 63, 65, 0.8);
 }
 
 .controls button:nth-child(3) {
-  background-color: rgba(41,75,108, 0.8); 
+  background-color: rgba(41, 75, 108, 0.8);
   color: white;
-  border-color: rgba(41,75,108, 0.8); 
+  border-color: rgba(41, 75, 108, 0.8);
 }
+
+
 
 /*#296c6b green    #a63f41  red*/
 
