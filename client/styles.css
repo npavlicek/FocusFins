@@ -192,7 +192,7 @@ svg {
 /* Style for the editable minutes input */
 .time-display input {
   width: 70px; /* Adjusted width */
-  min-width: 70px; /* Prevents shrinking */
+  min-width: 70px; 
   height: 50px; /* Set a fixed height */
   text-align: center;
   font-size: 2rem;
@@ -203,7 +203,7 @@ svg {
   outline: none;
 
   transition: border-color 0.3s;
-  /* Remove arrows in number input */
+  /* Removes arrows in number input */
   -moz-appearance: textfield;
   -webkit-appearance: none;
   appearance: none;
@@ -232,63 +232,69 @@ input[type="number"] {
 
 
 
-/* Align :00 with the input */
-.time-input {
-    font-size: 2rem;
-    display: flex;
-    align-items: center;
-}
-
-
 /* Controls Styling */
 .controls {
-  margin-top: 25px;
-  display: flex;
-  gap: 15px;
+  margin-top: -10px;
 }
 
 button {
-  padding: 12px 24px;
+  margin-left: 10px;
+  padding: 5px 10px;
   font-size: 1rem;
-  font-weight: bold;
-  border-radius: 8px;
   cursor: pointer;
-  border: 1px solid transparent;
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s;
 }
 
-button:disabled {
-  background-color: rgba(204, 204, 204, 0.6);
-  cursor: not-allowed;
-  color: #666;
+.controls button {
+padding: 10px 20px;
+font-size: 16px;
+font-weight: bold;
+border-radius: 5px;
+cursor: pointer;
+border: 1px solid transparent;
+transition: background-color 0.3s ease, transform 0.1s ease, border-color 0.3s ease;
 }
 
-button:not(:disabled):hover {
-  background-color: #4f8e8b;
-  color: white;
+.controls button:disabled {
+background-color: rgba(204, 204, 204, 0.6); 
+cursor: not-allowed;
 }
 
-button:active {
-  transform: scale(0.97);
+.controls button:not(:disabled):hover {
+background-color: rgba(85, 85, 85, 0.8);
+color: #fff;
+border-color: rgba(68, 68, 68, 0.8);
 }
 
-/* Specific Button Styles */
+.controls button:active {
+transform: scale(0.95);
+}
+
+/* Specific styles for each button(start pause reser */
 .controls button:nth-child(1) {
-  background-color: rgba(41, 108, 107, 0.9);
-  color: white;
-  border-color: rgba(41, 108, 107, 0.9);
+background-color: rgba(41,108,107, 0.9); 
+color: white;
+border-color: rgba(41,108,107, 0.9); 
 }
 
 .controls button:nth-child(2) {
-  background-color: rgba(166, 63, 65, 0.8);
-  color: white;
-  border-color: rgba(166, 63, 65, 0.8);
+background-color: rgba(166,63,65, 0.8); /* last value is opacity */
+color: white;
+border-color: rgba(166,63,65, 0.8); 
 }
 
 .controls button:nth-child(3) {
-  background-color: rgba(41, 75, 108, 0.8);
-  color: white;
-  border-color: rgba(41, 75, 108, 0.8);
+background-color: rgba(41,75,108, 0.8); 
+color: white;
+border-color: rgba(41,75,108, 0.8); 
+}
+
+
+
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  position: relative;
+  left: -5px; 
 }
 
 
