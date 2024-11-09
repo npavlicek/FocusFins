@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 export default function Timer(params: any) {
-  const [timeLimit, setTimeLimit] = useState(25); // Default: 25 minute for pomodoro
+  const [timeLimit, setTimeLimit] = useState(25); // Default: 25 minutes for pomodoro
   const [timeLeft, setTimeLeft] = useState({ minutes: params.timeLimit, seconds: 0 });
   const [isRunning, setIsRunning] = useState(false);
   const [offset, setOffset] = useState(530); // Updated dash array at start for larger circle
+  const [bubbles, setBubbles] = useState(0); // Bubble bank counter
+  const [initialTimeLimit, setInitialTimeLimit] = useState(timeLimit); // Store time limit at start
 
   const FULL_DASH_ARRAY = 315; // Updated circumference for larger circle
 
@@ -27,13 +29,14 @@ export default function Timer(params: any) {
         } else {
           clearInterval(interval);
           setIsRunning(false);
+          setBubbles((prevBubbles) => prevBubbles + initialTimeLimit); // Add bubbles based on initial time limit
           return { minutes: 0, seconds: 0 };
         }
       });
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isRunning]);
+  }, [isRunning, initialTimeLimit]);
 
   useEffect(() => {
     const totalSeconds = timeLimit * 60;
@@ -42,7 +45,7 @@ export default function Timer(params: any) {
     setOffset(newOffset);
   }, [timeLeft, timeLimit]);
 
-  const handleTimeLimitChange = (e: { target: { value: string; }; }) => {
+  const handleTimeLimitChange = (e: { target: { value: string } }) => {
     const newLimit = parseInt(e.target.value, 10);
     if (!isNaN(newLimit) && newLimit >= 0) {
       setTimeLimit(newLimit);
@@ -52,6 +55,7 @@ export default function Timer(params: any) {
   const handleStart = () => {
     if ((timeLeft.minutes > 0 || timeLeft.seconds > 0) && !isRunning) {
       setIsRunning(true);
+      setInitialTimeLimit(timeLimit); // Store the time limit when starting the timer
     }
   };
 
@@ -67,6 +71,9 @@ export default function Timer(params: any) {
 
   return (
     <div className="timer-container">
+      <div className="bubble-bank" style={{ fontSize: '1.5rem', marginBottom: '10px' }}>
+        Bubbles: {bubbles}
+      </div>
       <div className="timer" style={{ width: '200px', height: '200px' }}>
         <svg viewBox="0 0 120 120">
           <circle cx="60" cy="60" r="50" className="circle-background" />
