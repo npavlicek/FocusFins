@@ -88,13 +88,21 @@ export default function Timer({ username }: { username: string }) {
     navigate('/login');
   };
 
+  const handleStore = () => {
+    navigate('/store');
+  };
+
   return (
     <div className="timer-container">
       {/* Logout Button */}
       <button onClick={handleLogout} className="logout-button">
-  Logout
-</button>
+        Logout
+      </button>
 
+      {/* Store Button */}
+      <button onClick={handleStore} className="store-button" style={{ marginLeft: '10px' }}>
+        Go to Store
+      </button>
 
       <div className="bubble-bank" style={{ fontSize: '1.5rem', marginBottom: '10px' }}>
         Bubble Bank: {bubbles} 🫧

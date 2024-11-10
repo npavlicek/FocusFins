@@ -213,10 +213,7 @@ svg {
   border-color: #2c3e50;
 }
 
-/* For Firefox specifically to remove the spin buttons */
-input[type="number"] {
-  -moz-appearance: textfield;
-}
+
 
 /* Align :00 with the input */
 .time-input {
@@ -324,6 +321,30 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 
+
+/*store button*/
+.store-button{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  background-color: rgba(41,75,108, 0.8); 
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+}
+.store-button:hover {
+  background-color:   rgba(30, 70, 111, 0.436); /* Darker shade on hover */
+}
+
+.store-button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
 
 /*#296c6b green    #a63f41  red*/
 
