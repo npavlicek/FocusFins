@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function Timer({ username }: { username: string }) {
   const [timeLimit, setTimeLimit] = useState({ minutes: 25, seconds: 0 });
@@ -84,7 +84,7 @@ export default function Timer({ username }: { username: string }) {
   };
 
   const handleLogout = () => {
-    /*any other logout functions would go here*/
+    /* any other logout functions would go here */
     navigate('/login');
   };
 
@@ -101,12 +101,15 @@ export default function Timer({ username }: { username: string }) {
 
       {/* Store Button */}
       <button onClick={handleStore} className="store-button" style={{ marginLeft: '10px' }}>
-        Go to Store
+      Store
       </button>
 
+      {/* Bubble Bank Display */}
       <div className="bubble-bank" style={{ fontSize: '1.5rem', marginBottom: '10px' }}>
         Bubble Bank: {bubbles} 🫧
       </div>
+
+      {/* Timer Display */}
       <div className="timer">
         <svg viewBox="0 0 120 120">
           <circle cx="60" cy="60" r="50" className="circle-background" />
@@ -157,6 +160,8 @@ export default function Timer({ username }: { username: string }) {
           )}
         </div>
       </div>
+
+      {/* Control Buttons */}
       <div className="controls">
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', gap: '5px' }}>
           <button onClick={handleStart} disabled={isRunning}>
