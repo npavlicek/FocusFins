@@ -186,7 +186,7 @@ svg {
   color: #2c3e50;
   display: flex;
   align-items: center;
-  gap: 5px; /* Space between input and seconds */
+  gap: 0px; /* Space between input and seconds */
 }
 
 /* Style for the editable minutes input */
@@ -197,16 +197,14 @@ svg {
   text-align: center;
   font-size: 2rem;
   font-weight: 900;
+ 
   color: #2c3e50;
   border: none;
-  background: none;
-  outline: none;
+  background: black;
+  outline: black;
 
   transition: border-color 0.3s;
-  /* Removes arrows in number input */
-  -moz-appearance: textfield;
-  -webkit-appearance: none;
-  appearance: none;
+ 
 }
 
 .time-display input:focus {
@@ -265,6 +263,36 @@ border-color: rgba(68, 68, 68, 0.8);
 .controls button:active {
 transform: scale(0.95);
 }
+
+
+.arrow-button {
+  font-size: 1.0rem;
+  color: #32585f;             /* Arrow color */
+  background-color: transparent;    /* Button background */
+  border: 1px solid #32585f;     /* Button border */
+  border-radius: 3px;         /* Rounded corners */
+  cursor: pointer;
+  padding: 2px;
+}
+
+.arrow-button:hover {
+  color: #4f8e8b;             /* Arrow color on hover */
+  background-color: transparent;  /* Button background on hover */
+}
+
+
+/* Remove default arrows for number inputs */
+#minutesInput::-webkit-outer-spin-button,
+#minutesInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#minutesInput[type='number'] {
+  -moz-appearance: textfield; /* Firefox */
+  appearance: textfield;      /* Other browsers */
+}
+
 
 /* Specific styles for each button(start pause reser */
 .controls button:nth-child(1) {

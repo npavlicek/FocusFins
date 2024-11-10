@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function Timer({ username }: { username: string }) {
   const [timeLimit, setTimeLimit] = useState({ minutes: 25, seconds: 0 });
@@ -59,10 +59,10 @@ export default function Timer({ username }: { username: string }) {
   }, [timeLeft, timeLimit]);
 
   const handleMinuteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newMinutes = parseInt(e.target.value, 10);
-    if (!isNaN(newMinutes) && newMinutes >= 0) {
-      setTimeLimit({ minutes: newMinutes, seconds: 0 });
-      setTimeLeft({ minutes: newMinutes, seconds: 0 });
+    const inputValue = e.target.value;
+    if (inputValue === '' || (!isNaN(Number(inputValue)) && Number(inputValue) >= 0)) {
+      setTimeLimit({ minutes: inputValue === '' ? 0 : Number(inputValue), seconds: 0 });
+      setTimeLeft({ minutes: inputValue === '' ? 0 : Number(inputValue), seconds: 0 });
     }
   };
 
@@ -84,7 +84,6 @@ export default function Timer({ username }: { username: string }) {
   };
 
   const handleLogout = () => {
-    /* any other logout functions would go here */
     navigate('/login');
   };
 
@@ -94,22 +93,18 @@ export default function Timer({ username }: { username: string }) {
 
   return (
     <div className="timer-container">
-      {/* Logout Button */}
       <button onClick={handleLogout} className="logout-button">
         Logout
       </button>
 
-      {/* Store Button */}
       <button onClick={handleStore} className="store-button" style={{ marginLeft: '10px' }}>
-      Store
+        Store
       </button>
 
-      {/* Bubble Bank Display */}
       <div className="bubble-bank" style={{ fontSize: '1.5rem', marginBottom: '10px' }}>
         Bubble Bank: {bubbles} 🫧
       </div>
 
-      {/* Timer Display */}
       <div className="timer">
         <svg viewBox="0 0 120 120">
           <circle cx="60" cy="60" r="50" className="circle-background" />
@@ -131,24 +126,38 @@ export default function Timer({ username }: { username: string }) {
                 type="number"
                 min="0"
                 id="minutesInput"
-                value={timeLeft.minutes}
+                value={timeLeft.minutes > 0 ? timeLeft.minutes : ''}
                 onChange={handleMinuteChange}
                 style={{
                   width: '40px',
                   textAlign: 'left',
                   fontSize: '2rem',
-                  appearance: 'textfield',
-                  color: 'transparent',
                   backgroundColor: 'transparent',
                   border: 'none',
                   outline: 'none',
+                  appearance: 'textfield',         
+                  MozAppearance: 'textfield',      
+                  WebkitAppearance: 'none',        
+                  paddingLeft: '10px',             
                 }}
               />
-              <span style={{ fontSize: '2rem', marginLeft: '-60px', marginRight: '5px' }}>
-                {String(timeLeft.minutes).padStart(2, '0')}
-              </span>
-              <span style={{ fontSize: '2rem', margin: '0 5px' }}>:</span>
-              <span style={{ fontSize: '2rem', minWidth: '50px', textAlign: 'center' }}>
+<div style={{ display: 'flex', flexDirection: 'column', marginLeft: '-35px' }}>
+  <button
+    onClick={() => setTimeLimit({ minutes: timeLimit.minutes + 5, seconds: 0 })}
+    className="arrow-button"
+  >
+    ▲
+  </button>
+  <button
+    onClick={() => setTimeLimit({ minutes: timeLimit.minutes > 0 ? timeLimit.minutes - 5 : 0, seconds: 0 })}
+    className="arrow-button"
+  >
+    ▼
+  </button>
+</div>
+
+              
+              <span style={{ fontSize: '2rem', minWidth: '50px', textAlign: 'center', marginLeft: '4px' }}>
                 {String(timeLeft.seconds).padStart(2, '0')}
               </span>
             </div>
@@ -161,7 +170,6 @@ export default function Timer({ username }: { username: string }) {
         </div>
       </div>
 
-      {/* Control Buttons */}
       <div className="controls">
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', gap: '5px' }}>
           <button onClick={handleStart} disabled={isRunning}>
@@ -178,3 +186,5 @@ export default function Timer({ username }: { username: string }) {
     </div>
   );
 }
+
+
