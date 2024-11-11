@@ -10,7 +10,7 @@ export default function Timer({ username }: { username: string }) {
   const [initialTimeLimit, setInitialTimeLimit] = useState(timeLimit);
   const navigate = useNavigate();
 
-  const FULL_DASH_ARRAY = 315;
+  const FULL_DASH_ARRAY = 311.9;
 
   useEffect(() => {
     const savedBubbles = localStorage.getItem(`bubbles_${username}`);
@@ -126,7 +126,7 @@ export default function Timer({ username }: { username: string }) {
                 type="number"
                 min="0"
                 id="minutesInput"
-                value={timeLeft.minutes > 0 ? timeLeft.minutes : ''}
+                value={timeLeft.minutes > 0 ? String(timeLeft.minutes).padStart(2, '0') : ''}
                 onChange={handleMinuteChange}
                 style={{
                   width: '40px',
@@ -135,28 +135,27 @@ export default function Timer({ username }: { username: string }) {
                   backgroundColor: 'transparent',
                   border: 'none',
                   outline: 'none',
-                  appearance: 'textfield',         
-                  MozAppearance: 'textfield',      
-                  WebkitAppearance: 'none',        
-                  paddingLeft: '10px',             
+                  appearance: 'textfield',
+                  MozAppearance: 'textfield',
+                  WebkitAppearance: 'none',
+                  paddingLeft: '10px',
                 }}
               />
-<div style={{ display: 'flex', flexDirection: 'column', marginLeft: '-35px' }}>
-  <button
-    onClick={() => setTimeLimit({ minutes: timeLimit.minutes + 5, seconds: 0 })}
-    className="arrow-button"
-  >
-    ▲
-  </button>
-  <button
-    onClick={() => setTimeLimit({ minutes: timeLimit.minutes > 0 ? timeLimit.minutes - 5 : 0, seconds: 0 })}
-    className="arrow-button"
-  >
-    ▼
-  </button>
-</div>
+              <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '-35px' }}>
+                <button
+                  onClick={() => setTimeLimit({ minutes: timeLimit.minutes + 5, seconds: 0 })}
+                  className="arrow-button"
+                >
+                  ▲
+                </button>
+                <button
+                  onClick={() => setTimeLimit({ minutes: timeLimit.minutes > 0 ? timeLimit.minutes - 5 : 0, seconds: 0 })}
+                  className="arrow-button"
+                >
+                  ▼
+                </button>
+              </div>
 
-              
               <span style={{ fontSize: '2rem', minWidth: '50px', textAlign: 'center', marginLeft: '4px' }}>
                 {String(timeLeft.seconds).padStart(2, '0')}
               </span>
@@ -186,5 +185,3 @@ export default function Timer({ username }: { username: string }) {
     </div>
   );
 }
-
-
