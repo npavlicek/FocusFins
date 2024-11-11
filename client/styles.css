@@ -267,7 +267,7 @@ transform: scale(0.95);
 
 .arrow-button {
   font-size: 1.0rem;
-  color: #32585f;             /* Arrow color */
+  color: #2c3e50;             /* Arrow color */
   background-color: transparent;    /* Button background */
   border: 1px solid #32585f;     /* Button border */
   border-radius: 3px;         /* Rounded corners */
@@ -276,7 +276,7 @@ transform: scale(0.95);
 }
 
 .arrow-button:hover {
-  color: #4f8e8b;             /* Arrow color on hover */
+  color: #2c3e5092;             /* Arrow color on hover */
   background-color: transparent;  /* Button background on hover */
 }
 
