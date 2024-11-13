@@ -49,7 +49,7 @@ const Reef: React.FC = () => {
       const tmpDir = new THREE.Vector3(0.0, 0.0, 0.0);
       tmpDir.sub(camRef.current.position);
       tmpDir.normalize();
-      setCamDir(tmpDir);
+      setCamDir(tmpDir.clone());
     }
   }, [scene, size]);
 

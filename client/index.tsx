@@ -3,7 +3,7 @@ import { StrictMode } from 'react';
 import { createBrowserRouter, RouterProvider, Link } from 'react-router-dom';
 import LoginForm from './login';
 import Dashboard from './dashboard';
-import Register from './register'; 
+import Register from './register';
 import './styles.css';
 
 const root = document.getElementById('root')!;
@@ -23,12 +23,12 @@ const router = createBrowserRouter([
     element: <Dashboard />
   },
   {
-    path: '/register', 
+    path: '/register',
     element: <Register />
   },
   {
-    path: '/login', 
-    element: <LoginForm/>
+    path: '/login',
+    element: <LoginForm />
   }
 ]);
 

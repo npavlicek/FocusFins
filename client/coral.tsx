@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Canvas, useLoader, useThree } from '@react-three/fiber';
+import { Canvas, useLoader, useThree, ThreeEvent } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import THREE from 'three';
 
@@ -26,6 +26,19 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
     }
   }, [props.camDir]);
 
+  const handleClick = useCallback((e: ThreeEvent<MouseEvent>) => {
+    e.stopPropagation();
+    if (props.cursorAvailable) {
+      gl.domElement.addEventListener('mousemove', handleMouseMove);
+      props.cursorAvailableCallback(false);
+      setSelected(true);
+    } else if (selected) {
+      gl.domElement.removeEventListener('mousemove', handleMouseMove);
+      props.cursorAvailableCallback(true);
+      setSelected(false);
+    }
+  }, [props.cursorAvailable, selected, props.camDir]);
+
   useEffect(() => {
     sceneLoaded.scene.children.forEach(val => {
       if (val.type == "Mesh") {
@@ -41,19 +54,9 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
     });
   }, [sceneLoaded, meshRef]);
 
-  useEffect(() => {
-    if (selected) {
-      gl.domElement.addEventListener('mousemove', handleMouseMove);
-      props.cursorAvailableCallback(false);
-    } else {
-      gl.domElement.removeEventListener('mousemove', handleMouseMove);
-      props.cursorAvailableCallback(true);
-    }
-  }, [selected]);
-
   return (
     <>
-      <mesh ref={meshRef} onClick={_ => { if (props.cursorAvailable || selected) { setSelected(!selected); console.log("DOIGN SHIT"); } }} />
+      <mesh ref={meshRef} onClick={handleClick} />
     </>
   );
 }
