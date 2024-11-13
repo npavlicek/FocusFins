@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-// import 'dart:async'; // FOR Timer()
+import 'dart:async'; // FOR Timer()
 
 // Host Here EX: website.com (DONT USE '/' WILL BREAK LATER DOWN)
 String host = 'focusfins.org';
@@ -120,6 +120,11 @@ class _MyLoginState extends State<MyLogin>
     Navigator.pushNamed(context, '/Register');
   }
 
+  void switchToTimerPage()
+  {
+    Navigator.pushNamed(context, '/Timer');
+  }
+
   void passwordChanged()
   {
     (bool, String) passwordCheck = isPassword(passwordController.text);
@@ -172,7 +177,8 @@ class _MyLoginState extends State<MyLogin>
         return;
       }
       errorMessage = 'Success';
-      print(errorMessage);
+      print(result);
+      switchToTimerPage();
       return;
     });
   }
@@ -289,18 +295,20 @@ class _MyRegisterState extends State<MyRegister>
       'email' : email,
     };
 
-    Map<String, dynamic> result = await callServer(reqBody, '/api/register');
-    if(result.isEmpty) 
-    {
-      errorMessage = 'Could Not Send Request';
-      return; // Could Not Connect to Server? 
-    } 
-    if(result.containsKey('error'))
-    {
-      errorMessage = result['error'];
-      return;
-    }
-    errorMessage = 'Success';
+    (Map<String, dynamic>, int) result = await callServer(reqBody, '/api/register');
+    setState(() {
+      if(result.$1.isEmpty) 
+      {
+        errorMessage = 'Could Not Send Request';
+        return; // Could Not Connect to Server? 
+      } 
+      if(result.$2 !=200)
+      {
+        errorMessage = result.$1['error'];
+        return;
+      }
+      errorMessage = 'Success';
+    });
     return;
   }
 
