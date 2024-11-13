@@ -68,92 +68,93 @@ export default function RegisterForm() {
   }
 
   return (
-    <form onSubmit={doRegister} className="register-form">
-      <h2 className="register-title">Register</h2>
+    <div className="centeredCard">
+      <form onSubmit={doRegister} className="register-form">
+        <h2 className="register-title">Register</h2>
 
-      {error && <p className="error-message">{error}</p>}
+        {error && <p className="error-message">{error}</p>}
 
-      <div className="input-container">
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-      </div>
-      <div className="input-container">
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </div>
-      <div className="input-container">
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={handlePasswordChange}
-          onFocus={() => setShowRequirements(true)}
-          onBlur={() => !password && setShowRequirements(false)}
-          required
-        />
-      </div>
-      <div className="input-container">
-        <input
-          type="text"
-          placeholder="First Name"
-          value={firstName}
-          onChange={(e) => { setFirstName(e.target.value) }}
-          required
-        />
-      </div>
-      <div className="input-container">
-        <input
-          type="text"
-          placeholder="Last Name"
-          value={lastName}
-          onChange={(e) => { setLastName(e.target.value) }}
-          required
-        />
-      </div>
-
-      {showRequirements && (
-        <div className="password-requirements">
-          <h4>Password must include:</h4>
-          <ul>
-            <li className={requirements.length ? "valid" : "invalid"}>
-              {requirements.length ? "✓" : "✗"} At least 8 characters
-            </li>
-            <li className={requirements.uppercase ? "valid" : "invalid"}>
-              {requirements.uppercase ? "✓" : "✗"} One uppercase letter
-            </li>
-            <li className={requirements.lowercase ? "valid" : "invalid"}>
-              {requirements.lowercase ? "✓" : "✗"} One lowercase letter
-            </li>
-            <li className={requirements.number ? "valid" : "invalid"}>
-              {requirements.number ? "✓" : "✗"} One number
-            </li>
-            <li className={requirements.specialChar ? "valid" : "invalid"}>
-              {requirements.specialChar ? "✓" : "✗"} One special character
-            </li>
-          </ul>
+        <div className="input-container">
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
         </div>
-      )}
+        <div className="input-container">
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-container">
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={handlePasswordChange}
+            onFocus={() => setShowRequirements(true)}
+            onBlur={() => !password && setShowRequirements(false)}
+            required
+          />
+        </div>
+        <div className="input-container">
+          <input
+            type="text"
+            placeholder="First Name"
+            value={firstName}
+            onChange={(e) => { setFirstName(e.target.value) }}
+            required
+          />
+        </div>
+        <div className="input-container">
+          <input
+            type="text"
+            placeholder="Last Name"
+            value={lastName}
+            onChange={(e) => { setLastName(e.target.value) }}
+            required
+          />
+        </div>
 
-      <button type="submit" className="register-button register-page-button" disabled={isLoading}>
-        {isLoading ? "Registering..." : "Register"}
-      </button>
+        {showRequirements && (
+          <div className="password-requirements">
+            <h4>Password must include:</h4>
+            <ul>
+              <li className={requirements.length ? "valid" : "invalid"}>
+                {requirements.length ? "✓" : "✗"} At least 8 characters
+              </li>
+              <li className={requirements.uppercase ? "valid" : "invalid"}>
+                {requirements.uppercase ? "✓" : "✗"} One uppercase letter
+              </li>
+              <li className={requirements.lowercase ? "valid" : "invalid"}>
+                {requirements.lowercase ? "✓" : "✗"} One lowercase letter
+              </li>
+              <li className={requirements.number ? "valid" : "invalid"}>
+                {requirements.number ? "✓" : "✗"} One number
+              </li>
+              <li className={requirements.specialChar ? "valid" : "invalid"}>
+                {requirements.specialChar ? "✓" : "✗"} One special character
+              </li>
+            </ul>
+          </div>
+        )}
 
-      {/* Link to Login Page */}
-      <div className="register-container">
-        <span className="small-text">Already have an account? </span>
-        <             Link to="/login" className="login-link">Login here!</Link>
-      </div>
+        <button type="submit" className="register-button register-page-button" disabled={isLoading}>
+          {isLoading ? "Registering..." : "Register"}
+        </button>
 
-    </form>
+        {/* Link to Login Page */}
+        <div className="register-container">
+          <span className="small-text">Already have an account? </span>
+          <             Link to="/login" className="login-link">Login here!</Link>
+        </div>
+      </form>
+    </div>
   );
 }

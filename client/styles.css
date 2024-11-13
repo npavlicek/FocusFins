@@ -8,20 +8,35 @@
     font-style: normal;
 }
 
-/* Body Styling */
 body {
+    width: 100vw;
+    height: 100vh;
+}
+
+#root {
+    width: 100%;
+    height: 100%;
     font-family: 'Work Sans', sans-serif; 
     background-color: #32585f; /* Less opaque */
     background-image: url('res/blue.png'); 
     background-size: cover; 
     background-position: center;
+}
+
+#dashboard {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+/* Body Styling */
+.centeredCard {
     display: flex;                
     justify-content: center;     
     align-items: center;        
-    height: 90vh;              
-    margin: 0;    
+    height: 90vh;
+    margin: 0;
 }
-
 
 /* ------------------------------------------------------------------------------------ */
 /* --------------------------------------LOGIN PAGE--------------------------------------*/
