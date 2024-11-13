@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 // import 'dart:async'; // FOR Timer()
 
-// Host Here EX: website.com
-String host = '';
+// Host Here EX: website.com (DONT USE '/' WILL BREAK LATER DOWN)
+String host = 'focusfins.org';
 
 void main() {
   runApp(const MyApp());
@@ -52,13 +52,13 @@ Future<Uri> checkHost(String url, String api) async
     final test = await http.get(uri);
     if(test.statusCode == 200)
     {
-      return uri;
+      return (uri);
     }
-    return uri;
+    return (uri);
   }
   catch (_)
   {
-    return Uri.http('');
+    return (Uri.http('')); // COULD NOT CHECK HOST
   }
 }
 
@@ -73,8 +73,25 @@ Future<dynamic> callServer(var reqBody, String api) async {
     },
     body: jsonEncode(reqBody),
   );
-  return(jsonDecode(result.body) as Map<String, dynamic>);
+  return((jsonDecode(result.body) as Map<String, dynamic>), result.statusCode);
 }
+
+(bool, String) isPassword(String password)
+{
+  bool flag = false;
+  String errorMessage = '';
+  if(password.length < 8) {flag = true; errorMessage += '\nPassword Too Short (8-20 Characters)';}
+  if(password.length > 20) {flag = true; errorMessage += '\nPassword Too Long (8-20 Characters)';}
+  if(!RegExp('[A-Z]').hasMatch(password)) {flag = true; errorMessage += '\nNo Uppercase';}// Uppercase
+  if(!RegExp('[a-z]').hasMatch(password)) {flag = true; errorMessage += '\nNo Lowercase';}// Lowercase
+  if(!RegExp('[0-9]').hasMatch(password)) {flag = true; errorMessage += '\nNo Number';} // Number
+  if(!RegExp('[!@#\$%^&*(),.?;{}|<>]').hasMatch(password)) {flag = true; errorMessage += '\nNo Special Character';} // Special Char
+
+  if(flag) return (false, errorMessage);
+  
+  return (true, 'Fits Criteria');
+}
+
 
 class MyLogin extends StatefulWidget 
 {
@@ -87,6 +104,9 @@ class _MyLoginState extends State<MyLogin>
 {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  String errorMessage = '';
+  String passwordError = '';
+
   @override
   void dispose()
   {
@@ -100,30 +120,61 @@ class _MyLoginState extends State<MyLogin>
     Navigator.pushNamed(context, '/Register');
   }
 
-  String errorMessage = '';
+  void passwordChanged()
+  {
+    (bool, String) passwordCheck = isPassword(passwordController.text);
+    setState(() {
+      if(!passwordCheck.$1)
+      {
+        passwordError = passwordCheck.$2;
+      }
+      else 
+      {
+        passwordError = '';
+      }
+    });
+  }
+
   void submitLogin() async
   {
+    bool flag = false;
     final username = usernameController.text;
     final password = passwordController.text;
-
+    (bool, String) passwordCheck = isPassword(password);
+    setState(() {
+      if(!passwordCheck.$1)
+      {
+        passwordError = passwordCheck.$2;
+        flag = true;
+      }
+      else
+      {
+        passwordError = '';
+      }
+    });
+    if(flag) return;
     final reqBody =  <String, String>
     {
       'username': username,
       'password' : password,
     };
-    Map<String, dynamic> result = await callServer(reqBody, "/api/login");
-    if(result.isEmpty) 
-    {
-      errorMessage = 'Could Not Send Request';
-      return; // Could Not Connect to Server? 
-    } 
-    if(result.containsKey('error'))
-    {
-      errorMessage = result['error'];
+    (Map<String, dynamic>, int) result = await callServer(reqBody, "/api/login");
+    setState(() {
+      if(result.$1.isEmpty) 
+      {
+        errorMessage = 'Could Not Send Request';
+        return; // Could Not Connect to Server? 
+      } 
+      if((result.$1.containsKey('error') && result.$1['error'] != '') || result.$2 != 200)
+      {
+        print(result);
+        errorMessage = result.$1['error'];
+        return;
+      }
+      errorMessage = 'Success';
+      print(errorMessage);
       return;
-    }
-    errorMessage = '';
-    return;
+    });
   }
 
   @override
@@ -133,30 +184,31 @@ class _MyLoginState extends State<MyLogin>
     (
       body:
       Center(
-        child: SizedBox(
-            width: 300,
-            height: 300,
+        child: Container
+        (
+          constraints: const BoxConstraints
+          (
+            maxHeight: 600,
+            minHeight: 100,
+          ),
             child: 
             Card
             (
               child: Column
               (
-                children: [
-                  const Spacer(flex: 5),
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: 
+                [
                   const Text
                   (
                     textScaler: TextScaler.linear(3),
                     "Login"
                   ),
-                  const Spacer(),
-                  TextBox(controller: usernameController, label: "Username"),
-                  const Spacer(),
-                  TextBox(controller: passwordController, label: "Password"),
-                  const Spacer(),
+                  TextBox(controller: usernameController, label: "Username",),
+                  PasswordTextBox(controller: passwordController, label: "Password", passwordChanged: passwordChanged,),
                   ElevatedButton(onPressed: submitLogin, child: const Text("Submit")),
-                  const Spacer(),
                   ElevatedButton(onPressed: switchToRegisterPage, child: const Text("New to FocusFins?")),
-                  const Spacer(),
+                  Text(passwordError),
                   Text(errorMessage),
                 ],
               ),
@@ -181,13 +233,29 @@ class _MyRegisterState extends State<MyRegister>
   final passwordController = TextEditingController();
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
+  String errorMessage = '';
+  String passwordError = '';
 
   void switchToLoginPage()
   {
     Navigator.pop(context, true);
   }
 
-  String errorMessage = '';
+  void passwordChanged()
+  {
+    (bool, String) passwordCheck = isPassword(passwordController.text);
+    setState(() {
+      if(!passwordCheck.$1)
+      {
+        passwordError = passwordCheck.$2;
+      }
+      else
+      {
+        passwordError = '';
+      }
+    });
+  }
+
   void submitRegister() async
   {
     final email = emailController.text;
@@ -195,6 +263,22 @@ class _MyRegisterState extends State<MyRegister>
     final password = passwordController.text;
     final firstName = firstNameController.text;
     final lastName = lastNameController.text;
+
+    bool flag = false;
+    (bool, String) passwordCheck = isPassword(password);
+    setState(() {
+      if(!passwordCheck.$1) 
+      {
+        errorMessage = passwordCheck.$2;
+        flag = true;
+      }
+      else
+      {
+        passwordError = '';
+      }
+    });
+
+    if(flag) return;
 
     final reqBody = <String, String>
     {
@@ -216,7 +300,7 @@ class _MyRegisterState extends State<MyRegister>
       errorMessage = result['error'];
       return;
     }
-    errorMessage = '';
+    errorMessage = 'Success';
     return;
   }
 
@@ -226,34 +310,31 @@ class _MyRegisterState extends State<MyRegister>
     return Scaffold
     (
       body: Center(
-        child: SizedBox(
-          width: 300,
-          height: 500,
+        child: Container(
+          constraints: const BoxConstraints
+          (
+            maxWidth: 300,
+            minHeight: 400,
+            maxHeight: 700,
+          ),
           child: Card(
             child: Column
             (
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Spacer(),
                 const Text
                 (
                   textScaler: TextScaler.linear(2),
                   "Register an Account"
                 ),
-                const Spacer(),
-                TextBox(controller: emailController, label: "Email"),
-                const Spacer(),
-                TextBox(controller: usernameController, label: "Username"),
-                const Spacer(),
-                TextBox(controller: passwordController, label: "Password"),
-                const Spacer(),
-                TextBox(controller: firstNameController, label: "First Name"),
-                const Spacer(),
-                TextBox(controller: lastNameController, label: "Last Name"),
-                const Spacer(),
-                ElevatedButton(onPressed: submitRegister, child: const Text("Register")),
-                const Spacer(),
-                ElevatedButton(onPressed: switchToLoginPage, child: const Text("Back to Login")),
-                const Spacer(),
+                TextBox(controller: emailController, label: "Email",),
+                TextBox(controller: usernameController, label: "Username",),
+                PasswordTextBox(controller: passwordController, label: "Password", passwordChanged: passwordChanged,),
+                TextBox(controller: firstNameController, label: "First Name",),
+                TextBox(controller: lastNameController, label: "Last Name",),
+                ElevatedButton(onPressed: submitRegister, style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(20)),  child: const Text("Register"),),
+                ElevatedButton(onPressed: switchToLoginPage, style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(20),), child: const Text("Back to Login"),),
+                Text(passwordError),
                 Text(errorMessage),
               ],
             ),
@@ -264,6 +345,44 @@ class _MyRegisterState extends State<MyRegister>
   }
 }
 
+class PasswordTextBox extends StatelessWidget {
+  const PasswordTextBox({
+    super.key,
+    required this.controller,
+    required this.label,
+    required this.passwordChanged(),
+  });
+
+  final TextEditingController controller;
+  final String label;
+  final VoidCallback passwordChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      constraints:const BoxConstraints
+      (
+        maxWidth: 250,
+        minWidth: 100,
+      ),
+      child: TextField
+      (
+        onChanged: (value) {passwordChanged();},
+        obscureText: true,
+        controller: controller,
+        decoration: 
+        InputDecoration
+        (
+          border: const OutlineInputBorder(),
+          labelText: label,
+        ),
+      ),
+    );
+  }
+}
+
+
 // TextBox is for both Login and Register input boxes
 class TextBox extends StatelessWidget {
   const TextBox({
@@ -273,14 +392,20 @@ class TextBox extends StatelessWidget {
   });
 
   final TextEditingController controller;
-  final String label; 
+  final String label;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 250,
+    return Container(
+      padding: const EdgeInsets.all(10),
+      constraints:const BoxConstraints
+      (
+        maxWidth: 250,
+        minWidth: 100,
+      ),
       child: TextField
       (
+        obscureText: false,
         controller: controller,
         decoration: 
         InputDecoration

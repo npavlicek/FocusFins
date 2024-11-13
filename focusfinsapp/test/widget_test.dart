@@ -10,18 +10,24 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:focusfinsapp/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Widget Load Test', (WidgetTester tester) async {
     // Build app and trigger a frame.
     await tester.pumpWidget(const MyApp());
-    // Todo Add Unit Tests
 
+    // TESTS FROM WHERE IT LOADS THE APP
 
-    // Example Code (DOES NOT WORK ON THIS APP)
-    // // Verify that our counter starts at 0.
-    // expect(find.text('0'), findsOneWidget);
-    // expect(find.text('1'), findsNothing);
-    // // Tap the '+' icon and trigger a frame.
-    // await tester.tap(find.byIcon(Icons.add));
-    // await tester.pump();
+    // TESTS FROM TIMER PAGE
   });
+
+  test('isPassword Function Test', () 
+  {
+    expect(isPassword(''), (false, "\nPassword Too Short (8-20 Characters)\nNo Uppercase\nNo Lowercase\nNo Number\nNo Special Character"));
+    expect(isPassword('pass'), (false, '\nPassword Too Short (8-20 Characters)\nNo Uppercase\nNo Number\nNo Special Character'));
+    expect(isPassword('0123456789ABCDEF!@#\$%'), (false, '\nPassword Too Long (8-20 Characters)\nNo Lowercase'));
+    expect(isPassword('password'), (false, '\nNo Uppercase\nNo Number\nNo Special Character'));
+    expect(isPassword('PASSWORD'), (false, '\nNo Lowercase\nNo Number\nNo Special Character'));
+    expect(isPassword('@@@@@@@@'), (false, '\nNo Uppercase\nNo Lowercase\nNo Number'));
+    expect(isPassword('P@ssw0rd'), (true, 'Fits Criteria'));
+  }
+  );
 }
