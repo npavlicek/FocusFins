@@ -1,6 +1,6 @@
 import Timer from './timer';
 import { Canvas } from '@react-three/fiber';
-import Reef from './newreef';
+import Reef from './reef';
 import { StrictMode } from 'react';
 
 export default function Dashboard() {

@@ -1,151 +1,71 @@
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { EffectComposer } from '@react-three/postprocessing';
+import THREE from 'three';
 
-module.exports = function init3JS(canvasRef: HTMLCanvasElement) {
-	const width = window.innerWidth, height = window.innerHeight;
-	const aspect = width / height;
-	const camWidth = 2;
-	const camHeight = camWidth / aspect;
-	const cam = new THREE.OrthographicCamera(-camWidth / 2, camWidth / 2, camHeight / 2, -camHeight / 2, 0.001, 500);
-	cam.position.z = 1 * 50;
-	cam.position.x = 1 * 50;
-	cam.position.y = 0.75 * 50;
-	cam.lookAt(0, 0, 0);
+import Sand from './sand';
+import Coral from './coral';
 
-	const scene = new THREE.Scene();
-	const loader = new GLTFLoader();
+const Reef: React.FC = () => {
+  const camRef = useRef<THREE.OrthographicCamera | null>(null);
+  const lightRef = useRef<THREE.DirectionalLight>(null);
+  const [camDir, setCamDir] = useState<THREE.Vector3>(new THREE.Vector3(0, 0, 0));
+  const [cursorAvail, setCursorAvail] = useState(true);
 
-	let gridPositions: Array<Array<number>> = [];
-	const gridWidth = 10;
-	const gridHeight = 10;
-	for (let x = 0; x < gridWidth; x++) {
-		for (let y = 0; y < gridHeight; y++) {
-			const scale = 0.1;
-			gridPositions.push([(x * scale) - 0.45, 0, (y * scale) - 0.45]);
-		}
-	}
+  const { scene, size, set } = useThree();
 
-	const hemiLight = new THREE.HemisphereLight('#FFFFFF', '#333333', 2.0);
-	hemiLight.position.set(0, 20, 0);
-	scene.add(hemiLight);
+  const cursorAvailableCallback = useCallback((newState: boolean) => {
+    setCursorAvail(newState);
+  }, []);
 
-	const directionalLight = new THREE.DirectionalLight('#DFEEE8', 2.5);
-	directionalLight.castShadow = true;
-	directionalLight.shadow.mapSize.x = 2048;
-	directionalLight.shadow.mapSize.y = 2048;
-	directionalLight.position.set(0, 5, 5);
-	scene.add(directionalLight);
+  useEffect(() => {
+    if (lightRef.current) {
+      lightRef.current.intensity = 2.0;
+      lightRef.current.color.set('#DFEEE8');
+      lightRef.current.castShadow = true;
+      lightRef.current.shadow.mapSize.width = 2048;
+      lightRef.current.shadow.mapSize.height = 2048;
+      lightRef.current.position.set(0, 5, 5);
+    }
+  }, []);
 
-	let sandTile: THREE.InstancedMesh;
-	loader.loadAsync('sandtile.glb').then(res => {
-		let geometry = null;
-		let mat = null;
-		res.scene.traverse((child: THREE.Object3D) => {
-			if (child.type == "Mesh") {
-				geometry = (child as THREE.Mesh).geometry;
-				mat = (child as THREE.Mesh).material;
-				return;
-			}
-		});
+  useEffect(() => {
+    if (camRef.current) {
+      const aspect = size.width / size.height;
+      const camWidth = 2;
+      const camHeight = camWidth / aspect;
+      camRef.current.top = camHeight / 2;
+      camRef.current.bottom = -camHeight / 2;
+      camRef.current.left = -camWidth / 2;
+      camRef.current.right = camWidth / 2;
+      camRef.current.near = 0.001;
+      camRef.current.far = 500;
+      camRef.current.position.z = 1 * 50;
+      camRef.current.position.x = 1 * 50;
+      camRef.current.position.y = 0.75 * 50;
+      camRef.current.lookAt(0, 0, 0);
+      camRef.current.updateProjectionMatrix();
+      set({ camera: camRef.current });
 
-		if (geometry && mat) {
-			sandTile = new THREE.InstancedMesh(geometry, mat, gridWidth * gridHeight);
-			sandTile.instanceMatrix.setUsage(THREE.StaticDrawUsage);
+      const tmpDir = new THREE.Vector3(0.0, 0.0, 0.0);
+      tmpDir.sub(camRef.current.position);
+      tmpDir.normalize();
+      setCamDir(tmpDir.clone());
+    }
+  }, [scene, size]);
 
-			for (let i = 0; i < gridWidth * gridHeight; i++) {
-				let pos = gridPositions.at(i)!;
-				let dummy: THREE.Object3D = new THREE.Object3D();
-				dummy.position.set(pos[0], pos[1], pos[2]);
-				dummy.scale.multiplyScalar(0.05);
-				dummy.updateMatrix();
-				sandTile.setMatrixAt(i, dummy.matrix);
-			}
+  return (<>
+    <orthographicCamera ref={camRef} />
+    <EffectComposer autoClear={false}>
+      <Coral camDir={camDir} cursorAvailableCallback={cursorAvailableCallback} cursorAvailable={cursorAvail} />
+      <Coral camDir={camDir} cursorAvailableCallback={cursorAvailableCallback} cursorAvailable={cursorAvail} />
+      <Coral camDir={camDir} cursorAvailableCallback={cursorAvailableCallback} cursorAvailable={cursorAvail} />
+    </EffectComposer>
+    <Sand />
+    <directionalLight ref={lightRef} />
+    <ambientLight />
+  </>
+  )
+}
 
-			sandTile.receiveShadow = true;
-			scene.add(sandTile);
-		} else {
-			console.error("COULD NOT FIND MESH AND GEOMETRY DATA");
-		}
-	}).catch(err => {
-		console.error(err);
-	});
-
-	let coral: THREE.Mesh;
-	loader.loadAsync('basic_coral.glb').then(res => {
-		res.scene.traverse((child: THREE.Object3D) => {
-			if (child.type == "Mesh") {
-				coral = (child as THREE.Mesh);
-				return;
-			}
-		});
-
-		if (coral) {
-			coral.scale.multiplyScalar(0.09);
-			coral.castShadow = true;
-			scene.add(coral);
-		}
-	}).catch(err => {
-		console.error(err);
-	});
-
-
-	const renderer = new THREE.WebGLRenderer({ antialias: true, canvas: canvasRef });
-	renderer.shadowMap.enabled = true;
-	renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-	renderer.setSize(width, height);
-	renderer.setAnimationLoop(anim);
-
-	let pos = new THREE.Vector3();
-
-	let camDir = new THREE.Vector3(0.0, 0.0, 0.0);
-	camDir.sub(cam.position);
-	camDir.normalize();
-
-	window.onmousemove = event => {
-		let rayOrigin = new THREE.Vector3((event.clientX / window.innerWidth) * 2 - 1, - (event.clientY / window.innerHeight) * 2 + 1, -1);
-		rayOrigin.unproject(cam);
-		let distance = (0 - rayOrigin.y) / camDir.y;
-		pos.copy(rayOrigin).add(new THREE.Vector3().copy(camDir).multiplyScalar(distance));
-	}
-
-	let oldX: number = 0, oldZ: number = 0;
-	let velX: number = 0, velZ: number = 0;
-	let dampening = 1.0;
-
-	function anim(time: DOMHighResTimeStamp) {
-		renderer.setClearColor('#DFEEE8');
-		renderer.clear(true, true, true);
-
-		if (coral) {
-			const newX = Math.floor(pos.x / 0.1) * 0.1 + 0.05;
-			const newZ = Math.floor(pos.z / 0.1) * 0.1 + 0.05;
-
-			velX += (pos.x - oldX) * 5;
-			velZ += (pos.z - oldZ) * 5;
-
-			//coral.rotation.set(velX, 0.0, velZ);
-
-			console.log(velX);
-
-			if (Math.abs(newX) < 0.1 * gridWidth / 2 && Math.abs(newZ) < 0.1 * gridHeight / 2) {
-				coral.position.set(newX, 0.03, newZ);
-			}
-
-			if (velX > 0)
-				velX -= dampening;
-			else if (velX < 0)
-				velX += dampening;
-
-			if (velZ > 0)
-				velZ -= dampening;
-			else if (velZ < 0)
-				velZ += dampening;
-
-			oldX = pos.x;
-			oldZ = pos.z;
-			coral.rotation.y = time / 800;
-		}
-
-		renderer.render(scene, cam);
-	}
-};
+export default Reef;

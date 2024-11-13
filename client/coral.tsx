@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Canvas, useLoader, useThree, ThreeEvent } from '@react-three/fiber';
+import { useLoader, useThree, ThreeEvent } from '@react-three/fiber';
+import { Outline } from '@react-three/postprocessing';
+import { BlendFunction } from 'postprocessing';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import THREE from 'three';
 
@@ -11,7 +13,7 @@ interface CoralProps {
 
 const Coral: React.FC<CoralProps> = (props: CoralProps) => {
   const sceneLoaded = useLoader(GLTFLoader, './basic_coral.glb');
-  const meshRef = useRef<THREE.Mesh>(null);
+  const meshRef = useRef<THREE.Mesh | null>(null);
   const [selected, setSelected] = useState<boolean>(false);
   const { gl, camera } = useThree();
 
@@ -56,6 +58,7 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
 
   return (
     <>
+      {meshRef.current && selected && <Outline selection={[meshRef.current]} blendFunction={BlendFunction.ALPHA} visibleEdgeColor={0xFF0000} hiddenEdgeColor={0x000000} blur={false} edgeStrength={2} />}
       <mesh ref={meshRef} onClick={handleClick} />
     </>
   );
