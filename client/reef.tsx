@@ -6,17 +6,18 @@ import THREE from 'three';
 import Sand from './sand';
 import Coral from './coral';
 
-const Reef: React.FC = () => {
+interface ReefProps {
+  cursorAvailable: boolean;
+  setCursorAvailable: React.Dispatch<React.SetStateAction<boolean>>;
+  corals: number[];
+};
+
+const Reef: React.FC<ReefProps> = (props: ReefProps) => {
   const camRef = useRef<THREE.OrthographicCamera | null>(null);
   const lightRef = useRef<THREE.DirectionalLight>(null);
   const [camDir, setCamDir] = useState<THREE.Vector3>(new THREE.Vector3(0, 0, 0));
-  const [cursorAvail, setCursorAvail] = useState(true);
 
   const { scene, size, set } = useThree();
-
-  const cursorAvailableCallback = useCallback((newState: boolean) => {
-    setCursorAvail(newState);
-  }, []);
 
   useEffect(() => {
     if (lightRef.current) {
@@ -57,9 +58,11 @@ const Reef: React.FC = () => {
   return (<>
     <orthographicCamera ref={camRef} />
     <EffectComposer autoClear={false}>
-      <Coral camDir={camDir} cursorAvailableCallback={cursorAvailableCallback} cursorAvailable={cursorAvail} />
-      <Coral camDir={camDir} cursorAvailableCallback={cursorAvailableCallback} cursorAvailable={cursorAvail} />
-      <Coral camDir={camDir} cursorAvailableCallback={cursorAvailableCallback} cursorAvailable={cursorAvail} />
+      {
+        props.corals.map((val, idx) => (
+          <Coral key={idx} coralId={val} camDir={camDir} setCursorAvailable={props.setCursorAvailable} cursorAvailable={props.cursorAvailable} />
+        ))
+      }
     </EffectComposer>
     <Sand />
     <directionalLight ref={lightRef} />

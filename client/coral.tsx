@@ -7,8 +7,9 @@ import THREE from 'three';
 
 interface CoralProps {
   camDir: THREE.Vector3;
-  cursorAvailableCallback: (newState: boolean) => void;
+  setCursorAvailable: React.Dispatch<React.SetStateAction<boolean>>;
   cursorAvailable: boolean;
+  coralId: number;
 };
 
 const Coral: React.FC<CoralProps> = (props: CoralProps) => {
@@ -32,17 +33,17 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
     e.stopPropagation();
     if (props.cursorAvailable) {
       gl.domElement.addEventListener('mousemove', handleMouseMove);
-      props.cursorAvailableCallback(false);
+      props.setCursorAvailable(false);
       setSelected(true);
     } else if (selected) {
       gl.domElement.removeEventListener('mousemove', handleMouseMove);
-      props.cursorAvailableCallback(true);
+      props.setCursorAvailable(true);
       setSelected(false);
     }
   }, [props.cursorAvailable, selected, props.camDir]);
 
   useEffect(() => {
-    const val = sceneLoaded.scene.children[20];
+    const val = sceneLoaded.scene.children[props.coralId];
     if (meshRef.current) {
       meshRef.current.geometry = (val as THREE.Mesh).geometry;
       meshRef.current.material = (val as THREE.Mesh).material;
