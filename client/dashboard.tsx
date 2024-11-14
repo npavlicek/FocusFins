@@ -1,7 +1,7 @@
 import Timer from './timer';
 import { Canvas } from '@react-three/fiber';
 import Reef from './reef';
-import { StrictMode, useCallback, useState, useEffect } from 'react';
+import { StrictMode, useState } from 'react';
 import Store from './store';
 
 export default function Dashboard() {
@@ -9,15 +9,9 @@ export default function Dashboard() {
   const [cursorAvail, setCursorAvail] = useState(true);
   const [corals, setCorals] = useState<number[]>([1, 2, 3, 4, 5, 6, 7]);
 
-  const spawnCoral = useCallback((id: number) => {
-    let newCorals = Array.from(corals);
-    newCorals.push(id);
-    setCorals(newCorals);
-  }, [corals]);
-
-  useEffect(() => {
-    console.log(corals);
-  }, [corals]);
+  let spawnCoral = (id: number) => {
+    setCorals(prevCorals => [...prevCorals, id]);
+  };
 
   return (
     <StrictMode>
