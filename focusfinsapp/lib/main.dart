@@ -17,28 +17,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Focus Fins App',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
         useMaterial3: true,
       ),
       home: const MyLogin(),
       routes: <String, WidgetBuilder>{
       '/Register' : (BuildContext context) => const MyRegister(),
-      '/Timer' : (BuildContext context) => const MyTimer(),
+      '/Timer' : (BuildContext context) => NewMyTimer(),
       }
     );
   }
@@ -64,6 +49,7 @@ Future<Uri> checkHost(String url, String api) async
 
 Future<dynamic> callServer(var reqBody, String api) async {
   Uri uri = await checkHost(host, api);
+  if(uri.toString() == '') return ({}, -1); // COULD NOT CHECK HOST
   final result = await http.post
   (
     uri,
@@ -125,38 +111,38 @@ class _MyLoginState extends State<MyLogin>
     Navigator.pushNamed(context, '/Timer');
   }
 
-  void passwordChanged()
-  {
-    (bool, String) passwordCheck = isPassword(passwordController.text);
-    setState(() {
-      if(!passwordCheck.$1)
-      {
-        passwordError = passwordCheck.$2;
-      }
-      else 
-      {
-        passwordError = '';
-      }
-    });
-  }
+  // void passwordChanged()
+  // {
+  //   (bool, String) passwordCheck = isPassword(passwordController.text);
+  //   setState(() {
+  //     if(!passwordCheck.$1)
+  //     {
+  //       passwordError = passwordCheck.$2;
+  //     }
+  //     else 
+  //     {
+  //       passwordError = '';
+  //     }
+  //   });
+  // }
 
   void submitLogin() async
   {
     bool flag = false;
     final username = usernameController.text;
     final password = passwordController.text;
-    (bool, String) passwordCheck = isPassword(password);
-    setState(() {
-      if(!passwordCheck.$1)
-      {
-        passwordError = passwordCheck.$2;
-        flag = true;
-      }
-      else
-      {
-        passwordError = '';
-      }
-    });
+    // (bool, String) passwordCheck = isPassword(password);
+    // setState(() {
+    //   if(!passwordCheck.$1)
+    //   {
+    //     passwordError = passwordCheck.$2;
+    //     flag = true;
+    //   }
+    //   else
+    //   {
+    //     passwordError = '';
+    //   }
+    // });
     if(flag) return;
     final reqBody =  <String, String>
     {
@@ -177,7 +163,7 @@ class _MyLoginState extends State<MyLogin>
         return;
       }
       errorMessage = 'Success';
-      print(result);
+      // print(result);
       switchToTimerPage();
       return;
     });
@@ -194,7 +180,7 @@ class _MyLoginState extends State<MyLogin>
         (
           constraints: const BoxConstraints
           (
-            maxHeight: 600,
+            maxHeight: 350,
             minHeight: 100,
           ),
             child: 
@@ -211,7 +197,7 @@ class _MyLoginState extends State<MyLogin>
                     "Login"
                   ),
                   TextBox(controller: usernameController, label: "Username",),
-                  PasswordTextBox(controller: passwordController, label: "Password", passwordChanged: passwordChanged,),
+                  PasswordTextBox(controller: passwordController, label: "Password", passwordChanged: () {},),
                   ElevatedButton(onPressed: submitLogin, child: const Text("Submit")),
                   ElevatedButton(onPressed: switchToRegisterPage, child: const Text("New to FocusFins?")),
                   Text(passwordError),
@@ -353,6 +339,7 @@ class _MyRegisterState extends State<MyRegister>
   }
 }
 
+// For Password Input (Obscure and Password Requirements)
 class PasswordTextBox extends StatelessWidget {
   const PasswordTextBox({
     super.key,
@@ -389,7 +376,6 @@ class PasswordTextBox extends StatelessWidget {
     );
   }
 }
-
 
 // TextBox is for both Login and Register input boxes
 class TextBox extends StatelessWidget {
@@ -447,6 +433,101 @@ class _MyTimerPage extends State<MyTimerPage>
       );
   }
 }
+
+class NewMyTimer extends StatefulWidget
+{
+  @override
+  State<NewMyTimer> createState() => _NewMyTimerState();
+}
+
+class _NewMyTimerState extends State<NewMyTimer> {
+  int startTimeInSeconds = 60 * 20; // 20 Minutes
+  int remainTimeInSeconds = 60 * 20;
+  Timer? timer;
+  bool isTimerRunning = false;
+  bool isTimerPaused = false;
+
+  void startTimer()
+  {
+    isTimerRunning = true;
+    timer = Timer.periodic(const Duration(seconds:1), (clock)
+    {
+      if(isTimerPaused) return;
+      setState(() {
+        remainTimeInSeconds--;
+      });
+    });
+  }
+
+  void pauseTimer()
+  {
+    setState(() {
+      isTimerPaused = true;
+      isTimerRunning = false;
+    });
+    timer?.cancel();
+  }
+
+  void resetTimer()
+  {
+    setState(() {
+      remainTimeInSeconds = startTimeInSeconds;
+      isTimerPaused = false;
+      isTimerRunning = false;
+    });
+    timer?.cancel();
+  }
+
+  void setStartingTime(int time)
+  {
+    setState(() {
+      startTimeInSeconds = time;
+      remainTimeInSeconds = time;
+      isTimerPaused = false;
+      isTimerRunning = false;
+    }); 
+    timer?.cancel();
+  }
+
+  @override
+  void dispose()
+  {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  Widget build(context)
+  {
+    int seconds = remainTimeInSeconds % 60;
+    int minutes = (remainTimeInSeconds / 60).floor();
+    return Scaffold
+    (
+      body: 
+      Center
+      (
+        child :
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}'),
+            Row
+            (
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: 
+              [
+                ElevatedButton(onPressed: startTimer, child: Text("Start")),
+                ElevatedButton(onPressed: pauseTimer, child: Text("Pause")),
+                ElevatedButton(onPressed: resetTimer, child: Text("Reset")),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
 
 class MyTimer extends StatefulWidget 
 {
@@ -545,7 +626,7 @@ class _MyTimerState extends State<MyTimer>
                     strokeWidth: 5,
                   ),
                 ),
-                Center(child: Text(timeString())),
+                Center(child: NewMyTimer()),
               ]
             ),
             const SizedBox(height: 10),
