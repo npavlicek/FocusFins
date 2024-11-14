@@ -8,7 +8,7 @@ export default function Dashboard() {
   return (
     <StrictMode>
       <div id="dashboard">
-        <Timer timeLimit={10} />
+        <Timer username={"Test_username"} />
         <Canvas shadows>
           <Reef />
         </Canvas>

@@ -123,36 +123,37 @@ export default function RegisterForm() {
         </div>
 
         {showRequirements && (
-        <div className="password-requirements">
-          <h4>Password must include:</h4>
-          <ul>
-            <li className={requirements.length ? "valid" : "invalid"}>
-              {requirements.length ? "✓" : "✗"} At least 8 characters
-            </li>
-            <li className={requirements.uppercase ? "valid" : "invalid"}>
-              {requirements.uppercase ? "✓" : "✗"} One uppercase letter
-            </li>
-            <li className={requirements.lowercase ? "valid" : "invalid"}>
-              {requirements.lowercase ? "✓" : "✗"} One lowercase letter
-            </li>
-            <li className={requirements.number ? "valid" : "invalid"}>
-              {requirements.number ? "✓" : "✗"} One number
-            </li>
-            <li className={requirements.specialChar ? "valid" : "invalid"}>
-              {requirements.specialChar ? "✓" : "✗"} One special character
-            </li>
-          </ul>
-        </div>
+          <div className="password-requirements">
+            <h4>Password must include:</h4>
+            <ul>
+              <li className={requirements.length ? "valid" : "invalid"}>
+                {requirements.length ? "✓" : "✗"} At least 8 characters
+              </li>
+              <li className={requirements.uppercase ? "valid" : "invalid"}>
+                {requirements.uppercase ? "✓" : "✗"} One uppercase letter
+              </li>
+              <li className={requirements.lowercase ? "valid" : "invalid"}>
+                {requirements.lowercase ? "✓" : "✗"} One lowercase letter
+              </li>
+              <li className={requirements.number ? "valid" : "invalid"}>
+                {requirements.number ? "✓" : "✗"} One number
+              </li>
+              <li className={requirements.specialChar ? "valid" : "invalid"}>
+                {requirements.specialChar ? "✓" : "✗"} One special character
+              </li>
+            </ul>
+          </div>)}
 
-      <button type="submit" className="register-button register-page-button" disabled={isLoading}>
-        {isLoading ? "Registering..." : "Register"}
-      </button>
-        
-      {/* Link to Login Page */}
+        <button type="submit" className="register-button register-page-button" disabled={isLoading}>
+          {isLoading ? "Registering..." : "Register"}
+        </button>
+
+        {/* Link to Login Page */}
         <div className="register-container">
           <span className="small-text">Already have an account? </span>
           <Link to="/login" className="login-link">Login here!</Link>
         </div>
       </form>
-      );
+    </div>
+  );
 }
