@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:async'; // FOR Timer()
+import 'dart:async';
 
 // Host Here EX: website.com (DONT USE '/' WILL BREAK LATER DOWN)
 String host = 'focusfins.org';
@@ -182,7 +182,7 @@ class _MyLoginState extends State<MyLogin>
         (
           constraints: const BoxConstraints
           (
-            maxHeight: 350,
+            maxHeight: 550,
             minHeight: 100,
           ),
             child: 
@@ -285,14 +285,14 @@ class _MyRegisterState extends State<MyRegister>
 
     (Map<String, dynamic>, int) result = await callServer(reqBody, '/api/register');
     setState(() {
-      if(result.$1.isEmpty) 
+      if(result.$2 == -1) 
       {
         errorMessage = 'Could Not Send Request';
         return; // Could Not Connect to Server? 
       } 
-      if(result.$2 !=200)
+      if(result.$2 !=201)
       {
-        errorMessage = result.$1['error'];
+        if(result.$1['error'] != null) errorMessage = result.$1['error'];
         return;
       }
       errorMessage = 'Success';
@@ -507,6 +507,7 @@ class _MyTimerState extends State<MyTimer>
     super.dispose();
   }
 
+  @override
   Widget build(context)
   {
     int seconds = remainTimeInSeconds % 60;

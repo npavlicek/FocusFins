@@ -18,5 +18,5 @@ samples, guidance on mobile development, and a full API reference.
 
 ## TODO
 - [ ] Timer Page
-- [ ] When Logged in go to Timer Page
-- [ ] Input Checks
+- [X] When Logged in go to Timer Page
+- [X] Input Checks
