@@ -60,7 +60,7 @@ export default function RegisterForm() {
       }
     }).then(res => {
       setIsLoading(false);
-      navigate('/login?registered=true'); 
+      navigate('/login?registered=true');
     }).catch(err => {
       setIsLoading(false);
       setError('Registration failed. Please try again.');
@@ -68,60 +68,61 @@ export default function RegisterForm() {
   }
 
   return (
-    <form onSubmit={doRegister} className="register-form">
-      <h2 className="register-title">Register</h2>
+    <div className="centeredCard">
+      <form onSubmit={doRegister} className="register-form">
+        <h2 className="register-title">Register</h2>
 
-      {error && <p className="error-message">{error}</p>}
+        {error && <p className="error-message">{error}</p>}
 
-      <div className="input-container">
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-      </div>
-      <div className="input-container">
-        <input
-          type="text"
-          placeholder="First Name"
-          value={firstName}
-          onChange={(e) => { setFirstName(e.target.value) }}
-          required
-        />
-      </div>
-      <div className="input-container">
-        <input
-          type="text"
-          placeholder="Last Name"
-          value={lastName}
-          onChange={(e) => { setLastName(e.target.value) }}
-          required
-        />
-      </div>
-      <div className="input-container">
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </div>
-      <div className="input-container">
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={handlePasswordChange}
-          onFocus={() => setShowRequirements(true)}
-          onBlur={() => !password && setShowRequirements(false)}
-          required
-        />
-      </div>
+        <div className="input-container">
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-container">
+          <input
+            type="text"
+            placeholder="First Name"
+            value={firstName}
+            onChange={(e) => { setFirstName(e.target.value) }}
+            required
+          />
+        </div>
+        <div className="input-container">
+          <input
+            type="text"
+            placeholder="Last Name"
+            value={lastName}
+            onChange={(e) => { setLastName(e.target.value) }}
+            required
+          />
+        </div>
+        <div className="input-container">
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-container">
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={handlePasswordChange}
+            onFocus={() => setShowRequirements(true)}
+            onBlur={() => !password && setShowRequirements(false)}
+            required
+          />
+        </div>
 
-      {showRequirements && (
+        {showRequirements && (
         <div className="password-requirements">
           <h4>Password must include:</h4>
           <ul>
@@ -142,17 +143,16 @@ export default function RegisterForm() {
             </li>
           </ul>
         </div>
-      )}
 
       <button type="submit" className="register-button register-page-button" disabled={isLoading}>
         {isLoading ? "Registering..." : "Register"}
       </button>
         
       {/* Link to Login Page */}
-      <div className="register-container">
-        <span className="small-text">Already have an account? </span>
-        <Link to="/login" className="login-link">Login here!</Link>
-      </div>
-    </form>
-  );
+        <div className="register-container">
+          <span className="small-text">Already have an account? </span>
+          <Link to="/login" className="login-link">Login here!</Link>
+        </div>
+      </form>
+      );
 }

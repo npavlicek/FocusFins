@@ -4,22 +4,61 @@
 .work-sans-login {
     font-family: "Work Sans", sans-serif;
     font-optical-sizing: auto;
-    font-weight: 400; 
+    font-weight: 400;
     font-style: normal;
 }
 
-/* Body Styling */
 body {
-    font-family: 'Work Sans', sans-serif; 
-    background-color: #32585f; /* Less opaque */
-    background-image: url('res/blue.png'); 
-    background-size: cover; 
+    width: 100vw;
+    height: 100vh;
+}
+
+#root {
+    width: 100%;
+    height: 100%;
+    font-family: 'Work Sans', sans-serif;
+    background-color: #32585f;
+    /* Less opaque */
+    background-image: url('res/blue.png');
+    background-size: cover;
     background-position: center;
-    display: flex;                
-    justify-content: center;     
-    align-items: center;        
-    height: 90vh;              
-    margin: 0;    
+}
+
+#dashboard {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+/* Body Styling */
+.centeredCard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    margin: 0;
+}
+
+.storeWrapper {
+    background-color: white;
+}
+
+.storeList {
+    list-style-type: none;
+    width: 10vw;
+}
+
+.storeListItem {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: red;
+    color: black;
+    text-decoration: none;
+}
+
+.storeListItem:hover {
+    background-color: rgb(100, 50, 20);
 }
 
 
@@ -27,21 +66,20 @@ body {
 /* --------------------------------------LOGIN PAGE--------------------------------------*/
 /* ------------------------------------------------------------------------------------ */
 form {
-    background-color: rgba(255, 255, 255, 0.9); 
-    padding: 30px;                
-    border-radius: 15px;           
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
-    max-width: 400px; 
-    width: 100%; 
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
 }
 
 .login-title {
-    font-size: 36px;          
-    color: #333;              
-    text-align: center;    
-       
-    margin: 0 0 15px 0;      
-    font-weight: 400; 
+    font-size: 36px;
+    color: #333;
+    text-align: center;
+    margin: 0 0 15px 0;
+    font-weight: 400;
 }
 
 form div {
@@ -50,19 +88,19 @@ form div {
 
 input[type="text"],
 input[type="password"] {
-    width: 100%;                
-    padding: 15px;             
-    border: 2px solid #dde6ec;    
-    border-radius: 10px;       
-    box-sizing: border-box;     
-    transition: border-color 0.3s, box-shadow 0.3s; 
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #dde6ec;
+    border-radius: 10px;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 input[type="text"]:focus,
 input[type="password"]:focus {
-    border-color: #66afe9;     
+    border-color: #66afe9;
     box-shadow: 0 0 5px rgba(102, 175, 233, 0.5);
-    outline: none;              
+    outline: none;
 }
 
 /* Submit Button Styling */
@@ -75,13 +113,14 @@ input[type="submit"] {
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
-    margin-top: 10px; 
+    margin-top: 10px;
     margin-bottom: 0px;
 }
 
 input[type="submit"]:hover {
     background-color: #4f8e8b;
-    transform: translateY(-2px); /* Lift effect */
+    transform: translateY(-2px);
+    /* Lift effect */
 }
 
 input[type="submit"]:focus {
@@ -90,41 +129,42 @@ input[type="submit"]:focus {
 
 /*  Register Container */
 .register-container {
-    text-align: center; 
-    font-size:  0.75rem ; 
-    margin-top: 15px; 
+    text-align: center;
+    font-size: 0.75rem;
+    margin-top: 15px;
 }
 
 /* Register Button as Text */
 .register-button {
     background: none;
     border: none;
-    color: #32585f; 
-    font-size: inherit; 
+    color: #32585f;
+    font-size: inherit;
     cursor: pointer;
     text-decoration: underline;
     padding: 0;
 }
 
 .register-button:hover {
-    color: #4f8e8b;  
-    
+    color: #4f8e8b;
+
 }
 
 /* smaller text for "New to FocusFins?" */
 .small-text {
-  font-size: 0.8rem; 
-  color: #333; 
+    font-size: 0.8rem;
+    color: #333;
 }
 
 .success-message {
-  color: #296c6b; /* or any visible color */
-  font-size: .9em;
-  padding: 15px;
-  margin-top: 0px;
-  border: 1px solid #296c6b;
-  background-color: white;
-  text-align: center;
+    color: #296c6b;
+    /* or any visible color */
+    font-size: .9em;
+    padding: 15px;
+    margin-top: 0px;
+    border: 1px solid #296c6b;
+    background-color: white;
+    text-align: center;
 }
 
 
@@ -138,86 +178,86 @@ input[type="submit"]:focus {
 
 
 /* Timer Page Styling */
-/* Timer Page Styling */
 .timer-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
 
 .timer {
-  position: relative;
-  width: 220px;
-  height: 220px;
-  margin-top: 20px;
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin-top: 20px;
 }
 
 svg {
-  width: 100%;
-  height: 100%;
-  transform: rotate(-90deg); /* Start from the top */
+    height: 100%;
+    transform: rotate(-90deg);
 }
 
 .circle-background {
-  fill: none;
-  stroke: #b2ece1; /* Lighter stroke for background */
-  stroke-width: 8;
+    fill: none;
+    stroke: #b2ece1;
+    /* Lighter stroke for background */
+    stroke-width: 8;
 }
 
 .circle-foreground {
-  fill: none;
-  stroke: #2c3e50;
-  stroke-width: 8;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 1.4s ease, stroke 1.2s ease;
+    stroke: #2c3e50;
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1.4s ease, stroke 1.2s ease;
 }
 
 
 
 /* Timer Input Styling for the center circle input */
 .time-display {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 2rem;
-  font-weight: 700;
-  color: #2c3e50;
-  display: flex;
-  align-items: center;
-  gap: 0px; /* Space between input and seconds */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    /* Space between input and seconds */
 }
 
 /* Style for the editable minutes input */
 .time-display input {
-  width: 70px; /* Adjusted width */
-  min-width: 70px; 
-  height: 50px; /* Set a fixed height */
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 900;
- 
-  color: #2c3e50;
-  border: none;
-  background: black;
-  outline: black;
+    width: 70px;
+    /* Adjusted width */
+    min-width: 70px;
+    height: 50px;
+    /* Set a fixed height */
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 900;
 
-  transition: border-color 0.3s;
- 
+    color: #2c3e50;
+    border: none;
+    background: black;
+    outline: black;
+
+    transition: border-color 0.3s;
+
 }
 
 .time-display input:focus {
-  border-color: #2c3e50;
+    border-color: #2c3e50;
 }
 
 
 
 /* Align :00 with the input */
 .time-input {
-  font-size: 2rem;
-  display: flex;
-  align-items: center;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
 }
 
 
@@ -229,88 +269,96 @@ svg {
 
 /* Controls Styling */
 .controls {
-  margin-top: -10px;
+    margin-top: -10px;
 }
 
 button {
-  margin-left: 10px;
-  padding: 5px 10px;
-  font-size: 1rem;
-  cursor: pointer;
+    margin-left: 10px;
+    padding: 5px 10px;
+    font-size: 1rem;
+    cursor: pointer;
 }
 
 .controls button {
-padding: 10px 20px;
-font-size: 16px;
-font-weight: bold;
-border-radius: 5px;
-cursor: pointer;
-border: 1px solid transparent;
-transition: background-color 0.3s ease, transform 0.1s ease, border-color 0.3s ease;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background-color 0.3s ease, transform 0.1s ease, border-color 0.3s ease;
 }
 
 .controls button:disabled {
-background-color: rgba(204, 204, 204, 0.6); 
-cursor: not-allowed;
+    background-color: rgba(204, 204, 204, 0.6);
+    cursor: not-allowed;
 }
 
 .controls button:not(:disabled):hover {
-background-color: rgba(85, 85, 85, 0.8);
-color: #fff;
-border-color: rgba(68, 68, 68, 0.8);
+    background-color: rgba(85, 85, 85, 0.8);
+    color: #fff;
+    border-color: rgba(68, 68, 68, 0.8);
 }
 
 .controls button:active {
-transform: scale(0.95);
+    transform: scale(0.95);
 }
 
 
 .arrow-button {
-  font-size: 1.0rem;
-  color: #2c3e50;             /* Arrow color */
-  background-color: transparent;    /* Button background */
-  border: 1px solid #32585f;     /* Button border */
-  border-radius: 3px;         /* Rounded corners */
-  cursor: pointer;
-  padding: 2px;
+    font-size: 1.0rem;
+    color: #2c3e50;
+    /* Arrow color */
+    background-color: transparent;
+    /* Button background */
+    border: 1px solid #32585f;
+    /* Button border */
+    border-radius: 3px;
+    /* Rounded corners */
+    cursor: pointer;
+    padding: 2px;
 }
 
 .arrow-button:hover {
-  color: #2c3e5092;             /* Arrow color on hover */
-  background-color: transparent;  /* Button background on hover */
+    color: #2c3e5092;
+    /* Arrow color on hover */
+    background-color: transparent;
+    /* Button background on hover */
 }
 
 
 /* Remove default arrows for number inputs */
 #minutesInput::-webkit-outer-spin-button,
 #minutesInput::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 #minutesInput[type='number'] {
-  -moz-appearance: textfield; /* Firefox */
-  appearance: textfield;      /* Other browsers */
+    -moz-appearance: textfield;
+    /* Firefox */
+    appearance: textfield;
+    /* Other browsers */
 }
 
 
 /* Specific styles for each button(start pause reser */
 .controls button:nth-child(1) {
-background-color: rgba(41,108,107, 0.9); 
-color: white;
-border-color: rgba(41,108,107, 0.9); 
+    background-color: rgba(41, 108, 107, 0.9);
+    color: white;
+    border-color: rgba(41, 108, 107, 0.9);
 }
 
 .controls button:nth-child(2) {
-background-color: rgba(166,63,65, 0.8); /* last value is opacity */
-color: white;
-border-color: rgba(166,63,65, 0.8); 
+    background-color: rgba(166, 63, 65, 0.8);
+    /* last value is opacity */
+    color: white;
+    border-color: rgba(166, 63, 65, 0.8);
 }
 
 .controls button:nth-child(3) {
-background-color: rgba(41,75,108, 0.8); 
-color: white;
-border-color: rgba(41,75,108, 0.8); 
+    background-color: rgba(41, 75, 108, 0.8);
+    color: white;
+    border-color: rgba(41, 75, 108, 0.8);
 }
 
 
@@ -318,60 +366,63 @@ border-color: rgba(41,75,108, 0.8);
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
-  position: relative;
-  left: -5px; 
+    position: relative;
+    left: -5px;
 }
 
 
 
 /*logout button*/
 .logout-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 8px 16px;
-  font-size: 1rem;
-  background-color: rgba(166, 63, 65, 0.624); 
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 8px 16px;
+    font-size: 1rem;
+    background-color: rgba(166, 63, 65, 0.624);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .logout-button:hover {
-  background-color:  rgba(166, 63, 65, 0.361); /* Darker shade on hover */
+    background-color: rgba(166, 63, 65, 0.361);
+    /* Darker shade on hover */
 }
 
 .logout-button:focus {
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 
 
 /*store button*/
-.store-button{
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  padding: 8px 16px;
-  font-size: 1rem;
-  background-color: rgba(41,75,108, 0.8); 
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.store-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 8px 16px;
+    font-size: 1rem;
+    background-color: rgba(41, 75, 108, 0.8);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 
 }
+
 .store-button:hover {
-  background-color:   rgba(30, 70, 111, 0.436); /* Darker shade on hover */
+    background-color: rgba(30, 70, 111, 0.436);
+    /* Darker shade on hover */
 }
 
 .store-button:focus {
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 /*#296c6b green    #a63f41  red*/
@@ -444,63 +495,65 @@ input[type="number"]::-webkit-outer-spin-button {
     color: #d9534f;
     text-align: center;
     font-size: 10px;
-    margin-top:0px;
+    margin-top: 0px;
     margin-bottom: 15px;
 }
 
-
 .valid {
-  color: #296c6b;
-  font-weight: bold;
+    color: #296c6b;
+    font-weight: bold;
 }
 
 .invalid {
-  color: #a63f41;
-  font-weight: bold;
+    color: #a63f41;
+    font-weight: bold;
 }
 
 .password-requirements {
-  text-align: center;
-  font-size: 13px; 
+    text-align: center;
+    font-size: 13px;
 }
+
 .password-requirements ul {
-  list-style-type: none;
-  padding-left: 0;
+    list-style-type: none;
+    padding-left: 0;
 }
 
 .password-requirements li {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .password-requirements li::before {
-  content: attr(data-icon);
-  margin-right: 8px;
+    content: attr(data-icon);
+    margin-right: 8px;
 }
+
 .register-container {
-  text-align: center;
-  font-size: 0.75rem;
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px; 
+    text-align: center;
+    font-size: 0.75rem;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
 }
 
 .register-container .login-link {
-  color: #32585f; /* maches theme color */
-  font-size: inherit;
-  cursor: pointer;
-  text-decoration: underline;
-  padding: 0;
+    color: #32585f;
+    /* maches theme color */
+    font-size: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
 }
 
 .register-container .login-link:hover {
-  color: #4f8e8b;
+    color: #4f8e8b;
 }
 
 
 .register-page-button {
-  text-decoration: none;
-  
+    text-decoration: none;
+
 }

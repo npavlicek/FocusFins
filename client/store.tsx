@@ -1,41 +1,19 @@
-import React, { useState } from 'react';
-
 export default function Store() {
-  const [purchasedItems, setPurchasedItems] = useState<string[]>([]);
-
-  const items = [
-    { id: 1, name: 'Bubble Booster', price: 10 },
-
+  const corals: string[] = [
+    '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+    '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+    '21', '22'
   ];
 
-  const handlePurchase = (itemName: string) => {
-    setPurchasedItems([...purchasedItems, itemName]);
-    alert(`You purchased: ${itemName}`);
-  };
-
   return (
-    <div className="store-container">
-      <h1>Store</h1>
-      <ul>
-        {items.map((item) => (
-          <li key={item.id}>
-            <span>{item.name} - {item.price} Bubbles</span>
-            <button onClick={() => handlePurchase(item.name)} style={{ marginLeft: '10px' }}>
-              Buy
-            </button>
-          </li>
-        ))}
+    <div className="storeWrapper">
+      <ul className="storeList">
+        {
+          corals.map((item, index) => (
+            <a className="storeListItem" href="#"><li key={index}>{index} + {item}</li></a>
+          ))
+        }
       </ul>
-      {purchasedItems.length > 0 && (
-        <div className="purchased-items">
-          <h2>Purchased Items</h2>
-          <ul>
-            {purchasedItems.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 }

@@ -41,40 +41,42 @@ export default function LoginForm() {
   }
 
   return (
-    <form onSubmit={doLogin}>
-      <h2 className="login-title work-sans-login">Login</h2>
+    <div className="centeredCard">
+      <form onSubmit={doLogin}>
+        <h2 className="login-title work-sans-login">Login</h2>
 
-      {/* Display success message if registration was successful */}
-      {successMessage && <p className="success-message">{successMessage}</p>}
+        {/* Display success message if registration was successful */}
+        {successMessage && <p className="success-message">{successMessage}</p>}
 
-      {/* Display error message if login failed */}
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {/* Display error message if login failed */}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-      <div>
-        <input
-          type="text"
-          placeholder="Username"
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <input type="submit" value="Submit" />
-      </div>
-      <div className="register-container">
-        <span className="small-text">New to FocusFins?</span>
-        <Link to="/register">
-          <button type="button" className="register-button">Register here!</button>
-        </Link>
-      </div>
-    </form>
+        <div>
+          <input
+            type="text"
+            placeholder="Username"
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <input type="submit" value="Submit" />
+        </div>
+        <div className="register-container">
+          <span className="small-text">New to FocusFins?</span>
+          <Link to="/register">
+            <button type="button" className="register-button">Register here!</button>
+          </Link>
+        </div>
+      </form>
+    </div>
   );
 }

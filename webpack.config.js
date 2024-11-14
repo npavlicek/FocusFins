@@ -1,5 +1,6 @@
 const path = require("node:path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
 	entry: path.join(__dirname, "client", "index.tsx"),
@@ -7,6 +8,18 @@ module.exports = {
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: path.join(__dirname, "public", "index.html")
+		}),
+		new CopyPlugin({
+			patterns: [
+				{
+					from: "public", force: true,
+					globOptions: {
+						dot: true,
+						gitignore: false,
+						ignore: ["**/index.html"]
+					}
+				}
+			]
 		})
 	],
 	module: {
@@ -27,7 +40,7 @@ module.exports = {
 	},
 	output: {
 		filename: "bundle.js",
-		path: path.resolve(__dirname, "build")
+		path: path.resolve(__dirname, "build/public")
 	},
 	devServer: {
 		port: 3000,
