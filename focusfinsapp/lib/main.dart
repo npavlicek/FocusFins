@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       home: const MyLogin(),
       routes: <String, WidgetBuilder>{
       '/Register' : (BuildContext context) => const MyRegister(),
-      '/Timer' : (BuildContext context) => NewMyTimer(),
+      '/Timer' : (BuildContext context) => const MyTimer(),
       }
     );
   }
@@ -128,9 +128,10 @@ class _MyLoginState extends State<MyLogin>
 
   void submitLogin() async
   {
-    bool flag = false;
     final username = usernameController.text;
     final password = passwordController.text;
+
+    // bool flag = false;
     // (bool, String) passwordCheck = isPassword(password);
     // setState(() {
     //   if(!passwordCheck.$1)
@@ -143,7 +144,8 @@ class _MyLoginState extends State<MyLogin>
     //     passwordError = '';
     //   }
     // });
-    if(flag) return;
+    // if(flag) return;
+
     final reqBody =  <String, String>
     {
       'username': username,
@@ -412,48 +414,43 @@ class TextBox extends StatelessWidget {
   }
 }
 
-class MyTimerPage extends StatefulWidget 
+class MyTimer extends StatefulWidget
 {
-  const MyTimerPage({super.key});
-
+  const MyTimer({super.key});
   @override
-  State<MyTimerPage> createState() =>
-      _MyTimerPage();
+  State<MyTimer> createState() => _MyTimerState();
 }
 
-class _MyTimerPage extends State<MyTimerPage>
+class _MyTimerState extends State<MyTimer> 
+  with TickerProviderStateMixin
 {
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(20.0),
-        child: MyTimer(),
-        ),
-      );
-  }
-}
-
-class NewMyTimer extends StatefulWidget
-{
-  @override
-  State<NewMyTimer> createState() => _NewMyTimerState();
-}
-
-class _NewMyTimerState extends State<NewMyTimer> {
-  int startTimeInSeconds = 60 * 20; // 20 Minutes
-  int remainTimeInSeconds = 60 * 20;
+  late AnimationController controller;
   Timer? timer;
+
   bool isTimerRunning = false;
   bool isTimerPaused = false;
 
+  int startTimeInSeconds = 60;
+  int remainTimeInSeconds = 60;
+
   void startTimer()
   {
+    if(isTimerRunning) return;
     isTimerRunning = true;
     timer = Timer.periodic(const Duration(seconds:1), (clock)
     {
-      if(isTimerPaused) return;
       setState(() {
+        if(remainTimeInSeconds <= 0) 
+        {
+          remainTimeInSeconds = 0;
+          isTimerRunning = false;
+          controller.stop();
+          controller.value = 1;
+          return;
+        }
+        controller
+          ..forward(from: controller.value)
+          ..repeat();
         remainTimeInSeconds--;
       });
     });
@@ -462,6 +459,7 @@ class _NewMyTimerState extends State<NewMyTimer> {
   void pauseTimer()
   {
     setState(() {
+      controller.stop();
       isTimerPaused = true;
       isTimerRunning = false;
     });
@@ -471,6 +469,8 @@ class _NewMyTimerState extends State<NewMyTimer> {
   void resetTimer()
   {
     setState(() {
+      controller.stop();
+      controller.reset();
       remainTimeInSeconds = startTimeInSeconds;
       isTimerPaused = false;
       isTimerRunning = false;
@@ -490,6 +490,17 @@ class _NewMyTimerState extends State<NewMyTimer> {
   }
 
   @override
+  void initState() {
+    controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: remainTimeInSeconds),
+    )..addListener(() {
+        setState(() {});
+      });
+    super.initState();
+  }
+
+  @override
   void dispose()
   {
     timer?.cancel();
@@ -506,136 +517,36 @@ class _NewMyTimerState extends State<NewMyTimer> {
       Center
       (
         child :
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}'),
-            Row
-            (
+        Stack(
+          children:
+          [
+            Center(
+              child: CircularProgressIndicator
+              (
+                      value: 1- controller.value,
+                      semanticsLabel: 'Circular progress indicator',
+                      strokeAlign: 35,
+                      strokeWidth: 5,
+              ),
+            ),
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: 
-              [
-                ElevatedButton(onPressed: startTimer, child: Text("Start")),
-                ElevatedButton(onPressed: pauseTimer, child: Text("Pause")),
-                ElevatedButton(onPressed: resetTimer, child: Text("Reset")),
+              children: [
+                Text('${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}'),
+                Row
+                (
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: 
+                  [
+                    ElevatedButton(onPressed: startTimer, child: const Text("Start")),
+                    ElevatedButton(onPressed: pauseTimer, child: const Text("Pause")),
+                    ElevatedButton(onPressed: resetTimer, child: const Text("Reset")),
+                  ],
+                ),
               ],
             ),
-          ],
+          ]
         ),
-      ),
-    );
-  }
-}
-
-
-
-class MyTimer extends StatefulWidget 
-{
-  @override
-  const MyTimer({super.key});
-  @override
-  State<MyTimer> createState() => _MyTimerState();
-}
-
-class _MyTimerState extends State<MyTimer>
-  with TickerProviderStateMixin
-{
-  late AnimationController controller;
-
-  bool determinate = false;
-
-  String pauseMsg = "Pause";
-
-  Duration time = Duration(seconds: 5);
-
-  Duration timeRemaining = Duration(seconds: 5);
-
-  String timeString()
-  {
-    int last = timeRemaining.toString().length;
-    String res = '';
-    res += timeRemaining.toString().replaceRange(last - 7, null, '');
-    return res;
-  }
-
-  void pause()
-  {
-    setState( ()
-    {
-      // Swaps True to False and False to True
-      determinate = determinate ? false : true;
-      if(determinate)
-      {
-        controller.stop();
-        pauseMsg = "Play";
-      }
-      else
-      {
-        pauseMsg = "Pause";
-        controller
-          ..forward(from: controller.value)
-          ..repeat();
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    controller = AnimationController(
-      vsync: this,
-      duration: time,
-    )..addListener(() {
-        setState(() {});
-      });
-    super.initState();
-  }
-
-  // @override
-  // void dispose() {
-  //   controller.dispose();
-  //   super.dispose();
-  // }
-
-  @override
-  Widget build(BuildContext context)
-  {
-    return Scaffold
-    (
-      body: Column
-      (
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>
-          [
-            Text
-            (
-              'Timer',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: 30),
-            Stack
-            (
-              children: 
-              [
-                Center
-                (
-                  child: CircularProgressIndicator
-                  (
-                    value: controller.value,
-                    semanticsLabel: 'Circular progress indicator',
-                    strokeAlign: 35,
-                    strokeWidth: 5,
-                  ),
-                ),
-                Center(child: NewMyTimer()),
-              ]
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton
-            (
-              onPressed: pause, 
-              child: Text(pauseMsg)
-            ),
-          ],
       ),
     );
   }
