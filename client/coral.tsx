@@ -5,19 +5,26 @@ import { BlendFunction } from 'postprocessing';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import THREE from 'three';
 
+interface CoralData {
+  coralId: number;
+  coralModelId: number;
+};
+
 interface CoralProps {
   camDir: THREE.Vector3;
   setCursorAvailable: React.Dispatch<React.SetStateAction<boolean>>;
   createPopupCallback: (x: number, y: number, coralCallbacks: CoralCallbacks) => void;
   closePopupCallback: () => void;
+  deleteCoralCallback: (coralId: number) => void;
   cursorAvailable: boolean;
-  coralId: number;
+  coralData: CoralData
 };
 
 interface CoralCallbacks {
   moveButtonHandler: (e: MouseEvent) => void;
   rotateButtonHandler: (e: MouseEvent) => void;
   closeButtonHandler: (e: MouseEvent) => void;
+  deleteButtonHandler: (e: MouseEvent) => void;
 };
 
 const Coral: React.FC<CoralProps> = (props: CoralProps) => {
@@ -97,7 +104,12 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
       const coralCallbacks: CoralCallbacks = {
         moveButtonHandler: moveButtonClicked,
         rotateButtonHandler: rotateButtonClicked,
-        closeButtonHandler: closeButtonClicked
+        closeButtonHandler: closeButtonClicked,
+        deleteButtonHandler: (e: MouseEvent) => {
+          props.closePopupCallback();
+          props.setCursorAvailable(true);
+          props.deleteCoralCallback(props.coralData.coralId);
+        }
       };
       props.createPopupCallback(e.x, e.y, coralCallbacks);
       props.setCursorAvailable(false);
@@ -107,10 +119,10 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
       props.closePopupCallback();
       setSelected(false);
     }
-  }, [props.cursorAvailable, moving, selected, props.camDir, moveButtonClicked, rotateButtonClicked]);
+  }, [props.cursorAvailable, moving, selected, props.camDir, moveButtonClicked, rotateButtonClicked, props.deleteCoralCallback]);
 
   useEffect(() => {
-    const val = sceneLoaded.scene.children[props.coralId];
+    const val = sceneLoaded.scene.children[props.coralData.coralModelId];
     if (meshRef.current) {
       meshRef.current.geometry = (val as THREE.Mesh).geometry;
       meshRef.current.material = (val as THREE.Mesh).material;
@@ -135,5 +147,5 @@ interface CoralInfo {
   y: number;
 };
 
-export { CoralInfo, CoralCallbacks };
+export { CoralInfo, CoralCallbacks, CoralData };
 export default Coral;

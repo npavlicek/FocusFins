@@ -24,7 +24,7 @@ const StoreItem: React.FC<StoreItemProps> = (props: StoreItemProps) => {
 interface StoreProps {
   money: number;
   subtractBalance: (amount: number) => void;
-  spawnCoralCallback: (id: number) => void;
+  spawnCoralCallback: (newCoralModelId: number) => void;
 };
 
 const coralNames: string[] = [
@@ -47,7 +47,7 @@ const Store: React.FC<StoreProps> = (props: StoreProps) => {
     } else {
       // TODO: IMPLEMENT POPUP FOR NOT ENOUGH MONEY
     }
-  }, [props.money]);
+  }, [props.money, props.spawnCoralCallback, props.subtractBalance]);
 
   useEffect(() => {
     const newCoralTypes: CoralType[] = coralNames.map((val, index) => {

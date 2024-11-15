@@ -3,12 +3,13 @@ import { Canvas } from '@react-three/fiber';
 import Reef from './reef';
 import { StrictMode, useState, useCallback, useRef, useEffect } from 'react';
 import Store from './store';
-import { CoralCallbacks } from './coral';
+import { CoralCallbacks, CoralData } from './coral';
 
 export default function Dashboard() {
   const [money, setMoney] = useState<number>(100);
   const [cursorAvail, setCursorAvail] = useState(true);
-  const [corals, setCorals] = useState<number[]>([1, 2, 3, 4, 5, 6, 7]);
+  const [corals, setCoralsData] = useState<CoralData[]>([]);
+  const [currentCoralId, setCurrentCoralId] = useState<number>(0);
   const popupRef = useRef<HTMLDivElement>(null);
   const moveButtonRef = useRef<HTMLButtonElement>(null);
   const rotateButtonRef = useRef<HTMLButtonElement>(null);
@@ -19,15 +20,42 @@ export default function Dashboard() {
     if (popupRef.current) {
       popupRef.current.style.display = "none";
     }
+
+    // TODO: LOAD CORALS FROM DATABASE HERE REPLACE THE TEMP CODE
+
+    // BEGIN TEMP
+    let initCorals: CoralData[] = [];
+    for (let x = 0; x < 10; x++) {
+      initCorals.push({ coralId: x, coralModelId: x });
+    }
+    // END TEMP
+
+    setCoralsData(initCorals);
+    setCurrentCoralId(10);
   }, []);
 
-  let spawnCoral = (id: number) => {
-    setCorals(prevCorals => [...prevCorals, id]);
-  };
+  let spawnCoral = useCallback((newCoralModelId: number) => {
+    let newCoral: CoralData = {
+      coralModelId: newCoralModelId,
+      coralId: currentCoralId
+    };
+    setCoralsData(prevCorals => [...prevCorals, newCoral]);
+    setCurrentCoralId(prevVal => { return ++prevVal; });
+  }, [corals, currentCoralId]);
 
   const subtractBalance = (amount: number) => {
     setMoney((prevMoney) => prevMoney - amount);
   };
+
+  let deleteCoral = useCallback((coralId: number) => {
+    let newCorals: CoralData[] = corals.filter((val, idx) => {
+      if (val.coralId != coralId)
+        return true;
+      else
+        return false;
+    });
+    setCoralsData(newCorals);
+  }, [corals]);
 
   const createPopup = useCallback((x: number, y: number, coralCallbacks: CoralCallbacks) => {
     if (popupRef.current) {
@@ -42,6 +70,8 @@ export default function Dashboard() {
         rotateButtonRef.current.onclick = coralCallbacks.rotateButtonHandler;
       if (closeButtonRef.current)
         closeButtonRef.current.onclick = coralCallbacks.closeButtonHandler;
+      if (deleteButtonRef.current)
+        deleteButtonRef.current.onclick = coralCallbacks.deleteButtonHandler;
     }
   }, []);
 
@@ -62,7 +92,7 @@ export default function Dashboard() {
           <button ref={closeButtonRef}>close</button>
         </div>
         <Canvas shadows>
-          <Reef corals={corals} cursorAvailable={cursorAvail} setCursorAvailable={setCursorAvail} createPopupCallback={createPopup} closePopupCallback={closePopup} />
+          <Reef coralsData={corals} cursorAvailable={cursorAvail} setCursorAvailable={setCursorAvail} createPopupCallback={createPopup} closePopupCallback={closePopup} deleteCoralCallback={deleteCoral} />
         </Canvas>
         <Store spawnCoralCallback={spawnCoral} money={money} subtractBalance={subtractBalance} />
         <p>{money}</p>

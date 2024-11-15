@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useThree } from '@react-three/fiber';
 import { EffectComposer } from '@react-three/postprocessing';
 import THREE from 'three';
-import { CoralCallbacks } from './coral';
+import { CoralCallbacks, CoralData } from './coral';
 
 import Sand from './sand';
 import Coral from './coral';
@@ -12,7 +12,8 @@ interface ReefProps {
   setCursorAvailable: React.Dispatch<React.SetStateAction<boolean>>;
   createPopupCallback: (x: number, y: number, coralCallbacks: CoralCallbacks) => void;
   closePopupCallback: () => void;
-  corals: number[];
+  deleteCoralCallback: (coralId: number) => void;
+  coralsData: CoralData[];
 };
 
 const Reef: React.FC<ReefProps> = (props: ReefProps) => {
@@ -62,8 +63,8 @@ const Reef: React.FC<ReefProps> = (props: ReefProps) => {
     <orthographicCamera ref={camRef} />
     <EffectComposer autoClear={false}>
       {
-        props.corals.map((val, idx) => (
-          <Coral key={idx} coralId={val} camDir={camDir} setCursorAvailable={props.setCursorAvailable} cursorAvailable={props.cursorAvailable} createPopupCallback={props.createPopupCallback} closePopupCallback={props.closePopupCallback} />
+        props.coralsData.map((val, idx) => (
+          <Coral key={val.coralId} coralData={val} camDir={camDir} setCursorAvailable={props.setCursorAvailable} cursorAvailable={props.cursorAvailable} createPopupCallback={props.createPopupCallback} closePopupCallback={props.closePopupCallback} deleteCoralCallback={props.deleteCoralCallback} />
         ))
       }
     </EffectComposer>
