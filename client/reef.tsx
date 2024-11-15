@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useThree } from '@react-three/fiber';
 import { EffectComposer } from '@react-three/postprocessing';
 import THREE from 'three';
+import { CoralCallbacks } from './coral';
 
 import Sand from './sand';
 import Coral from './coral';
@@ -9,7 +10,7 @@ import Coral from './coral';
 interface ReefProps {
   cursorAvailable: boolean;
   setCursorAvailable: React.Dispatch<React.SetStateAction<boolean>>;
-  createPopupCallback: (x: number, y: number, moveButtonHandler: (e: MouseEvent) => void) => void;
+  createPopupCallback: (x: number, y: number, coralCallbacks: CoralCallbacks) => void;
   closePopupCallback: () => void;
   corals: number[];
 };

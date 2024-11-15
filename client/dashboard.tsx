@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import Reef from './reef';
 import { StrictMode, useState, useCallback, useRef, useEffect } from 'react';
 import Store from './store';
+import { CoralCallbacks } from './coral';
 
 export default function Dashboard() {
   const [money, setMoney] = useState<number>(100);
@@ -28,7 +29,7 @@ export default function Dashboard() {
     setMoney((prevMoney) => prevMoney - amount);
   };
 
-  const createPopup = useCallback((x: number, y: number, moveButtonHandler: (e: MouseEvent) => void) => {
+  const createPopup = useCallback((x: number, y: number, coralCallbacks: CoralCallbacks) => {
     if (popupRef.current) {
       popupRef.current.style.position = 'absolute';
       popupRef.current.style.display = 'block';
@@ -36,7 +37,11 @@ export default function Dashboard() {
       popupRef.current.style.left = x.toString() + 'px';
       popupRef.current.style.zIndex = '100';
       if (moveButtonRef.current)
-        moveButtonRef.current.onclick = moveButtonHandler;
+        moveButtonRef.current.onclick = coralCallbacks.moveButtonHandler;
+      if (rotateButtonRef.current)
+        rotateButtonRef.current.onclick = coralCallbacks.rotateButtonHandler;
+      if (closeButtonRef.current)
+        closeButtonRef.current.onclick = coralCallbacks.closeButtonHandler;
     }
   }, []);
 

@@ -8,10 +8,16 @@ import THREE from 'three';
 interface CoralProps {
   camDir: THREE.Vector3;
   setCursorAvailable: React.Dispatch<React.SetStateAction<boolean>>;
-  createPopupCallback: (x: number, y: number, moveButtonHandler: (e: MouseEvent) => void) => void;
+  createPopupCallback: (x: number, y: number, coralCallbacks: CoralCallbacks) => void;
   closePopupCallback: () => void;
   cursorAvailable: boolean;
   coralId: number;
+};
+
+interface CoralCallbacks {
+  moveButtonHandler: (e: MouseEvent) => void;
+  rotateButtonHandler: (e: MouseEvent) => void;
+  closeButtonHandler: (e: MouseEvent) => void;
 };
 
 const Coral: React.FC<CoralProps> = (props: CoralProps) => {
@@ -19,10 +25,12 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
   const meshRef = useRef<THREE.Mesh | null>(null);
   const [selected, setSelected] = useState<boolean>(false);
   const [moving, setMoving] = useState<boolean>(false);
+  const [rotating, setRotating] = useState<boolean>(false);
   const { gl, camera } = useThree();
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
-    let rayOrigin = new THREE.Vector3(((e.clientX - gl.domElement.getBoundingClientRect().left) / gl.domElement.width) * 2 - 1, - ((e.clientY - gl.domElement.getBoundingClientRect().top) / gl.domElement.height) * 2 + 1, -1);
+    // Calculate world coordinates of cursor
+    let rayOrigin = new THREE.Vector3(((e.clientX - gl.domElement.getBoundingClientRect().left) / gl.domElement.getBoundingClientRect().width) * 2 - 1, - ((e.clientY - gl.domElement.getBoundingClientRect().top) / gl.domElement.getBoundingClientRect().height) * 2 + 1, -1);
     rayOrigin.unproject(camera);
     let distance = (0.0125 - rayOrigin.y) / props.camDir.y;
     let newPos = new THREE.Vector3();
@@ -32,30 +40,74 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
     }
   }, [props.camDir]);
 
+  const handleMouseMoveRot = useCallback((e: MouseEvent) => {
+    // Calculate world coordinates of cursor
+    let rayOrigin = new THREE.Vector3(((e.clientX - gl.domElement.getBoundingClientRect().left) / gl.domElement.getBoundingClientRect().width) * 2 - 1, - ((e.clientY - gl.domElement.getBoundingClientRect().top) / gl.domElement.getBoundingClientRect().height) * 2 + 1, -1);
+    rayOrigin.unproject(camera);
+    let distance = (0.0125 - rayOrigin.y) / props.camDir.y;
+    let newPos = new THREE.Vector3();
+    newPos.copy(rayOrigin).add(new THREE.Vector3().copy(props.camDir).multiplyScalar(distance));
+
+    // calculate angle
+    if (meshRef.current) {
+      newPos.sub(meshRef.current.position).normalize();
+      meshRef.current.rotation.set(0, Math.atan2(newPos.x, newPos.z), 0);
+    }
+  }, [props.camDir]);
+
+  const handleClickFinishRot = useCallback((e: MouseEvent) => {
+    gl.domElement.removeEventListener('click', handleClickFinishRot);
+    gl.domElement.removeEventListener('mousemove', handleMouseMoveRot);
+    setRotating(false);
+    setSelected(false);
+    props.setCursorAvailable(true);
+  }, [rotating, selected, props.setCursorAvailable, handleMouseMoveRot]);
+
+  const handleClickFinishMove = useCallback((e: MouseEvent) => {
+    gl.domElement.removeEventListener('mousemove', handleMouseMove);
+    gl.domElement.removeEventListener('click', handleClickFinishMove);
+    props.setCursorAvailable(true);
+    setSelected(false);
+    setMoving(false);
+  }, [moving, selected, props.setCursorAvailable, handleMouseMove]);
+
   const moveButtonClicked = useCallback((e: MouseEvent) => {
     props.closePopupCallback();
     gl.domElement.addEventListener('mousemove', handleMouseMove);
+    gl.domElement.addEventListener('click', handleClickFinishMove);
     setMoving(true);
-  }, [handleMouseMove, moving]);
+  }, [handleMouseMove, moving, props.closePopupCallback, handleClickFinishMove]);
+
+  const rotateButtonClicked = useCallback((e: MouseEvent) => {
+    props.closePopupCallback();
+    setRotating(true);
+    gl.domElement.addEventListener('mousemove', handleMouseMoveRot);
+    gl.domElement.addEventListener('click', handleClickFinishRot);
+  }, [props.closePopupCallback, rotating, handleMouseMoveRot, handleClickFinishRot]);
+
+  const closeButtonClicked = useCallback((e: MouseEvent) => {
+    setSelected(false);
+    props.closePopupCallback();
+    props.setCursorAvailable(true);
+  }, []);
 
   const handleClick = useCallback((e: ThreeEvent<MouseEvent>) => {
     if (props.cursorAvailable) {
       e.stopPropagation();
-      props.createPopupCallback(e.x, e.y, moveButtonClicked);
+      const coralCallbacks: CoralCallbacks = {
+        moveButtonHandler: moveButtonClicked,
+        rotateButtonHandler: rotateButtonClicked,
+        closeButtonHandler: closeButtonClicked
+      };
+      props.createPopupCallback(e.x, e.y, coralCallbacks);
       props.setCursorAvailable(false);
       setSelected(true);
-    } else if (moving) {
-      gl.domElement.removeEventListener('mousemove', handleMouseMove);
-      props.setCursorAvailable(true);
-      setSelected(false);
-      setMoving(false);
-    }
-    else if (selected) {
+    } else if (selected) {
       props.setCursorAvailable(true);
       props.closePopupCallback();
       setSelected(false);
     }
-  }, [props.cursorAvailable, moving, selected, props.camDir, moveButtonClicked]);
+  }, [props.cursorAvailable, moving, selected, props.camDir, moveButtonClicked, rotateButtonClicked]);
 
   useEffect(() => {
     const val = sceneLoaded.scene.children[props.coralId];
@@ -83,5 +135,5 @@ interface CoralInfo {
   y: number;
 };
 
-export { CoralInfo };
+export { CoralInfo, CoralCallbacks };
 export default Coral;
