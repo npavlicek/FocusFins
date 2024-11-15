@@ -1,16 +1,18 @@
 // import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+// FILES
 import 'package:focusfinsapp/main.dart';
+import 'package:focusfinsapp/util.dart';
+
 
 void main() {
-  testWidgets('Widget Load Test', (WidgetTester tester) async {
+  testWidgets('App Load Test', (WidgetTester tester) async {
     // Build app and trigger a frame.
     await tester.pumpWidget(const MyApp());
-
-    // TESTS FROM WHERE IT LOADS THE APP
-
-    // TESTS FROM TIMER PAGE
   });
+
+
 
   test('isPassword Function Test', () 
   {
@@ -21,6 +23,5 @@ void main() {
     expect(isPassword('PASSWORD'), (false, '\nNo Lowercase\nNo Number\nNo Special Character'));
     expect(isPassword('@@@@@@@@'), (false, '\nNo Uppercase\nNo Lowercase\nNo Number'));
     expect(isPassword('P@ssw0rd'), (true, 'Fits Criteria'));
-  }
-  );
+  });
 }
