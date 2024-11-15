@@ -45,14 +45,15 @@ body {
 
 .storeList {
     list-style-type: none;
-    width: 10vw;
+    width: 15vw;
     margin: 0;
     padding: 0;
+    max-height: 30vh;
+    overflow-y: scroll;
 }
 
 .storeListItem {
     display: block;
-    width: 100%;
     padding: 10px;
     background-color: red;
     color: black;
@@ -210,9 +211,8 @@ svg {
     stroke-width: 8;
     stroke-linecap: round;
     transition: stroke-dashoffset 1.4s ease, stroke 1.2s ease;
+    fill: none;
 }
-
-
 
 /* Timer Input Styling for the center circle input */
 .time-display {

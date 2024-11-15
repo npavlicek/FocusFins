@@ -135,9 +135,9 @@ export default function Timer({ username }: { username: string }) {
                   backgroundColor: 'transparent',
                   border: 'none',
                   outline: 'none',
-                  appearance: 'textfield',
-                  MozAppearance: 'textfield',
-                  WebkitAppearance: 'none',
+                  //appearance: 'textfield',
+                  //MozAppearance: 'textfield',
+                  //WebkitAppearance: 'none',
                   paddingLeft: '10px',
                 }}
               />

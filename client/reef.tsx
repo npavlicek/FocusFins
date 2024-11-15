@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { useEffect, useRef, useState } from 'react';
+import { useThree } from '@react-three/fiber';
 import { EffectComposer } from '@react-three/postprocessing';
 import THREE from 'three';
 
@@ -9,6 +9,8 @@ import Coral from './coral';
 interface ReefProps {
   cursorAvailable: boolean;
   setCursorAvailable: React.Dispatch<React.SetStateAction<boolean>>;
+  createPopupCallback: (x: number, y: number, moveButtonHandler: (e: MouseEvent) => void) => void;
+  closePopupCallback: () => void;
   corals: number[];
 };
 
@@ -21,7 +23,7 @@ const Reef: React.FC<ReefProps> = (props: ReefProps) => {
 
   useEffect(() => {
     if (lightRef.current) {
-      lightRef.current.intensity = 3.5;
+      lightRef.current.intensity = 2.0;
       lightRef.current.color.set('#ccf9ff');
       lightRef.current.castShadow = true;
       lightRef.current.shadow.mapSize.width = 2048;
@@ -60,11 +62,12 @@ const Reef: React.FC<ReefProps> = (props: ReefProps) => {
     <EffectComposer autoClear={false}>
       {
         props.corals.map((val, idx) => (
-          <Coral key={idx} coralId={val} camDir={camDir} setCursorAvailable={props.setCursorAvailable} cursorAvailable={props.cursorAvailable} />
+          <Coral key={idx} coralId={val} camDir={camDir} setCursorAvailable={props.setCursorAvailable} cursorAvailable={props.cursorAvailable} createPopupCallback={props.createPopupCallback} closePopupCallback={props.closePopupCallback} />
         ))
       }
     </EffectComposer>
     <Sand />
+    <ambientLight intensity={1.0} color={0xCCF9FF} />
     <directionalLight ref={lightRef} />
     <ambientLight />
   </>

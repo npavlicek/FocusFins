@@ -8,6 +8,8 @@ import THREE from 'three';
 interface CoralProps {
   camDir: THREE.Vector3;
   setCursorAvailable: React.Dispatch<React.SetStateAction<boolean>>;
+  createPopupCallback: (x: number, y: number, moveButtonHandler: (e: MouseEvent) => void) => void;
+  closePopupCallback: () => void;
   cursorAvailable: boolean;
   coralId: number;
 };
@@ -16,6 +18,7 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
   const sceneLoaded = useLoader(GLTFLoader, './cartoon_seaweed_9.glb');
   const meshRef = useRef<THREE.Mesh | null>(null);
   const [selected, setSelected] = useState<boolean>(false);
+  const [moving, setMoving] = useState<boolean>(false);
   const { gl, camera } = useThree();
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
@@ -29,18 +32,30 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
     }
   }, [props.camDir]);
 
+  const moveButtonClicked = useCallback((e: MouseEvent) => {
+    props.closePopupCallback();
+    gl.domElement.addEventListener('mousemove', handleMouseMove);
+    setMoving(true);
+  }, [handleMouseMove, moving]);
+
   const handleClick = useCallback((e: ThreeEvent<MouseEvent>) => {
-    e.stopPropagation();
     if (props.cursorAvailable) {
-      gl.domElement.addEventListener('mousemove', handleMouseMove);
+      e.stopPropagation();
+      props.createPopupCallback(e.x, e.y, moveButtonClicked);
       props.setCursorAvailable(false);
       setSelected(true);
-    } else if (selected) {
+    } else if (moving) {
       gl.domElement.removeEventListener('mousemove', handleMouseMove);
       props.setCursorAvailable(true);
       setSelected(false);
+      setMoving(false);
     }
-  }, [props.cursorAvailable, selected, props.camDir]);
+    else if (selected) {
+      props.setCursorAvailable(true);
+      props.closePopupCallback();
+      setSelected(false);
+    }
+  }, [props.cursorAvailable, moving, selected, props.camDir, moveButtonClicked]);
 
   useEffect(() => {
     const val = sceneLoaded.scene.children[props.coralId];
@@ -56,7 +71,7 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
 
   return (
     <>
-      {meshRef.current && selected && <Outline selection={[meshRef.current]} blendFunction={BlendFunction.ALPHA} visibleEdgeColor={0xFF0000} hiddenEdgeColor={0x000000} blur={false} edgeStrength={2} />}
+      {meshRef.current && selected && <Outline selection={[meshRef.current]} blendFunction={BlendFunction.ALPHA} visibleEdgeColor={0xFF0000} hiddenEdgeColor={0xFFFFFF} blur={false} edgeStrength={2} />}
       <mesh ref={meshRef} onClick={handleClick} />
     </>
   );

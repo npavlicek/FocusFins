@@ -1,38 +1,73 @@
-import { useState, useCallback, MouseEventHandler, MouseEvent } from 'react';
+import { useEffect, useState, useCallback, MouseEvent } from 'react';
+
+interface CoralType {
+  modelId: number;
+  price: number;
+  name: string;
+};
 
 interface StoreItemProps {
-  coralName: string;
-  coralId: number;
-  spawnCoralCallback: (id: number) => void;
+  coralType: CoralType;
+  purchaseCoralCallback: (coralType: CoralType) => void;
 };
 
 const StoreItem: React.FC<StoreItemProps> = (props: StoreItemProps) => {
   const clickHandler = useCallback((e: MouseEvent) => {
-    props.spawnCoralCallback(props.coralId);
-  }, []);
+    props.purchaseCoralCallback(props.coralType);
+  }, [props.purchaseCoralCallback]);
 
   return (
-    <a className="storeListItem" href="#" onClick={clickHandler}><li>{props.coralName}</li></a>
+    <a className="storeListItem" href="#" onClick={clickHandler}><li>{props.coralType.name}</li></a>
   );
 };
 
 interface StoreProps {
+  money: number;
+  subtractBalance: (amount: number) => void;
   spawnCoralCallback: (id: number) => void;
 };
 
+const coralNames: string[] = [
+  'Seaweed', 'Blue Cabbage', 'Blue Leafy Coral', 'Yellow Cabbage', 'Amethyst shit', 'Tree type', 'Blue pickle', 'Blue Pickle v2', 'Blue thicky', 'Part the blue sea',
+  'Blue bulbs', 'Grassy', 'Royal Coral', 'Tiny Blue', 'MF got the blue top', 'Flat seaweed', 'Blue playdough', 'Purple Oak Tree', 'Actual Pickle', 'Hermit crab sea weed',
+  'Balding tree', 'Orange Cabbage'
+];
+
+const coralPrices: number[] = [
+  // TODO: IMPLEMENT PRICES
+];
+
 const Store: React.FC<StoreProps> = (props: StoreProps) => {
-  const corals: string[] = [
-    '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-    '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
-    '21', '22'
-  ];
+  const [coralTypes, setCoralTypes] = useState<CoralType[]>();
+
+  let purchaseCoral = useCallback((coralType: CoralType) => {
+    if (props.money >= coralType.price) {
+      props.subtractBalance(coralType.price);
+      props.spawnCoralCallback(coralType.modelId);
+    } else {
+      // TODO: IMPLEMENT POPUP FOR NOT ENOUGH MONEY
+    }
+  }, [props.money]);
+
+  useEffect(() => {
+    const newCoralTypes: CoralType[] = coralNames.map((val, index) => {
+      const coralType: CoralType = {
+        modelId: index,
+        price: 10,
+        name: val
+      };
+      return coralType;
+    });
+    setCoralTypes(newCoralTypes);
+  }, []);
 
   return (
     <div className="storeWrapper">
+      <h3>Store</h3>
       <ul className="storeList">
-        {
-          corals.map((item, index) => (
-            <StoreItem key={index} coralId={index} coralName={item} spawnCoralCallback={props.spawnCoralCallback} />
+        {coralTypes &&
+          coralTypes.map((item, index) => (
+            <StoreItem key={index} coralType={item} purchaseCoralCallback={purchaseCoral} />
           ))
         }
       </ul>
