@@ -13,6 +13,7 @@ interface ReefProps {
   createPopupCallback: (x: number, y: number, coralCallbacks: CoralCallbacks) => void;
   closePopupCallback: () => void;
   deleteCoralCallback: (coralId: number) => void;
+  updateCoralCallback: (newCoralData: CoralData) => void;
   coralsData: CoralData[];
 };
 
@@ -64,7 +65,7 @@ const Reef: React.FC<ReefProps> = (props: ReefProps) => {
     <EffectComposer autoClear={false}>
       {
         props.coralsData.map((val, idx) => (
-          <Coral key={val.coralId} coralData={val} camDir={camDir} setCursorAvailable={props.setCursorAvailable} cursorAvailable={props.cursorAvailable} createPopupCallback={props.createPopupCallback} closePopupCallback={props.closePopupCallback} deleteCoralCallback={props.deleteCoralCallback} />
+          <Coral key={val.coralId} coralData={val} camDir={camDir} setCursorAvailable={props.setCursorAvailable} cursorAvailable={props.cursorAvailable} createPopupCallback={props.createPopupCallback} closePopupCallback={props.closePopupCallback} deleteCoralCallback={props.deleteCoralCallback} updateCoralCallback={props.updateCoralCallback} />
         ))
       }
     </EffectComposer>

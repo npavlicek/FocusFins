@@ -29,9 +29,8 @@ module.exports = async function registerHandler(req, res) {
 
         res.status(201).json({ message: 'User registered successfully' });
     } catch (err) {
-        console.log("ERROR");
-        console.error(err);
-        return res.status(500).json({ error: "Internal server error" });
+        console.error("Error at /api/register route: " + err);
+        res.status(500).json({ error: "Internal server error" });
     } finally {
         await dbClient.close();
     }

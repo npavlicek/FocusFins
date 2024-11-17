@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './styles.css';
 
@@ -11,7 +11,6 @@ export default function RegisterForm() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
   const [requirements, setRequirements] = useState({
     length: false,
     uppercase: false,
@@ -23,6 +22,25 @@ export default function RegisterForm() {
   const [showRequirements, setShowRequirements] = useState(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const reqBody = JSON.stringify({
+      token: localStorage.getItem('token')
+    });
+    fetch('/api/isAuthenticated', {
+      method: 'post', body: reqBody, headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(res => {
+      if (res.status !== 200) {
+        localStorage.clear();
+      }
+    });
+
+    if (localStorage.getItem('logged-in') === 'true') {
+      navigate('/dashboard');
+    }
+  }, []);
 
   const validatePassword = (password: string) => {
     setRequirements({

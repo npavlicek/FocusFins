@@ -8,6 +8,14 @@ import THREE from 'three';
 interface CoralData {
   coralId: number;
   coralModelId: number;
+  position: {
+    x: number;
+    y: number;
+    z: number;
+  },
+  rotation: {
+    y: number;
+  }
 };
 
 interface CoralProps {
@@ -16,6 +24,7 @@ interface CoralProps {
   createPopupCallback: (x: number, y: number, coralCallbacks: CoralCallbacks) => void;
   closePopupCallback: () => void;
   deleteCoralCallback: (coralId: number) => void;
+  updateCoralCallback: (newCoralData: CoralData) => void;
   cursorAvailable: boolean;
   coralData: CoralData
 };
@@ -28,7 +37,7 @@ interface CoralCallbacks {
 };
 
 const Coral: React.FC<CoralProps> = (props: CoralProps) => {
-  const sceneLoaded = useLoader(GLTFLoader, './cartoon_seaweed_9.glb');
+  const sceneLoaded = useLoader(GLTFLoader, './public/cartoon_seaweed_9.glb');
   const meshRef = useRef<THREE.Mesh | null>(null);
   const [selected, setSelected] = useState<boolean>(false);
   const [moving, setMoving] = useState<boolean>(false);
@@ -40,7 +49,7 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
     let rayOrigin = new THREE.Vector3(((e.clientX - gl.domElement.getBoundingClientRect().left) / gl.domElement.getBoundingClientRect().width) * 2 - 1, - ((e.clientY - gl.domElement.getBoundingClientRect().top) / gl.domElement.getBoundingClientRect().height) * 2 + 1, -1);
     rayOrigin.unproject(camera);
     let distance = (0.0125 - rayOrigin.y) / props.camDir.y;
-    let newPos = new THREE.Vector3();
+    let newPos = new THREE.Vector3()
     newPos.copy(rayOrigin).add(new THREE.Vector3().copy(props.camDir).multiplyScalar(distance));
     if (meshRef.current) {
       meshRef.current.position.set(newPos.x, 0.0125, newPos.z);
@@ -68,7 +77,12 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
     setRotating(false);
     setSelected(false);
     props.setCursorAvailable(true);
-  }, [rotating, selected, props.setCursorAvailable, handleMouseMoveRot]);
+    let newCoralData = { ...props.coralData };
+    if (meshRef.current) {
+      newCoralData.rotation.y = meshRef.current.rotation.y;
+      props.updateCoralCallback(newCoralData);
+    }
+  }, [rotating, selected, props.setCursorAvailable, handleMouseMoveRot, props.updateCoralCallback]);
 
   const handleClickFinishMove = useCallback((e: MouseEvent) => {
     gl.domElement.removeEventListener('mousemove', handleMouseMove);
@@ -76,7 +90,14 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
     props.setCursorAvailable(true);
     setSelected(false);
     setMoving(false);
-  }, [moving, selected, props.setCursorAvailable, handleMouseMove]);
+    let newCoralData = { ...props.coralData };
+    if (meshRef.current) {
+      newCoralData.position.x = meshRef.current.position.x;
+      newCoralData.position.y = meshRef.current.position.y;
+      newCoralData.position.z = meshRef.current.position.z;
+      props.updateCoralCallback(newCoralData);
+    }
+  }, [moving, selected, props.setCursorAvailable, handleMouseMove, props.updateCoralCallback]);
 
   const moveButtonClicked = useCallback((e: MouseEvent) => {
     props.closePopupCallback();
@@ -119,7 +140,7 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
       props.closePopupCallback();
       setSelected(false);
     }
-  }, [props.cursorAvailable, moving, selected, props.camDir, moveButtonClicked, rotateButtonClicked, props.deleteCoralCallback]);
+  }, [props.cursorAvailable, moving, selected, props.camDir, moveButtonClicked, rotateButtonClicked, props.deleteCoralCallback, props.updateCoralCallback]);
 
   useEffect(() => {
     const val = sceneLoaded.scene.children[props.coralData.coralModelId];
@@ -127,7 +148,8 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
       meshRef.current.geometry = (val as THREE.Mesh).geometry;
       meshRef.current.material = (val as THREE.Mesh).material;
       meshRef.current.scale.set(0.20, 0.20, 0.20);
-      meshRef.current.position.set(Math.random(), 0.0125, Math.random());
+      meshRef.current.position.set(props.coralData.position.x, props.coralData.position.y, props.coralData.position.z);
+      meshRef.current.rotation.y = props.coralData.rotation.y;
       meshRef.current.castShadow = true;
       meshRef.current.receiveShadow = true;
     }

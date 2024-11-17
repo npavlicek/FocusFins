@@ -7,7 +7,8 @@ module.exports = {
 	devtool: "inline-source-map",
 	plugins: [
 		new HtmlWebpackPlugin({
-			template: path.join(__dirname, "public", "index.html")
+			template: path.join(__dirname, "public", "index.html"),
+			filename: '../index.html'
 		}),
 		new CopyPlugin({
 			patterns: [

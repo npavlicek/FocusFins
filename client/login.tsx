@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 export default function LoginForm() {
@@ -8,6 +9,26 @@ export default function LoginForm() {
   const [errorMessage, setErrorMessage] = React.useState('');
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    const reqBody = JSON.stringify({
+      token: localStorage.getItem('token')
+    });
+    fetch('/api/isAuthenticated', {
+      method: 'post', body: reqBody, headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(res => {
+      if (res.status !== 200) {
+        localStorage.clear();
+      }
+    });
+
+    if (localStorage.getItem('logged-in') === 'true') {
+      console.log("NAVIGAING");
+      navigate('/dashboard');
+    }
+  }, []);
 
   // Check for 'registered' query parameter on component mount
   React.useEffect(() => {
@@ -20,6 +41,7 @@ export default function LoginForm() {
   function doLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setErrorMessage(''); // Clear any previous error message
+    console.log("HERE");
 
     fetch('/api/login', {
       method: 'POST',
@@ -29,15 +51,26 @@ export default function LoginForm() {
       }
     }).then(res => {
       if (res.status === 200) {
-        navigate('/dashboard');
+        res.json().then(val => {
+          localStorage.setItem('logged-in', 'true');
+          localStorage.setItem('token', val.token);
+          localStorage.setItem('firstName', val.firstName);
+          localStorage.setItem('lastName', val.lastName);
+          localStorage.setItem('id', val.id);
+          navigate('/dashboard');
+        }).catch(err => {
+          setErrorMessage('An error occurred. Please try again later.');
+          console.error(err);
+        });
       } else {
         setErrorMessage('Invalid username or password');
-        console.error("COULD NOT LOG IN");
       }
     }).catch(err => {
       setErrorMessage('An error occurred. Please try again later.');
       console.error(err);
     });
+
+    console.log("HERE2");
   }
 
   return (

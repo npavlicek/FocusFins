@@ -26,13 +26,14 @@ module.exports = async function loginHandler(req, res) {
         const token = jwt.sign({ id: user._id }, req.secretToken, { expiresIn: '1800s' });
 
         res.status(200).json({
+            id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
             token
         });
     } catch (err) {
-        console.error("Error connecting to database: " + err);
-        return res.status(500).json({ error: "Internal server error" });
+        console.error("Error at /api/login route: " + err);
+        res.status(500).json({ error: "Internal server error" });
     } finally {
         await dbClient.close();
     }

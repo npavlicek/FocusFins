@@ -1,5 +1,4 @@
 import * as ReactDOM from 'react-dom/client';
-import { StrictMode } from 'react';
 import { createBrowserRouter, RouterProvider, Link } from 'react-router-dom';
 import LoginForm from './login';
 import Dashboard from './dashboard';
@@ -13,10 +12,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element:
-      <>
-        <LoginForm />
-        <Link to={'/dashboard'}>go to dashboard</Link>
-      </>
+      <LoginForm />
   },
   {
     path: '/dashboard',
@@ -32,8 +28,6 @@ const router = createBrowserRouter([
   }
 ]);
 
-reactRoot.render(<>
-  <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>
-</>);
+reactRoot.render(
+  <RouterProvider router={router} />
+);
