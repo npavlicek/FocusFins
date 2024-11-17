@@ -129,9 +129,9 @@ export default function Timer({ username }: { username: string }) {
                 value={timeLeft.minutes > 0 ? String(timeLeft.minutes).padStart(2, '0') : ''}
                 onChange={handleMinuteChange}
                 style={{
-                  width: '40px',
+                  width: '80px',
                   textAlign: 'left',
-                  fontSize: '2rem',
+                  fontSize: '2.8rem',
                   backgroundColor: 'transparent',
                   border: 'none',
                   outline: 'none',
@@ -141,7 +141,7 @@ export default function Timer({ username }: { username: string }) {
                   paddingLeft: '10px',
                 }}
               />
-              <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '-35px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '-29px' }}>
                 <button
                   onClick={() => setTimeLimit({ minutes: timeLimit.minutes + 5, seconds: 0 })}
                   className="arrow-button"
@@ -156,7 +156,7 @@ export default function Timer({ username }: { username: string }) {
                 </button>
               </div>
 
-              <span style={{ fontSize: '2rem', minWidth: '50px', textAlign: 'center', marginLeft: '4px' }}>
+              <span style={{ fontSize: '2.7rem', minWidth: '50px', textAlign: 'center', marginLeft: '4px' }}>
                 {String(timeLeft.seconds).padStart(2, '0')}
               </span>
             </div>

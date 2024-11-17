@@ -84,16 +84,19 @@ export default function Dashboard() {
   return (
     <StrictMode>
       <div id="dashboard">
-        <Timer username={"Test_username"} />
+       
         <div ref={popupRef}>
           <button ref={moveButtonRef}>move</button>
           <button ref={rotateButtonRef}>rotate</button>
           <button ref={deleteButtonRef}>delete</button>
           <button ref={closeButtonRef}>close</button>
         </div>
+        <div id="mainContent">
+        <Timer username={"Test_username"} />
         <Canvas shadows>
           <Reef coralsData={corals} cursorAvailable={cursorAvail} setCursorAvailable={setCursorAvail} createPopupCallback={createPopup} closePopupCallback={closePopup} deleteCoralCallback={deleteCoral} />
         </Canvas>
+        </div>
         <Store spawnCoralCallback={spawnCoral} money={money} subtractBalance={subtractBalance} />
         <p>{money}</p>
       </div>

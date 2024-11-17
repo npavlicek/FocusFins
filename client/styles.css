@@ -8,20 +8,32 @@
     font-style: normal;
 }
 
-body {
-    width: 100vw;
-    height: 100vh;
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
 }
+
+html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('res/blue2.png');
+    background-size:cover;
+}
+
+
 
 #root {
     width: 100%;
     height: 100%;
     font-family: 'Work Sans', sans-serif;
-    background-color: #32585f;
     /* Less opaque */
-    background-image: url('res/blue.png');
-    background-size: cover;
-    background-position: center;
+
+    display: flex;
+    flex-direction: column;
 }
 
 #dashboard {
@@ -73,7 +85,7 @@ form {
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
+    max-width: 19vw;
     width: 100%;
 }
 
@@ -185,12 +197,14 @@ input[type="submit"]:focus {
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    display: flex;
+    justify-content: center;
 }
 
 .timer {
     position: relative;
-    width: 220px;
-    height: 220px;
+    width: 350px;
+    height: 350px;
     margin-top: 20px;
 }
 
@@ -220,12 +234,13 @@ svg {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 2rem;
+    font-size: 3rem;
     font-weight: 700;
     color: #2c3e50;
     display: flex;
     align-items: center;
     gap: 0px;
+    
     /* Space between input and seconds */
 }
 
@@ -282,7 +297,7 @@ button {
 }
 
 .controls button {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
@@ -363,6 +378,10 @@ button {
     border-color: rgba(41, 75, 108, 0.8);
 }
 
+#mainContent{
+    justify-content: center;
+    flex-grow: 2;
+}
 
 
 
@@ -439,7 +458,7 @@ input[type="number"]::-webkit-outer-spin-button {
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
+    max-width: 22vw;
     width: 100%;
 }
 
