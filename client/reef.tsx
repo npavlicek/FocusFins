@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useThree } from '@react-three/fiber';
 import { EffectComposer } from '@react-three/postprocessing';
-import THREE from 'three';
+import { OrthographicCamera } from 'three/src/cameras/OrthographicCamera';
+import { DirectionalLight } from 'three/src/lights/DirectionalLight';
+import { Vector3 } from 'three/src/math/Vector3';
 import { CoralCallbacks, CoralData } from './coral';
 
 import Sand from './sand';
@@ -18,9 +20,9 @@ interface ReefProps {
 };
 
 const Reef: React.FC<ReefProps> = (props: ReefProps) => {
-  const camRef = useRef<THREE.OrthographicCamera | null>(null);
-  const lightRef = useRef<THREE.DirectionalLight>(null);
-  const [camDir, setCamDir] = useState<THREE.Vector3>(new THREE.Vector3(0, 0, 0));
+  const camRef = useRef<OrthographicCamera | null>(null);
+  const lightRef = useRef<DirectionalLight>(null);
+  const [camDir, setCamDir] = useState<Vector3>(new Vector3(0, 0, 0));
 
   const { scene, size, set } = useThree();
 
@@ -53,7 +55,7 @@ const Reef: React.FC<ReefProps> = (props: ReefProps) => {
       camRef.current.updateProjectionMatrix();
       set({ camera: camRef.current });
 
-      const tmpDir = new THREE.Vector3(0.0, 0.0, 0.0);
+      const tmpDir = new Vector3(0.0, 0.0, 0.0);
       tmpDir.sub(camRef.current.position);
       tmpDir.normalize();
       setCamDir(tmpDir.clone());

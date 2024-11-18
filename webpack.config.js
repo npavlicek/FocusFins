@@ -1,10 +1,22 @@
 const path = require("node:path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
 	entry: path.join(__dirname, "client", "index.tsx"),
-	devtool: "inline-source-map",
+	optimization: {
+		minimize: true,
+		minimizer: [
+			new TerserPlugin({
+				terserOptions: {
+					compress: {
+						drop_console: true
+					}
+				}
+			})
+		]
+	},
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: path.join(__dirname, "public", "index.html"),
@@ -54,5 +66,5 @@ module.exports = {
 			}
 		]
 	},
-	mode: "development"
+	mode: "production"
 };

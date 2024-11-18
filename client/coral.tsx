@@ -3,7 +3,8 @@ import { useLoader, useThree, ThreeEvent } from '@react-three/fiber';
 import { Outline } from '@react-three/postprocessing';
 import { BlendFunction } from 'postprocessing';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import THREE from 'three';
+import { Mesh } from 'three/src/objects/Mesh';
+import { Vector3 } from 'three/src/math/Vector3';
 
 interface CoralData {
   coralId: number;
@@ -19,7 +20,7 @@ interface CoralData {
 };
 
 interface CoralProps {
-  camDir: THREE.Vector3;
+  camDir: Vector3;
   setCursorAvailable: React.Dispatch<React.SetStateAction<boolean>>;
   createPopupCallback: (x: number, y: number, coralCallbacks: CoralCallbacks) => void;
   closePopupCallback: () => void;
@@ -38,7 +39,7 @@ interface CoralCallbacks {
 
 const Coral: React.FC<CoralProps> = (props: CoralProps) => {
   const sceneLoaded = useLoader(GLTFLoader, './public/cartoon_seaweed_9.glb');
-  const meshRef = useRef<THREE.Mesh | null>(null);
+  const meshRef = useRef<Mesh | null>(null);
   const [selected, setSelected] = useState<boolean>(false);
   const [moving, setMoving] = useState<boolean>(false);
   const [rotating, setRotating] = useState<boolean>(false);
@@ -46,11 +47,11 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     // Calculate world coordinates of cursor
-    let rayOrigin = new THREE.Vector3(((e.clientX - gl.domElement.getBoundingClientRect().left) / gl.domElement.getBoundingClientRect().width) * 2 - 1, - ((e.clientY - gl.domElement.getBoundingClientRect().top) / gl.domElement.getBoundingClientRect().height) * 2 + 1, -1);
+    let rayOrigin = new Vector3(((e.clientX - gl.domElement.getBoundingClientRect().left) / gl.domElement.getBoundingClientRect().width) * 2 - 1, - ((e.clientY - gl.domElement.getBoundingClientRect().top) / gl.domElement.getBoundingClientRect().height) * 2 + 1, -1);
     rayOrigin.unproject(camera);
     let distance = (0.0125 - rayOrigin.y) / props.camDir.y;
-    let newPos = new THREE.Vector3()
-    newPos.copy(rayOrigin).add(new THREE.Vector3().copy(props.camDir).multiplyScalar(distance));
+    let newPos = new Vector3()
+    newPos.copy(rayOrigin).add(new Vector3().copy(props.camDir).multiplyScalar(distance));
     if (meshRef.current) {
       meshRef.current.position.set(newPos.x, 0.0125, newPos.z);
     }
@@ -58,11 +59,11 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
 
   const handleMouseMoveRot = useCallback((e: MouseEvent) => {
     // Calculate world coordinates of cursor
-    let rayOrigin = new THREE.Vector3(((e.clientX - gl.domElement.getBoundingClientRect().left) / gl.domElement.getBoundingClientRect().width) * 2 - 1, - ((e.clientY - gl.domElement.getBoundingClientRect().top) / gl.domElement.getBoundingClientRect().height) * 2 + 1, -1);
+    let rayOrigin = new Vector3(((e.clientX - gl.domElement.getBoundingClientRect().left) / gl.domElement.getBoundingClientRect().width) * 2 - 1, - ((e.clientY - gl.domElement.getBoundingClientRect().top) / gl.domElement.getBoundingClientRect().height) * 2 + 1, -1);
     rayOrigin.unproject(camera);
     let distance = (0.0125 - rayOrigin.y) / props.camDir.y;
-    let newPos = new THREE.Vector3();
-    newPos.copy(rayOrigin).add(new THREE.Vector3().copy(props.camDir).multiplyScalar(distance));
+    let newPos = new Vector3();
+    newPos.copy(rayOrigin).add(new Vector3().copy(props.camDir).multiplyScalar(distance));
 
     // calculate angle
     if (meshRef.current) {
@@ -145,8 +146,8 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
   useEffect(() => {
     const val = sceneLoaded.scene.children[props.coralData.coralModelId];
     if (meshRef.current) {
-      meshRef.current.geometry = (val as THREE.Mesh).geometry;
-      meshRef.current.material = (val as THREE.Mesh).material;
+      meshRef.current.geometry = (val as Mesh).geometry;
+      meshRef.current.material = (val as Mesh).material;
       meshRef.current.scale.set(0.20, 0.20, 0.20);
       meshRef.current.position.set(props.coralData.position.x, props.coralData.position.y, props.coralData.position.z);
       meshRef.current.rotation.y = props.coralData.rotation.y;
