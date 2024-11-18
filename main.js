@@ -4,6 +4,9 @@ const setUpRegisterHandler = require("./api/Register");
 const setUpGetReefHandler = require("./api/getReef");
 const setUpAddFriendHandler = require("./api/addFriend");
 const setUpGetFriendsHandler = require("./api/getFriends");
+const setUpGetBubblesHandler = require("./api/getBubbles");
+const setUpIncBubblesHandler = require("./api/incBubbles");
+const setUpDecBubblesHandler = require("./api/decBubbles");
 
 const app = express();
 
@@ -23,6 +26,9 @@ setUpRegisterHandler(app);
 setUpGetReefHandler(app);
 setUpAddFriendHandler(app);
 setUpGetFriendsHandler(app);
+setUpGetBubblesHandler(app);
+setUpIncBubblesHandler(app);
+setUpDecBubblesHandler(app);
 
 app.use(express.static('./build/'));
 
