@@ -65,6 +65,5 @@ module.exports = {
 				secure: false
 			}
 		]
-	},
-	mode: "production"
+	}
 };

@@ -5,7 +5,10 @@ const loginHandler = require("./api/login");
 const registerHandler = require("./api/register");
 const isAuthenticatedHandler = require('./api/isAuthenticated');
 const updateCoralsHandler = require('./api/updateCorals');
+const updateCoralHandler = require('./api/updateCoral');
 const getCoralsHandler = require('./api/getCorals');
+const addCoralHandler = require('./api/addCoral');
+const removeCoralHandler = require('./api/removeCoral');
 const crypt = require("node:crypto");
 const path = require("node:path");
 
@@ -24,7 +27,10 @@ app.post('/api/login', loginHandler);
 app.post('/api/register', registerHandler);
 app.post('/api/isAuthenticated', isAuthenticatedHandler);
 app.post('/api/updateCorals', updateCoralsHandler);
+app.post('/api/updateCoral', updateCoralHandler);
 app.post('/api/getCorals', getCoralsHandler);
+app.post('/api/addCoral', addCoralHandler);
+app.post('/api/removeCoral', removeCoralHandler);
 
 app.get('*', (req, res) => {
 	res.sendFile(path.join(__dirname, 'build/index.html'));

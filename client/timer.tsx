@@ -84,6 +84,7 @@ export default function Timer({ username }: { username: string }) {
   };
 
   const handleLogout = () => {
+    localStorage.clear();
     navigate('/login');
   };
 

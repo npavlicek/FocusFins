@@ -1,5 +1,5 @@
 import * as ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider, Link } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LoginForm from './login';
 import Dashboard from './dashboard';
 import Register from './register';

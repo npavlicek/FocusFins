@@ -1,8 +1,8 @@
 const { MongoClient } = require('mongodb');
 const jwt = require('jsonwebtoken');
 
-module.exports = async function updateCoralsHandler(req, res) {
-    if (!req.body.token || !req.body.corals) {
+module.exports = async function addCoralHandler(req, res) {
+    if (!req.body.token || !req.body.coral) {
         return res.status(400).json({ error: "Invalid request" });
     }
 
@@ -11,29 +11,26 @@ module.exports = async function updateCoralsHandler(req, res) {
         await dbClient.connect();
         let db = dbClient.db("FocusFins");
 
-        jwt.verify(req.body.token, req.secretToken, async (err, decoded) => {
+        jwt.verify(req.body.token, req.secretToken, (err, decoded) => {
             if (err) {
                 return res.status(401).json({ error: "Unauthenticated" });
             } else {
+
                 /**
                  * {
                 *   token: <token>,
-                *   corals: [
-                *    this follows the same format in coralsData client side
-                *   ]
-                 * }
+                *   coral: {
+                *       <coral data>
+                *   }
                  */
 
                 db.collection('reefs').updateOne({
                     userId: decoded.id
                 }, {
-                    $set: {
-                        corals: req.body.corals
-                    }
+                    $push: { corals: req.body.coral },
+                    $inc: { currentCoralIdx: 1 }
                 }, {
                     upsert: true
-                }).then(val => {
-                    return res.sendStatus(200);
                 });
             }
         });

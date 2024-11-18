@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const jwt = require('jsonwebtoken');
 
 module.exports = async function getCoralsHandler(req, res) {
@@ -12,13 +12,37 @@ module.exports = async function getCoralsHandler(req, res) {
         let db = dbClient.db("FocusFins");
 
         db.collection('reefs').findOne({ userId: req.body.id }).then(val => {
-            return res.status(200).json({
-                corals: val.corals
-            });
+            if (val) {
+                res.status(200).json(val);
+            } else {
+                db.collection('users').findOne({ _id: new ObjectId(req.body.id) }).then(val => {
+                    if (val) {
+                        db.collection('reefs').insertOne({
+                            userId: req.body.id,
+                            currentCoralIdx: 0,
+                            corals: []
+                        }).then(val => {
+                            res.status(200).json({
+                                userId: req.body.id,
+                                currentCoralIdx: 0,
+                                corals: []
+                            });
+                        }).catch(err => {
+                            throw new Error(err);
+                        });
+                    } else {
+                        throw new Error("user does not exist");
+                    }
+                }).catch(err => {
+                    throw new Error(err);
+                });
+            }
+        }).catch(err => {
+            console.error(err);
+            return res.status(500).json({ error: "Internal server error" });
         });
-
     } catch (err) {
         console.error("Error at /api/updateCorals route: " + err);
-        res.status(500).json({ error: "Internal server error" });
+        return res.status(500).json({ error: "Internal server error" });
     }
 }

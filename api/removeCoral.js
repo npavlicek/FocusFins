@@ -1,8 +1,9 @@
 const { MongoClient } = require('mongodb');
 const jwt = require('jsonwebtoken');
 
-module.exports = async function updateCoralsHandler(req, res) {
-    if (!req.body.token || !req.body.corals) {
+module.exports = async function removeCoralHandler(req, res) {
+    if (!req.body.token || req.body.coralId === undefined) {
+        console.error(req.body);
         return res.status(400).json({ error: "Invalid request" });
     }
 
@@ -11,29 +12,31 @@ module.exports = async function updateCoralsHandler(req, res) {
         await dbClient.connect();
         let db = dbClient.db("FocusFins");
 
-        jwt.verify(req.body.token, req.secretToken, async (err, decoded) => {
+        jwt.verify(req.body.token, req.secretToken, (err, decoded) => {
             if (err) {
                 return res.status(401).json({ error: "Unauthenticated" });
             } else {
+
                 /**
-                 * {
+                * {
                 *   token: <token>,
-                *   corals: [
-                *    this follows the same format in coralsData client side
-                *   ]
-                 * }
-                 */
+                *   coralId: <id>
+                * }
+                *
+                */
 
                 db.collection('reefs').updateOne({
                     userId: decoded.id
                 }, {
-                    $set: {
-                        corals: req.body.corals
-                    }
+                    $pull: { corals: { coralId: req.body.coralId } }
                 }, {
                     upsert: true
                 }).then(val => {
+                    console.log(val);
                     return res.sendStatus(200);
+                }).catch(err => {
+                    console.error(err);
+                    res.status(500).json({ error: "Internal server error" });
                 });
             }
         });

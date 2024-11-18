@@ -53,18 +53,8 @@ export default function Dashboard() {
     }).then(res => {
       if (res.status === 200) {
         res.json().then(data => {
-          let idx = 0;
-          const newCorals: CoralData[] = data.corals.map((curCoral: any) => {
-            let newCurCoral: CoralData = {
-              ...curCoral,
-              coralId: idx
-            };
-            idx++;
-            return newCurCoral;
-          });
-
-          setCoralsData(newCorals);
-          setCurrentCoralId(idx);
+          setCoralsData(data.corals);
+          setCurrentCoralId(data.currentCoralIdx);
         });
       } else {
         localStorage.clear();
@@ -73,18 +63,13 @@ export default function Dashboard() {
     });
   }, []);
 
-  const pushCorals = useCallback((newCorals: CoralData[]) => {
-    const coralsBody = newCorals.map(val => {
-      return {
-        coralModelId: val.coralModelId,
-        position: val.position,
-        rotation: val.rotation
-      };
-    });
-
+  /**
+   * push entire coral state and override on database
+   */
+  const pushCorals = (newCorals: CoralData[]) => {
     const reqBody = JSON.stringify({
       token: localStorage.getItem('token'),
-      corals: coralsBody
+      corals: newCorals
     });
 
     fetch('./api/updateCorals', {
@@ -99,7 +84,79 @@ export default function Dashboard() {
         navigate('/login');
       }
     });
-  }, [corals]);
+  };
+
+  /**
+   * push one new coral to reef
+   */
+  const pushNewCoral = (newCoral: CoralData) => {
+    const reqBody = JSON.stringify({
+      token: localStorage.getItem('token'),
+      coral: newCoral
+    });
+
+    fetch('./api/addCoral', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: reqBody
+    }).then(res => {
+      if (res.status !== 200) {
+        localStorage.clear();
+        navigate('/login');
+      }
+    });
+  };
+
+  /**
+   * remove a coral by id
+   */
+  const pushRemoveCoral = (coralId: number) => {
+    const reqBody = JSON.stringify({
+      token: localStorage.getItem('token'),
+      coralId: coralId
+    });
+
+    fetch('./api/removeCoral', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: reqBody
+    }).then(res => {
+      if (res.status !== 200) {
+        console.error(res);
+        localStorage.clear();
+        navigate('/login');
+      }
+    });
+  };
+
+  /**
+   * update coral by id 
+   */
+  const pushUpdateCoral = (coralData: CoralData) => {
+    const reqBody = JSON.stringify({
+      token: localStorage.getItem('token'),
+      coralId: coralData.coralId,
+      coral: coralData
+    });
+
+    fetch('./api/updateCoral', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: reqBody
+    }).then(res => {
+      if (res.status !== 200) {
+        console.error(res);
+        localStorage.clear();
+        navigate('/login');
+      }
+    });
+  };
 
   const spawnCoral = useCallback((newCoralModelId: number) => {
     let newCoral: CoralData = {
@@ -114,26 +171,21 @@ export default function Dashboard() {
         y: 0
       }
     };
-    setCoralsData(prevCorals => {
-      const res: CoralData[] = [...prevCorals, newCoral];
-      pushCorals(res);
-      return res;
-    });
+    pushNewCoral(newCoral);
+    setCoralsData(prevCorals => [...prevCorals, newCoral]);
     setCurrentCoralId(prevVal => { return ++prevVal; });
   }, [corals, currentCoralId, pushCorals]);
 
-
   const updateCoral = useCallback((newCoralData: CoralData) => {
+    pushUpdateCoral(newCoralData);
     setCoralsData(oldCoralData => {
-      const res: CoralData[] = oldCoralData.map(val => {
+      return oldCoralData.map(val => {
         if (val.coralId === newCoralData.coralId) {
           return newCoralData;
         } else {
           return val;
         }
       });
-      pushCorals(res);
-      return res;
     });
   }, [corals, pushCorals]);
 
@@ -142,15 +194,14 @@ export default function Dashboard() {
   };
 
   const deleteCoral = useCallback((coralId: number) => {
+    pushRemoveCoral(coralId);
     setCoralsData(oldCorals => {
-      let newCorals: CoralData[] = oldCorals.filter((val, idx) => {
+      return oldCorals.filter((val, idx) => {
         if (val.coralId != coralId)
           return true;
         else
           return false;
       });
-      pushCorals(newCorals);
-      return newCorals;
     });
   }, [corals, pushCorals]);
 

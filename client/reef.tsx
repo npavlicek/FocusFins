@@ -66,7 +66,7 @@ const Reef: React.FC<ReefProps> = (props: ReefProps) => {
     <orthographicCamera ref={camRef} />
     <EffectComposer autoClear={false}>
       {
-        props.coralsData.map((val, idx) => (
+        props.coralsData.map(val => (
           <Coral key={val.coralId} coralData={val} camDir={camDir} setCursorAvailable={props.setCursorAvailable} cursorAvailable={props.cursorAvailable} createPopupCallback={props.createPopupCallback} closePopupCallback={props.closePopupCallback} deleteCoralCallback={props.deleteCoralCallback} updateCoralCallback={props.updateCoralCallback} />
         ))
       }
