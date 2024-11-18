@@ -133,7 +133,7 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
           props.deleteCoralCallback(props.coralData.coralId);
         }
       };
-      props.createPopupCallback(e.x, e.y, coralCallbacks);
+      props.createPopupCallback(e.x, e.y+gl.domElement.getBoundingClientRect().top+window.scrollY, coralCallbacks);
       props.setCursorAvailable(false);
       setSelected(true);
     } else if (selected) {
