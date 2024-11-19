@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import Reef from './reef';
 import { StrictMode, useState, useCallback, useRef, useEffect } from 'react';
 import Store from './store';
+import Navbar from './navbar';
 import { CoralCallbacks, CoralData } from './coral';
 import { useNavigate } from 'react-router-dom';
 
@@ -232,21 +233,22 @@ export default function Dashboard() {
   return (
     <StrictMode>
       <div id="dashboard">
-       
-        <div ref={popupRef}>
-          <button ref={moveButtonRef}>move</button>
-          <button ref={rotateButtonRef}>rotate</button>
-          <button ref={deleteButtonRef}>delete</button>
-          <button ref={closeButtonRef}>close</button>
+
+        <div ref={popupRef}className="popup-container">
+          <button ref={moveButtonRef} className="popup-button">move</button>
+          <button ref={rotateButtonRef} className="popup-button">rotate</button>
+          <button ref={deleteButtonRef} className="popup-button">delete</button>
+          <button ref={closeButtonRef} className="popup-button">close</button>
         </div>
+
         <div id="mainContent">
-        <Timer username={"Test_username"} />
-        <Canvas shadows>
-          <Reef coralsData={corals} cursorAvailable={cursorAvail} setCursorAvailable={setCursorAvail} createPopupCallback={createPopup} closePopupCallback={closePopup} deleteCoralCallback={deleteCoral} updateCoralCallback={updateCoral} />
-        </Canvas>
+          <Timer username={"Test_username"} />
+          <Canvas shadows>
+            <Reef coralsData={corals} cursorAvailable={cursorAvail} setCursorAvailable={setCursorAvail} createPopupCallback={createPopup} closePopupCallback={closePopup} deleteCoralCallback={deleteCoral} updateCoralCallback={updateCoral} />
+          </Canvas>
         </div>
         <Store spawnCoralCallback={spawnCoral} money={money} subtractBalance={subtractBalance} />
-        <p>{money}</p>
+        <Navbar />
       </div>
     </StrictMode>
   );

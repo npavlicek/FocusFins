@@ -21,6 +21,7 @@ html {
     width: 100%;
     height: 100%;
     background-image: url('res/blue2.png');
+    background-repeat: no-repeat;
     background-size:cover;
 }
 
@@ -51,30 +52,7 @@ html {
     margin: 0;
 }
 
-.storeWrapper {
-    background-color: white;
-}
 
-.storeList {
-    list-style-type: none;
-    width: 15vw;
-    margin: 0;
-    padding: 0;
-    max-height: 30vh;
-    overflow-y: scroll;
-}
-
-.storeListItem {
-    display: block;
-    padding: 10px;
-    background-color: red;
-    color: black;
-    text-decoration: none;
-}
-
-.storeListItem:hover {
-    background-color: rgb(100, 50, 20);
-}
 
 
 /* ------------------------------------------------------------------------------------ */
@@ -194,6 +172,7 @@ input[type="submit"]:focus {
 
 /* Timer Page Styling */
 .timer-container {
+    margin-top: 60px;
     flex-direction: column;
     align-items: center;
     gap: 20px;
@@ -201,10 +180,11 @@ input[type="submit"]:focus {
     justify-content: center;
 }
 
+/*changes size of timer circle*/
 .timer {
     position: relative;
-    width: 350px;
-    height: 350px;
+    width: 290px;
+    height: 290px;
     margin-top: 20px;
 }
 
@@ -223,7 +203,7 @@ svg {
 .circle-foreground {
     stroke: #2c3e50;
     stroke-width: 8;
-    stroke-linecap: round;
+    stroke-linecap: butt;
     transition: stroke-dashoffset 1.4s ease, stroke 1.2s ease;
     fill: none;
 }
@@ -397,7 +377,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .logout-button {
     position: absolute;
     top: 10px;
-    right: 10px;
+    left: 10px;
     padding: 8px 16px;
     font-size: 1rem;
     background-color: rgba(166, 63, 65, 0.624);
@@ -578,3 +558,100 @@ input[type="number"]::-webkit-outer-spin-button {
     text-decoration: none;
 
 }
+/* ------------------------------------------------------------------------------------ */
+/* -------------------------------------- STORE -------------------------------------- */
+/* ------------------------------------------------------------------------------------ */
+
+
+
+
+/* Basic styling for the store component */
+.storeWrapper ul {
+    list-style-type: none; /* Removes bullet points */
+    font-family: Arial, sans-serif;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: rgba(50, 88, 95,.8);
+    max-height: 600px; /* Adjust to the desired height */
+    overflow-y: auto;  /* Enable vertical scrolling */
+
+
+  }
+
+
+
+  
+  .storeWrapper h3 {
+    text-align: center;
+    margin-bottom: 16px;
+    color: white;
+  }
+  
+
+  .storeListItem {
+    display: block;
+    padding: 10px;
+    margin-bottom: 8px;
+    text-decoration: none;
+    color: rgb(41, 75, 108);
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .storeListItem:hover {
+    background-color: #e6f4ff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: rgba(41, 75, 108,.8);
+  }
+  
+  .storeListItem:active {
+    background-color: #cce7ff;
+    color: rgba(41, 75, 108,.7);
+  }
+  
+  li {
+    margin: 0;
+  }
+  
+
+  /* ------------------------------------------------------------------------------------ */
+/* -------------------------------------- REEF BUTTONS -------------------------------------- */
+/* ------------------------------------------------------------------------------------ */
+.popup-container {
+    display: flex; /* Ensure Flexbox is used */
+    flex-direction: column; /* Stack children vertically */
+    gap: 90px; /* Space between buttons */
+    align-items: center; /* Center buttons horizontally */
+    justify-content: flex-start; /* Align buttons to the top */
+    width: auto; /* Allow buttons to shrink if necessary */
+  }
+  
+  
+  .popup-button {
+    display: block; /* Explicitly make buttons block-level */
+    margin: 0 auto; /* Center buttons horizontally */
+    background-color: rgba(41, 75, 108, 0.9); /* Button background color */
+    border: none; /* Remove border */
+    color: white; /* Button text color */
+    padding: 8px 16px; /* Adjust padding for size */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    font-size: 14px; /* Adjust font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth hover effect */
+    width: 150px; /* Set a specific button width */
+    margin-bottom: 6px; /* Add spacing below each button */
+
+  }
+  
+  .popup-button:hover {
+    background-color: rgba(41, 75, 108, 0.7);; /* Darker green on hover */
+  }
+  

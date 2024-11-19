@@ -10,7 +10,7 @@ export default function Timer({ username }: { username: string }) {
   const [initialTimeLimit, setInitialTimeLimit] = useState(timeLimit);
   const navigate = useNavigate();
 
-  const FULL_DASH_ARRAY = 311.9;
+  const FULL_DASH_ARRAY = 315;
 
   useEffect(() => {
     const savedBubbles = localStorage.getItem(`bubbles_${username}`);
@@ -83,28 +83,16 @@ export default function Timer({ username }: { username: string }) {
     setIsRunning(false);
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/login');
-  };
 
-  const handleStore = () => {
-    navigate('/store');
-  };
+ 
 
   return (
     <div className="timer-container">
-      <button onClick={handleLogout} className="logout-button">
-        Logout
-      </button>
 
-      <button onClick={handleStore} className="store-button" style={{ marginLeft: '10px' }}>
-        Store
-      </button>
 
-      <div className="bubble-bank" style={{ fontSize: '1.5rem', marginBottom: '10px' }}>
-        Bubble Bank: {bubbles} 🫧
-      </div>
+
+
+
 
       <div className="timer">
         <svg viewBox="0 0 120 120">
@@ -157,7 +145,7 @@ export default function Timer({ username }: { username: string }) {
                 </button>
               </div>
 
-              <span style={{ fontSize: '2.7rem', minWidth: '50px', textAlign: 'center', marginLeft: '4px' }}>
+              <span style={{ fontSize: '2.8rem' ,minWidth: '50px', textAlign: 'center', marginLeft: '4px' }}>
                 {String(timeLeft.seconds).padStart(2, '0')}
               </span>
             </div>
