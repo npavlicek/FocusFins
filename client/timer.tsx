@@ -1,27 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function Timer({ username }: { username: string }) {
+interface TimerProps {
+  bubbles: number;
+  setBubbles: React.Dispatch<React.SetStateAction<number>>;
+};
+
+export default function Timer(props: TimerProps) {
   const [timeLimit, setTimeLimit] = useState({ minutes: 25, seconds: 0 });
   const [timeLeft, setTimeLeft] = useState({ minutes: 25, seconds: 0 });
   const [isRunning, setIsRunning] = useState(false);
   const [offset, setOffset] = useState(530);
-  const [bubbles, setBubbles] = useState(0);
   const [initialTimeLimit, setInitialTimeLimit] = useState(timeLimit);
   const navigate = useNavigate();
 
   const FULL_DASH_ARRAY = 311.9;
-
-  useEffect(() => {
-    const savedBubbles = localStorage.getItem(`bubbles_${username}`);
-    if (savedBubbles) {
-      setBubbles(Number(savedBubbles));
-    }
-  }, [username]);
-
-  useEffect(() => {
-    localStorage.setItem(`bubbles_${username}`, bubbles.toString());
-  }, [bubbles, username]);
 
   useEffect(() => {
     setTimeLeft(timeLimit);
@@ -33,6 +26,14 @@ export default function Timer({ username }: { username: string }) {
     if (!isRunning) return;
 
     const interval = setInterval(() => {
+      if (timeLeft.minutes > 0 && timeLeft.seconds == 1) {
+        if (Math.random() > 0.5) {
+          props.setBubbles(prev => prev + 2);
+        } else {
+          props.setBubbles(prev => prev + 1);
+        }
+      }
+
       setTimeLeft((prev) => {
         const { minutes, seconds } = prev;
         if (seconds > 0) {
@@ -42,14 +43,13 @@ export default function Timer({ username }: { username: string }) {
         } else {
           clearInterval(interval);
           setIsRunning(false);
-          setBubbles((prevBubbles) => prevBubbles + initialTimeLimit.minutes);
           return { minutes: 0, seconds: 0 };
         }
       });
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isRunning, initialTimeLimit]);
+  }, [isRunning, initialTimeLimit, props.bubbles, props.setBubbles, timeLeft]);
 
   useEffect(() => {
     const totalSeconds = timeLimit.minutes * 60 + timeLimit.seconds;
@@ -103,7 +103,7 @@ export default function Timer({ username }: { username: string }) {
       </button>
 
       <div className="bubble-bank" style={{ fontSize: '1.5rem', marginBottom: '10px' }}>
-        Bubble Bank: {bubbles} 🫧
+        Bubble Bank: {props.bubbles} 🫧
       </div>
 
       <div className="timer">

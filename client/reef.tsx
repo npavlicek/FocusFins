@@ -4,6 +4,7 @@ import { EffectComposer } from '@react-three/postprocessing';
 import { OrthographicCamera } from 'three/src/cameras/OrthographicCamera';
 import { DirectionalLight } from 'three/src/lights/DirectionalLight';
 import { Vector3 } from 'three/src/math/Vector3';
+import { Mesh } from 'three/src/objects/Mesh';
 import { CoralCallbacks, CoralData } from './coral';
 
 import Sand from './sand';
@@ -23,6 +24,7 @@ const Reef: React.FC<ReefProps> = (props: ReefProps) => {
   const camRef = useRef<OrthographicCamera | null>(null);
   const lightRef = useRef<DirectionalLight>(null);
   const [camDir, setCamDir] = useState<Vector3>(new Vector3(0, 0, 0));
+  const [sandMesh, setSandMesh] = useState<Mesh>();
 
   const { scene, size, set } = useThree();
 
@@ -67,11 +69,11 @@ const Reef: React.FC<ReefProps> = (props: ReefProps) => {
     <EffectComposer autoClear={false}>
       {
         props.coralsData.map(val => (
-          <Coral key={val.coralId} coralData={val} camDir={camDir} setCursorAvailable={props.setCursorAvailable} cursorAvailable={props.cursorAvailable} createPopupCallback={props.createPopupCallback} closePopupCallback={props.closePopupCallback} deleteCoralCallback={props.deleteCoralCallback} updateCoralCallback={props.updateCoralCallback} />
+          <Coral key={val.coralId} coralData={val} sandMesh={sandMesh!} camDir={camDir} setCursorAvailable={props.setCursorAvailable} cursorAvailable={props.cursorAvailable} createPopupCallback={props.createPopupCallback} closePopupCallback={props.closePopupCallback} deleteCoralCallback={props.deleteCoralCallback} updateCoralCallback={props.updateCoralCallback} />
         ))
       }
     </EffectComposer>
-    <Sand />
+    <Sand setSandMesh={setSandMesh} />
     <ambientLight intensity={1.0} color={0xCCF9FF} />
     <directionalLight ref={lightRef} />
     <ambientLight />

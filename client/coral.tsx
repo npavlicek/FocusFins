@@ -5,6 +5,8 @@ import { BlendFunction } from 'postprocessing';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Mesh } from 'three/src/objects/Mesh';
 import { Vector3 } from 'three/src/math/Vector3';
+import { Vector2 } from 'three/src/math/Vector2';
+import { Raycaster } from 'three/src/core/Raycaster';
 
 interface CoralData {
   coralId: number;
@@ -21,6 +23,7 @@ interface CoralData {
 
 interface CoralProps {
   camDir: Vector3;
+  sandMesh: Mesh;
   setCursorAvailable: React.Dispatch<React.SetStateAction<boolean>>;
   createPopupCallback: (x: number, y: number, coralCallbacks: CoralCallbacks) => void;
   closePopupCallback: () => void;
@@ -46,14 +49,12 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
   const { gl, camera } = useThree();
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
-    // Calculate world coordinates of cursor
+    let rc = new Raycaster();
     let rayOrigin = new Vector3(((e.clientX - gl.domElement.getBoundingClientRect().left) / gl.domElement.getBoundingClientRect().width) * 2 - 1, - ((e.clientY - gl.domElement.getBoundingClientRect().top) / gl.domElement.getBoundingClientRect().height) * 2 + 1, -1);
-    rayOrigin.unproject(camera);
-    let distance = (0.0125 - rayOrigin.y) / props.camDir.y;
-    let newPos = new Vector3()
-    newPos.copy(rayOrigin).add(new Vector3().copy(props.camDir).multiplyScalar(distance));
-    if (meshRef.current) {
-      meshRef.current.position.set(newPos.x, 0.0125, newPos.z);
+    rc.setFromCamera(new Vector2(rayOrigin.x, rayOrigin.y), camera);
+    let intersection = rc.intersectObject(props.sandMesh).at(0);
+    if (meshRef.current && intersection) {
+      meshRef.current.position.set(intersection.point.x, intersection.point.y, intersection.point.z);
     }
   }, [props.camDir]);
 
@@ -61,7 +62,7 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
     // Calculate world coordinates of cursor
     let rayOrigin = new Vector3(((e.clientX - gl.domElement.getBoundingClientRect().left) / gl.domElement.getBoundingClientRect().width) * 2 - 1, - ((e.clientY - gl.domElement.getBoundingClientRect().top) / gl.domElement.getBoundingClientRect().height) * 2 + 1, -1);
     rayOrigin.unproject(camera);
-    let distance = (0.0125 - rayOrigin.y) / props.camDir.y;
+    let distance = (0 - rayOrigin.y) / props.camDir.y;
     let newPos = new Vector3();
     newPos.copy(rayOrigin).add(new Vector3().copy(props.camDir).multiplyScalar(distance));
 
@@ -133,7 +134,7 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
           props.deleteCoralCallback(props.coralData.coralId);
         }
       };
-      props.createPopupCallback(e.x, e.y+gl.domElement.getBoundingClientRect().top+window.scrollY, coralCallbacks);
+      props.createPopupCallback(e.x, e.y + window.scrollY, coralCallbacks);
       props.setCursorAvailable(false);
       setSelected(true);
     } else if (selected) {

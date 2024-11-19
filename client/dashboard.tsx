@@ -7,7 +7,7 @@ import { CoralCallbacks, CoralData } from './coral';
 import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
-  const [money, setMoney] = useState<number>(100);
+  const [bubbles, setBubbles] = useState<number>(100);
   const [cursorAvail, setCursorAvail] = useState(true);
   const [corals, setCoralsData] = useState<CoralData[]>([]);
   const [currentCoralId, setCurrentCoralId] = useState<number>(0);
@@ -190,7 +190,7 @@ export default function Dashboard() {
   }, [corals, pushCorals]);
 
   const subtractBalance = (amount: number) => {
-    setMoney((prevMoney) => prevMoney - amount);
+    setBubbles((prevBubbles) => prevBubbles - amount);
   };
 
   const deleteCoral = useCallback((coralId: number) => {
@@ -232,7 +232,7 @@ export default function Dashboard() {
   return (
     <StrictMode>
       <div id="dashboard">
-       
+
         <div ref={popupRef}>
           <button ref={moveButtonRef}>move</button>
           <button ref={rotateButtonRef}>rotate</button>
@@ -240,13 +240,13 @@ export default function Dashboard() {
           <button ref={closeButtonRef}>close</button>
         </div>
         <div id="mainContent">
-        <Timer username={"Test_username"} />
-        <Canvas shadows>
-          <Reef coralsData={corals} cursorAvailable={cursorAvail} setCursorAvailable={setCursorAvail} createPopupCallback={createPopup} closePopupCallback={closePopup} deleteCoralCallback={deleteCoral} updateCoralCallback={updateCoral} />
-        </Canvas>
+          <Timer bubbles={bubbles} setBubbles={setBubbles} />
+          <Canvas shadows>
+            <Reef coralsData={corals} cursorAvailable={cursorAvail} setCursorAvailable={setCursorAvail} createPopupCallback={createPopup} closePopupCallback={closePopup} deleteCoralCallback={deleteCoral} updateCoralCallback={updateCoral} />
+          </Canvas>
         </div>
-        <Store spawnCoralCallback={spawnCoral} money={money} subtractBalance={subtractBalance} />
-        <p>{money}</p>
+        <Store spawnCoralCallback={spawnCoral} money={bubbles} subtractBalance={subtractBalance} />
+        <p>{bubbles}</p>
       </div>
     </StrictMode>
   );
