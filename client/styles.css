@@ -176,7 +176,8 @@ input[type="submit"]:focus {
     margin-top: 60px;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    margin-left: 17%;
+    gap: 10px;
     display: flex;
     justify-content: center;
 }
@@ -184,8 +185,8 @@ input[type="submit"]:focus {
 /*changes size of timer circle*/
 .timer {
     position: relative;
-    width: 290px;
-    height: 290px;
+    width: 350px;
+    height: 350px;
     margin-top: 20px;
 }
 
@@ -198,13 +199,13 @@ svg {
     fill: none;
     stroke: #b2ece1;
     /* Lighter stroke for background */
-    stroke-width: 8;
+    stroke-width: 9;
 }
 
 .circle-foreground {
     stroke: #2c3e50;
-    stroke-width: 8;
-    stroke-linecap: butt;
+    stroke-width: 9;
+    stroke-linecap: round;
     transition: stroke-dashoffset 1.4s ease, stroke 1.2s ease;
     fill: none;
 }
