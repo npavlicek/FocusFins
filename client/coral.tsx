@@ -133,6 +133,19 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
           props.deleteCoralCallback(props.coralData.coralId);
         }
       };
+      
+      // Example of creating buttons dynamically with a unique class for the delete button
+      props.createPopupCallback(e.x, e.y + gl.domElement.getBoundingClientRect().top + window.scrollY, {
+        moveButtonHandler: moveButtonClicked,
+        rotateButtonHandler: rotateButtonClicked,
+        closeButtonHandler: closeButtonClicked,
+        deleteButtonHandler: (e: MouseEvent) => {
+          props.closePopupCallback();
+          props.setCursorAvailable(true);
+          props.deleteCoralCallback(props.coralData.coralId);
+        },
+      });
+      
       props.createPopupCallback(e.x, e.y+gl.domElement.getBoundingClientRect().top+window.scrollY, coralCallbacks);
       props.setCursorAvailable(false);
       setSelected(true);

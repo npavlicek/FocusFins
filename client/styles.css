@@ -624,34 +624,53 @@ input[type="number"]::-webkit-outer-spin-button {
 /* -------------------------------------- REEF BUTTONS -------------------------------------- */
 /* ------------------------------------------------------------------------------------ */
 .popup-container {
-    display: flex; /* Ensure Flexbox is used */
-    flex-direction: column; /* Stack children vertically */
-    gap: 90px; /* Space between buttons */
-    align-items: center; /* Center buttons horizontally */
-    justify-content: flex-start; /* Align buttons to the top */
-    width: auto; /* Allow buttons to shrink if necessary */
-  }
-  
-  
-  .popup-button {
-    display: block; /* Explicitly make buttons block-level */
-    margin: 0 auto; /* Center buttons horizontally */
-    background-color: rgba(41, 75, 108, 0.9); /* Button background color */
-    border: none; /* Remove border */
-    color: white; /* Button text color */
-    padding: 8px 16px; /* Adjust padding for size */
-    text-align: center; /* Center text */
-    text-decoration: none; /* Remove underline */
-    font-size: 14px; /* Adjust font size */
-    cursor: pointer; /* Pointer cursor on hover */
-    border-radius: 5px; /* Rounded corners */
-    transition: background-color 0.3s; /* Smooth hover effect */
-    width: 150px; /* Set a specific button width */
-    margin-bottom: 6px; /* Add spacing below each button */
+    display: flex;
+    flex-direction: column;
+    gap: 90px;
+    align-items: center;
+    justify-content: flex-start;
+    width: auto;
+}
 
-  }
-  
+.popup-button {
+    display: block;
+    margin: 0 auto;
+    background-color: rgba(41, 75, 108, 0.9);
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    width: 150px;
+    margin-bottom: 6px;
+}
+
   .popup-button:hover {
     background-color: rgba(41, 75, 108, 0.7);; /* Darker green on hover */
+  }
+  /* Styling for the delete button */
+.popup-button-delete {
+   display: block; 
+    margin: 0 auto;
+    background-color: rgba(41, 75, 108, 0.9); 
+    border: none; 
+    color: white; 
+    padding: 8px 16px; 
+    text-align: center; 
+    text-decoration: none; 
+    font-size: 14px; 
+    cursor: pointer; 
+    border-radius: 5px; 
+    transition: background-color 0.3s; 
+    width: 150px; 
+    margin-bottom: 6px; 
+  }
+  
+  .popup-button-delete:hover {
+    background-color: rgba(166, 63, 65, 0.8); /* Darker red on hover */
   }
   

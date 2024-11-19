@@ -234,12 +234,13 @@ export default function Dashboard() {
     <StrictMode>
       <div id="dashboard">
 
-        <div ref={popupRef}className="popup-container">
-          <button ref={moveButtonRef} className="popup-button">move</button>
-          <button ref={rotateButtonRef} className="popup-button">rotate</button>
-          <button ref={deleteButtonRef} className="popup-button">delete</button>
-          <button ref={closeButtonRef} className="popup-button">close</button>
-        </div>
+      <div ref={popupRef} className="popup-container">
+  <button ref={moveButtonRef} className="popup-button">move</button>
+  <button ref={rotateButtonRef} className="popup-button">rotate</button>
+  <button ref={deleteButtonRef} className="popup-button-delete">delete</button>
+  <button ref={closeButtonRef} className="popup-button">close</button>
+</div>
+
 
         <div id="mainContent">
           <Timer username={"Test_username"} />
