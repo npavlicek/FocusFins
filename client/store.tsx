@@ -13,11 +13,16 @@ interface StoreItemProps {
 
 const StoreItem: React.FC<StoreItemProps> = (props: StoreItemProps) => {
   const clickHandler = useCallback((e: MouseEvent) => {
+    e.preventDefault(); // Prevent navigation on <a>
     props.purchaseCoralCallback(props.coralType);
   }, [props.purchaseCoralCallback]);
 
   return (
-    <a className="storeListItem" href="#" onClick={clickHandler}><li>{props.coralType.name}</li></a>
+    <a className="storeListItem" href="#" onClick={clickHandler}>
+      <li>
+        {props.coralType.name} - {props.coralType.price} 🫧
+      </li>
+    </a>
   );
 };
 
@@ -28,36 +33,35 @@ interface StoreProps {
 };
 
 const coralNames: string[] = [
-  'Seaweed', 'Blue Cabbage', 'Blue Leafy Coral', 'Yellow Cabbage', 'Amethyst shit', 'Tree type', 'Blue pickle', 'Blue Pickle v2', 'Blue thicky', 'Part the blue sea',
-  'Blue bulbs', 'Grassy', 'Royal Coral', 'Tiny Blue', 'MF got the blue top', 'Flat seaweed', 'Blue playdough', 'Purple Oak Tree', 'Actual Pickle', 'Hermit crab sea weed',
-  'Balding tree', 'Orange Cabbage'
+  'Seaweed', 'Green Leafy Coral', 'Bubble Wisps', 'Golden Sunburst', 'Rosy Ripple ', 'Glowlet', 'Azure Bloom', 'Ocean Mist Wisp', 'Saphire Spark', 'Part the Blue Sea',
+  'Bubble bulbs', 'Ocean Fern', 'Royal Coral', 'Blueberry Spark', 'Aqua Crown', 'Lemon Loop', 'Mini Wavelet', 'Amethyst Bloom', 'Solar Blossom', 'Coral Seaweed',
+  'Xenia Coral', 'Amber Waves'
 ];
 
 const coralPrices: number[] = [
-  // TODO: IMPLEMENT PRICES
+  100, 505, 150, 250, 250, 100, 180, 220, 30, 35,
+  800, 300, 280, 100, 400, 600, 105, 50, 450, 170,
+  300, 100
 ];
 
 const Store: React.FC<StoreProps> = (props: StoreProps) => {
   const [coralTypes, setCoralTypes] = useState<CoralType[]>();
 
-  let purchaseCoral = useCallback((coralType: CoralType) => {
+  const purchaseCoral = useCallback((coralType: CoralType) => {
     if (props.money >= coralType.price) {
       props.subtractBalance(coralType.price);
       props.spawnCoralCallback(coralType.modelId);
     } else {
-      // TODO: IMPLEMENT POPUP FOR NOT ENOUGH MONEY
+      alert("Not enough money!"); // Simple popup for insufficient funds
     }
   }, [props.money, props.spawnCoralCallback, props.subtractBalance]);
 
   useEffect(() => {
-    const newCoralTypes: CoralType[] = coralNames.map((val, index) => {
-      const coralType: CoralType = {
-        modelId: index,
-        price: 10,
-        name: val
-      };
-      return coralType;
-    });
+    const newCoralTypes: CoralType[] = coralNames.map((val, index) => ({
+      modelId: index,
+      price: coralPrices[index] || 10, // Use coralPrices, fallback to 10 if undefined
+      name: val,
+    }));
     setCoralTypes(newCoralTypes);
   }, []);
 
