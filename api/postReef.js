@@ -11,16 +11,19 @@ export default function setPostReefHandler(app, db){
     {
         try
         {
-            const { /*reefobject*/, uID } = req.body;
+            const {uid, reefObject} = req.body;
 
-            const user = await db.collection('users').findOne({id: uID});
+            const user = await db.collection('reefs').findOneAndUpdate(
+                {userId : uid},
+                {currentCoralIdx : reefObject.currentCoralIndex},
+                {corals : reefObject.corals}
+            );
 
-            if (!user)
-            {
-                return res.status(404).json({error: 'User not found'});
-            }
-
-            await db.collection('users').put(uID, reefobject)
+            /*
+            Reached this point of writing and started discussing with the team
+            upon further discussion we came to the consensus that this endpoint is redundant
+            its purpose is distributed amongst other endpoints elsewhere
+            */
         }
     });
 }
