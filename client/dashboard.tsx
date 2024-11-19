@@ -8,7 +8,7 @@ import { CoralCallbacks, CoralData } from './coral';
 import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
-  const [bubbles, setBubbles] = useState<number>(100);
+  const [bubbles, setBubbles] = useState<number>(0);
   const [cursorAvail, setCursorAvail] = useState(true);
   const [corals, setCoralsData] = useState<CoralData[]>([]);
   const [currentCoralId, setCurrentCoralId] = useState<number>(0);
@@ -62,7 +62,22 @@ export default function Dashboard() {
         navigate('/login');
       }
     });
+
+    fetch('/api/getBubbles', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ token: localStorage.getItem('token') })
+    }).then(res => {
+      res.json().then(data => {
+        setBubbles(data.bubbles);
+      });
+    });
   }, []);
+
+  useEffect(() => {
+  }, [bubbles]);
 
   /**
    * push entire coral state and override on database
@@ -191,7 +206,43 @@ export default function Dashboard() {
   }, [corals, pushCorals]);
 
   const subtractBalance = (amount: number) => {
+    fetch('/api/decBubbles', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        token: localStorage.getItem('token'),
+        amount: amount
+      })
+    }).then(res => {
+      if (res.status !== 200) {
+        localStorage.clear();
+        console.error(res);
+        navigate('/login');
+      }
+    });
     setBubbles((prevBubbles) => prevBubbles - amount);
+  };
+
+  const addBalance = (amount: number) => {
+    fetch('/api/incBubbles', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        token: localStorage.getItem('token'),
+        amount: amount
+      })
+    }).then(res => {
+      if (res.status !== 200) {
+        localStorage.clear();
+        console.error(res);
+        navigate('/login');
+      }
+    });
+    setBubbles((prevBubbles) => prevBubbles + amount);
   };
 
   const deleteCoral = useCallback((coralId: number) => {
@@ -243,7 +294,7 @@ export default function Dashboard() {
 
 
         <div id="mainContent">
-          <Timer bubbles={bubbles} setBubbles={setBubbles} />
+          <Timer bubbles={bubbles} addBalance={addBalance} />
           <Canvas shadows>
             <Reef coralsData={corals} cursorAvailable={cursorAvail} setCursorAvailable={setCursorAvail} createPopupCallback={createPopup} closePopupCallback={closePopup} deleteCoralCallback={deleteCoral} updateCoralCallback={updateCoral} />
           </Canvas>

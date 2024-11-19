@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 interface TimerProps {
   bubbles: number;
-  setBubbles: React.Dispatch<React.SetStateAction<number>>;
+  addBalance: (amount: number) => void;
 };
 
 export default function Timer(props: TimerProps) {
@@ -28,9 +28,9 @@ export default function Timer(props: TimerProps) {
     const interval = setInterval(() => {
       if (timeLeft.minutes > 0 && timeLeft.seconds == 1) {
         if (Math.random() > 0.5) {
-          props.setBubbles(prev => prev + 2);
+          props.addBalance(2);
         } else {
-          props.setBubbles(prev => prev + 1);
+          props.addBalance(4);
         }
       }
 
@@ -49,7 +49,7 @@ export default function Timer(props: TimerProps) {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isRunning, initialTimeLimit, props.bubbles, props.setBubbles, timeLeft]);
+  }, [isRunning, initialTimeLimit, props.bubbles, props.addBalance, timeLeft]);
 
   useEffect(() => {
     const totalSeconds = timeLimit.minutes * 60 + timeLimit.seconds;

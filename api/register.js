@@ -24,7 +24,8 @@ module.exports = async function registerHandler(req, res) {
                 password: hashedPass,
                 firstName: firstName,
                 lastName: lastName,
-                email: email
+                email: email,
+                bubbles: 50
             });
 
         res.status(201).json({ message: 'User registered successfully' });
