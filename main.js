@@ -12,7 +12,7 @@ const removeCoralHandler = require('./api/removeCoral');
 const crypt = require("node:crypto");
 const path = require("node:path");
 
-const SECRET_TOKEN = crypt.randomBytes(64).toString("hex");
+const SECRET_TOKEN = 'f7b658fea5d09bb6dea4f4638a44d2d07f440c16c56f3d3ac3320b735a315229be6024a2abce71ec2665ba6508f3f45d951a1d128f9eaad143d0e80d3cf74ab7';
 
 const app = express();
 

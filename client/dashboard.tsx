@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import Reef from './reef';
 import { StrictMode, useState, useCallback, useRef, useEffect } from 'react';
 import Store from './store';
+import Navbar from './navbar';
 import { CoralCallbacks, CoralData } from './coral';
 import { useNavigate } from 'react-router-dom';
 
@@ -233,12 +234,14 @@ export default function Dashboard() {
     <StrictMode>
       <div id="dashboard">
 
-        <div ref={popupRef}>
-          <button ref={moveButtonRef}>move</button>
-          <button ref={rotateButtonRef}>rotate</button>
-          <button ref={deleteButtonRef}>delete</button>
-          <button ref={closeButtonRef}>close</button>
+        <div ref={popupRef} className="popup-container">
+          <button ref={moveButtonRef} className="popup-button">move</button>
+          <button ref={rotateButtonRef} className="popup-button">rotate</button>
+          <button ref={deleteButtonRef} className="popup-button-delete">delete</button>
+          <button ref={closeButtonRef} className="popup-button">close</button>
         </div>
+
+
         <div id="mainContent">
           <Timer bubbles={bubbles} setBubbles={setBubbles} />
           <Canvas shadows>
@@ -246,8 +249,8 @@ export default function Dashboard() {
           </Canvas>
         </div>
         <Store spawnCoralCallback={spawnCoral} money={bubbles} subtractBalance={subtractBalance} />
-        <p>{bubbles}</p>
-      </div>
-    </StrictMode>
+        <Navbar />
+      </div >
+    </StrictMode >
   );
 }

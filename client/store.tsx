@@ -63,7 +63,10 @@ const Store: React.FC<StoreProps> = (props: StoreProps) => {
 
   return (
     <div className="storeWrapper">
-      <h3>Store</h3>
+      <h3 style={{ fontSize: '1.5rem',marginTop:9,marginBottom:2 }}>Store</h3>
+      <div className="bubble-bank" style={{ fontSize: '1rem', textAlign: 'center', color: 'white', marginBottom: '05px' }}>
+        Bubble Bank: 🫧
+      </div>
       <ul className="storeList">
         {coralTypes &&
           coralTypes.map((item, index) => (
