@@ -31,8 +31,7 @@ module.exports = async function removeCoralHandler(req, res) {
                     $pull: { corals: { coralId: req.body.coralId } }
                 }, {
                     upsert: true
-                }).then(val => {
-                    console.log(val);
+                }).then(() => {
                     return res.sendStatus(200);
                 }).catch(err => {
                     console.error(err);
