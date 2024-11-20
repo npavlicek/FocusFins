@@ -21,7 +21,7 @@ html {
     padding: 0;
     width: 100%;
     height: 100%;
-    background-image: url('res/blue2.png');
+    background-image:url('res/blue2.png');
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -31,11 +31,9 @@ html {
 #root {
     width: 100%;
     height: 100%;
-    font-family: 'Work Sans', sans-serif;
-    /* Less opaque */
-
     display: flex;
     flex-direction: column;
+    background: transparent; /* Ensure no background is applied here */
 }
 
 #dashboard {
@@ -46,6 +44,7 @@ html {
 
 /* Body Styling */
 .centeredCard {
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -61,12 +60,34 @@ html {
 /* ------------------------------------------------------------------------------------ */
 form {
     background-color: rgba(255, 255, 255, 0.9);
+
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     max-width: 19vw;
     width: 100%;
 }
+.registerBack{
+    background-color: #f0f8ff; /* Change this to your desired color */
+    background-image: url('res/blue.png'); /* Optional: Add an image */
+    background-size: cover; /* Ensures the background image covers the container */
+    background-position: center;
+    min-height: 100vh; /* Ensures it spans the full viewport height */
+    display: flex; /* Centers the content */
+    align-items: center;
+    justify-content: center;
+}
+.login-background {
+    background-color: #f0f8ff; /* Change this to your desired color */
+    background-image: url('res/blue.png'); /* Optional: Add an image */
+    background-size: cover; /* Ensures the background image covers the container */
+    background-position: center;
+    min-height: 100vh; /* Ensures it spans the full viewport height */
+    display: flex; /* Centers the content */
+    align-items: center;
+    justify-content: center;
+  }
+  
 
 .login-title {
     font-size: 36px;
@@ -732,3 +753,47 @@ li {
     background-color: rgba(166, 63, 65, 0.8);
     /* Darker red on hover */
 }
+
+
+
+  /* ------------------------------------------------------------------------------------ */
+/* -------------------------------------- LANDING PAGE -------------------------------------- */
+/* ------------------------------------------------------------------------------------ */
+
+  /* LandingPage.css */
+  .landingPage {
+    background-image: url('res/FocusFins.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Change alignment */
+    align-items: center;
+    background-color: #000715;
+    color: white;
+    text-align: center;
+    padding-top: 530px; /* Add padding to push everything down */
+}
+
+  .landingPage h1 {
+    margin-bottom: 10px;
+  }
+  
+  .lpLoginButton {
+    font-size: 21px;
+    margin-left: 60px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(0, 35 ,57,.7);
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+  }
+  
+  .lpLoginButton:hover {
+    background-color:rgba(0, 35, 57, 0.572);
+ }
+  

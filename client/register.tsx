@@ -86,6 +86,7 @@ export default function RegisterForm() {
   }
 
   return (
+    <div className="registerBack">
     <div className="centeredCard">
       <form onSubmit={doRegister} className="register-form">
         <h2 className="register-title">Register</h2>
@@ -172,6 +173,7 @@ export default function RegisterForm() {
           <Link to="/login" className="login-link">Login here!</Link>
         </div>
       </form>
+    </div>
     </div>
   );
 }

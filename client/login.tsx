@@ -74,6 +74,8 @@ export default function LoginForm() {
   }
 
   return (
+    <div className="login-background">
+
     <div className="centeredCard">
       <form onSubmit={doLogin}>
         <h2 className="login-title work-sans-login">Login</h2>
@@ -111,5 +113,7 @@ export default function LoginForm() {
         </div>
       </form>
     </div>
+    </div>
+
   );
 }
