@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 interface TimerProps {
   bubbles: number;
   addBalance: (amount: number) => void;
-};
+}
 
 export default function Timer(props: TimerProps) {
   const [timeLimit, setTimeLimit] = useState({ minutes: 25, seconds: 0 });
@@ -12,6 +12,7 @@ export default function Timer(props: TimerProps) {
   const [isRunning, setIsRunning] = useState(false);
   const [offset, setOffset] = useState(530);
   const [initialTimeLimit, setInitialTimeLimit] = useState(timeLimit);
+  const [isBreakMode, setIsBreakMode] = useState(false); // New state for break mode
   const navigate = useNavigate();
 
   const FULL_DASH_ARRAY = 315;
@@ -26,14 +27,6 @@ export default function Timer(props: TimerProps) {
     if (!isRunning) return;
 
     const interval = setInterval(() => {
-      if (timeLeft.minutes > 0 && timeLeft.seconds == 1) {
-        if (Math.random() > 0.5) {
-          props.addBalance(2);
-        } else {
-          props.addBalance(4);
-        }
-      }
-
       setTimeLeft((prev) => {
         const { minutes, seconds } = prev;
         if (seconds > 0) {
@@ -43,13 +36,14 @@ export default function Timer(props: TimerProps) {
         } else {
           clearInterval(interval);
           setIsRunning(false);
+          handleReset(); // Reset the timer when it runs out
           return { minutes: 0, seconds: 0 };
         }
       });
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isRunning, initialTimeLimit, props.bubbles, props.addBalance, timeLeft]);
+  }, [isRunning, props.bubbles, props.addBalance, timeLeft]);
 
   useEffect(() => {
     const totalSeconds = timeLimit.minutes * 60 + timeLimit.seconds;
@@ -81,16 +75,26 @@ export default function Timer(props: TimerProps) {
     setTimeLeft(timeLimit);
     setOffset(FULL_DASH_ARRAY);
     setIsRunning(false);
+    setIsBreakMode(false); // Reset break mode when resetting
   };
 
-
-
+  const handleToggleBreak = () => {
+    if (isBreakMode) {
+      // Switch to focus mode
+      setTimeLimit({ minutes: 25, seconds: 0 });
+      setTimeLeft({ minutes: 25, seconds: 0 });
+      setIsBreakMode(false);
+    } else {
+      // Switch to break mode
+      setTimeLimit({ minutes: 5, seconds: 0 });
+      setTimeLeft({ minutes: 5, seconds: 0 });
+      setIsBreakMode(true);
+    }
+    setIsRunning(false); // Stop timer if running
+  };
 
   return (
     <div className="timer-container">
-
-
-
       <div className="timer">
         <svg viewBox="0 0 120 120">
           <circle cx="60" cy="60" r="50" className="circle-background" />
@@ -98,10 +102,11 @@ export default function Timer(props: TimerProps) {
             cx="60"
             cy="60"
             r="50"
-            className="circle-foreground"
+            className={`circle-foreground ${isBreakMode ? 'break-mode' : ''}`} // Add class for break mode
             style={{
               strokeDasharray: FULL_DASH_ARRAY,
               strokeDashoffset: offset,
+              stroke: isBreakMode ? '#4f8e8b' : '#2c3e50', // Change circle color
             }}
           />
         </svg>
@@ -121,27 +126,33 @@ export default function Timer(props: TimerProps) {
                   backgroundColor: 'transparent',
                   border: 'none',
                   outline: 'none',
-                  //appearance: 'textfield',
-                  //MozAppearance: 'textfield',
-                  //WebkitAppearance: 'none',
                   paddingLeft: '10px',
                 }}
               />
               <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '-29px' }}>
                 <button
-                  onClick={() => setTimeLimit({ minutes: timeLimit.minutes + 5, seconds: 0 })}
+                  onClick={() =>
+                    setTimeLimit((prev) => ({
+                      minutes: Math.max(prev.minutes + 5, 0),
+                      seconds: 0,
+                    }))
+                  }
                   className="arrow-button"
                 >
                   ▲
                 </button>
                 <button
-                  onClick={() => setTimeLimit({ minutes: timeLimit.minutes > 0 ? timeLimit.minutes - 5 : 0, seconds: 0 })}
+                  onClick={() =>
+                    setTimeLimit((prev) => ({
+                      minutes: Math.max(prev.minutes - 5, 0),
+                      seconds: 0,
+                    }))
+                  }
                   className="arrow-button"
                 >
                   ▼
                 </button>
               </div>
-
               <span style={{ fontSize: '2.8rem', minWidth: '50px', textAlign: 'center', marginLeft: '4px' }}>
                 {String(timeLeft.seconds).padStart(2, '0')}
               </span>
@@ -165,6 +176,11 @@ export default function Timer(props: TimerProps) {
           </button>
           <button onClick={handleReset}>
             Reset
+          </button>
+        </div>
+        <div style={{ display: 'flex',color:'rgba(41, 108, 107, 0.9)', justifyContent: 'center', marginTop: '10px' }}>
+          <button onClick={handleToggleBreak}>
+            {isBreakMode ? 'Back to Focus' : 'Take a Break'}
           </button>
         </div>
       </div>
