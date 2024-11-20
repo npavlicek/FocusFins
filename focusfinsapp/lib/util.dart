@@ -1,9 +1,25 @@
+// Packages
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+/*--- Variables ---*/
+
 // Host Here EX: website.com (DONT USE '/' WILL BREAK LATER DOWN)
 String host = 'focusfins.org';
+
+String userUsername = '';
+String userId = '';
+String userFirstName = '';
+String userLastName = '';
+String jwt = '';
+
+int curBubbles = 0;
+
+// Color Pallete
+Color myPrimary = const Color.fromARGB(255, 56, 84, 91);
+Color mySecondary= const Color.fromARGB(255, 50, 30, 50);
+
 
 /*--- Classes ---*/
 
@@ -15,6 +31,12 @@ class API
 
   API(this.body, this.statuscode);
 }
+
+Icon bubbleIcon = 
+const Icon
+(
+  Icons.bubble_chart_outlined,
+);
 
 /*--- Functions ---*/
 
@@ -39,9 +61,85 @@ Future<API> callServer(Map<String, dynamic> reqBody, String api) async
     },
     body: jsonEncode(reqBody),
   );
-  API result = API(jsonDecode(response.body) as Map<String, dynamic>, response.statusCode);
-  return result;
+  if(response.body == 'OK') 
+  {
+    return API({'message': 'OK'} as Map<String, dynamic>, response.statusCode);
+  } 
+  return API(jsonDecode(response.body) as Map<String, dynamic>, response.statusCode);
 }
+
+// Returns the Number of Bubbles
+Future<String> getBubbles() async
+{
+  String id = '0'; // Need this too
+  Map<String, dynamic> reqBody = <String, dynamic> 
+  {
+    'id': id,
+    'token' : jwt,
+  };
+  API res = await callServer(reqBody, '/api/getBubbles');
+  if(res.statuscode != 200)
+  {
+    if(res.body.containsKey('error'))
+    {
+      return res.body['error'];
+    }
+    return 'Could Not Connect to Server?';
+  }
+  curBubbles = res.body['bubbles'];
+  return '';
+}
+
+// Increment Bubbles (Earned Bubbles from Timer)
+Future<bool> incBubbles(int amount) async
+{
+  Map<String, dynamic> reqBody = <String, dynamic>
+  {
+    'amount': amount,
+    'token' : jwt,
+  };
+
+  API res = await callServer(reqBody, '/api/incBubbles');
+  if(res.statuscode != 200)
+  {
+    if(res.body.containsKey('error'))
+    {
+      res.body['error'];
+    }
+    return false;
+  }
+  return true;
+}
+
+// Decreases Bubble Count (Bought Something From Store)
+Future<bool> decBubbles(int amount) async
+{
+  Map<String, dynamic> reqBody = <String, dynamic>
+  {
+    'amount' : amount,
+    'token' : jwt,
+  };
+  API res = await callServer(reqBody, '/api/decBubbles');
+  if(res.statuscode != 200)
+  {
+    if(res.body.containsKey('error'))
+    {
+      res.body['error'];
+    }
+    return false;
+  }
+  return true;
+}
+
+void setEmpty()
+{
+  userUsername = '';
+  userId = '';
+  jwt = '';
+  userFirstName = '';
+  userLastName = '';
+}
+
 
 // Checks if Password Follows ReGex Rules
 (bool, String) isPassword(String password)

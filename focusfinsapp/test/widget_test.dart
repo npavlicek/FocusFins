@@ -16,7 +16,7 @@ void main() {
 
   test('isPassword Function Test', () 
   {
-    expect(isPassword(''), (false, "\nPassword Too Short (8-20 Characters)\nNo Uppercase\nNo Lowercase\nNo Number\nNo Special Character"));
+    expect(isPassword(''), (false, '\nPassword Too Short (8-20 Characters)\nNo Uppercase\nNo Lowercase\nNo Number\nNo Special Character'));
     expect(isPassword('pass'), (false, '\nPassword Too Short (8-20 Characters)\nNo Uppercase\nNo Number\nNo Special Character'));
     expect(isPassword('0123456789ABCDEF!@#\$%'), (false, '\nPassword Too Long (8-20 Characters)\nNo Lowercase'));
     expect(isPassword('password'), (false, '\nNo Uppercase\nNo Number\nNo Special Character'));

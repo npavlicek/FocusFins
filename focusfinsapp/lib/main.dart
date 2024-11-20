@@ -1,9 +1,11 @@
+// Packages
 import 'package:flutter/material.dart';
+import 'package:focusfinsapp/util.dart';
 
 // Pages
 import 'package:focusfinsapp/login.dart';
 import 'package:focusfinsapp/register.dart';
-import 'package:focusfinsapp/timer.dart';
+import 'package:focusfinsapp/home.dart';
 
 void main() 
 {
@@ -19,14 +21,18 @@ class MyApp extends StatelessWidget
       title: 'Focus Fins App',
       theme: ThemeData
       (
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
+        colorScheme: ColorScheme.dark
+        (
+          primary: myPrimary,
+          secondary: mySecondary,
+        ),
         useMaterial3: true,
       ),
       home: const MyLogin(),
       routes: <String, WidgetBuilder>
       {
         '/Register' : (BuildContext context) => const MyRegister(),
-        '/Timer' : (BuildContext context) => const MyTimer(),
+        '/Home' : (BuildContext context) => const MyHome(),
       }
     );
   }

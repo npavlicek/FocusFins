@@ -11,8 +11,8 @@ class MyLogin extends StatefulWidget
 
 class _MyLoginState extends State<MyLogin>
 {
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   String errorMessage = '';
   String passwordError = '';
 
@@ -31,7 +31,7 @@ class _MyLoginState extends State<MyLogin>
 
   void switchToTimerPage()
   {
-    Navigator.pushNamed(context, '/Timer');
+    Navigator.pushNamed(context, '/Home');
   }
 
   // void passwordChanged()
@@ -69,7 +69,7 @@ class _MyLoginState extends State<MyLogin>
     // });
     // if(flag) return;
 
-    final reqBody =  <String, String>
+    Map<String, dynamic> reqBody =  <String, String>
     {
       'username': username,
       'password' : password,
@@ -87,7 +87,13 @@ class _MyLoginState extends State<MyLogin>
           {errorMessage = result.body['error'];}
         return;
       }
-      errorMessage = 'Success';
+      errorMessage = '';
+      userUsername = username;
+      userId = result.body['id'];
+      userFirstName = result.body['firstName'];
+      userLastName = result.body['lastName'];
+      jwt = result.body['token'];
+      getBubbles();
       switchToTimerPage();
       return;
     });
@@ -120,12 +126,12 @@ class _MyLoginState extends State<MyLogin>
                     textScaler: TextScaler.linear(3),
                     'Login'
                   ),
+                  Text(errorMessage),
                   TextBox(controller: usernameController, label: 'Username',),
                   PasswordTextBox(controller: passwordController, label: 'Password', passwordChanged: () {},),
                   ElevatedButton(onPressed: submitLogin, child: const Text('Submit')),
                   ElevatedButton(onPressed: switchToRegisterPage, child: const Text('New to FocusFins?')),
-                  Text(passwordError),
-                  Text(errorMessage),
+                  // Text(passwordError),
                 ],
               ),
             ),

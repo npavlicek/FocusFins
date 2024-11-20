@@ -17,6 +17,8 @@ samples, guidance on mobile development, and a full API reference.
 - Unit Testing is under /test/widget_test.dart
 
 ## TODO
-- [ ] Timer Page
-- [X] When Logged in go to Timer Page
-- [X] Input Checks
+- [ ] Password Reset
+- [ ] Email Validation
+- [ ] Reef 3D
+- [ ] Friends?
+- [ ] Make App Look Good
