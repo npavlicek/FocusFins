@@ -363,9 +363,9 @@ button {
 
 /* Specific styles for each button(start pause reser */
 .controls button:nth-child(1) {
-    background-color: rgba(41, 75, 108, 0.8);
+    background-color:  rgba(50, 88 ,95,.95);;
     color: white;
-    border-color: rgba(41, 75, 108, 0.8);
+    border-color:  rgba(50, 88 ,95,.5);;
 }
 
 .controls button:nth-child(2) {

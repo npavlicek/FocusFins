@@ -106,7 +106,7 @@ export default function Timer(props: TimerProps) {
             style={{
               strokeDasharray: FULL_DASH_ARRAY,
               strokeDashoffset: offset,
-              stroke: isBreakMode ? '#4f8e8b' : '#2c3e50', // Change circle color
+              stroke: isBreakMode ? '#296C6B' : '#2c3e50', // Change circle color
             }}
           />
         </svg>
@@ -153,7 +153,7 @@ export default function Timer(props: TimerProps) {
                   ▼
                 </button>
               </div>
-              <span style={{ fontSize: '2.8rem', minWidth: '50px', textAlign: 'center', marginLeft: '4px' }}>
+              <span style={{ fontSize: '2.6rem', minWidth: '50px', textAlign: 'center', marginLeft: '8px' }}>
                 {String(timeLeft.seconds).padStart(2, '0')}
               </span>
             </div>
@@ -179,9 +179,20 @@ export default function Timer(props: TimerProps) {
           </button>
         </div>
         <div style={{ display: 'flex',color:'rgba(41, 108, 107, 0.9)', justifyContent: 'center', marginTop: '10px' }}>
-          <button onClick={handleToggleBreak}>
-            {isBreakMode ? 'Back to Focus' : 'Take a Break'}
-          </button>
+        <button
+  onClick={handleToggleBreak}
+  style={{
+    backgroundColor: isBreakMode ? '#296C6B' : 'rgb(41, 75, 108)', // Different background for break and focus modes
+    color: '#fff', // Ensure text is visible
+    border: 'none',
+    padding: '5px 15px', // Adjust to match original button size
+    borderRadius: '5px',
+    cursor: 'pointer',
+  }}
+>
+  {isBreakMode ? 'Back to Focus' : 'Take a Break'}
+</button>
+
         </div>
       </div>
     </div>

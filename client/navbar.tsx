@@ -8,7 +8,7 @@ export default function Navbar() {
 
     const handleLogout = () => {
         localStorage.clear();
-        navigate('/login');
+        navigate('/');
     };
 
     const handleSearch = (e: React.FormEvent) => {
