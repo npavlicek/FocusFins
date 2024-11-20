@@ -10,9 +10,9 @@ export default function Navbar() {
         navigate('/login');
     };
 
-    const handleSearch = (e) => {
+    const handleSearch = (e: any) => {
         e.preventDefault();
-        console.log('Search for:', searchTerm); 
+        console.log('Search for:', searchTerm);
         //^^^ Replace with search api when ready
     };
 
@@ -24,13 +24,13 @@ export default function Navbar() {
             <form onSubmit={handleSearch} className="search-form">
                 <input
                     type="text"
-                    placeholder="Search for friends..."
+                    placeholder="Visit a friends reef..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="search-input"
                 />
                 <button type="submit" className="search-button">
-                    Search
+                    Visit
                 </button>
             </form>
         </div>

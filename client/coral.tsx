@@ -36,7 +36,6 @@ interface CoralProps {
 interface CoralCallbacks {
   moveButtonHandler: (e: MouseEvent) => void;
   rotateButtonHandler: (e: MouseEvent) => void;
-  closeButtonHandler: (e: MouseEvent) => void;
   deleteButtonHandler: (e: MouseEvent) => void;
 };
 
@@ -115,10 +114,11 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
     gl.domElement.addEventListener('click', handleClickFinishRot);
   }, [props.closePopupCallback, rotating, handleMouseMoveRot, handleClickFinishRot]);
 
-  const closeButtonClicked = useCallback((e: MouseEvent) => {
+  const closePopupHandler = useCallback((e: MouseEvent) => {
     setSelected(false);
     props.closePopupCallback();
     props.setCursorAvailable(true);
+    gl.domElement.removeEventListener('click', closePopupHandler);
   }, []);
 
   const handleClick = useCallback((e: ThreeEvent<MouseEvent>) => {
@@ -127,7 +127,6 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
       const coralCallbacks: CoralCallbacks = {
         moveButtonHandler: moveButtonClicked,
         rotateButtonHandler: rotateButtonClicked,
-        closeButtonHandler: closeButtonClicked,
         deleteButtonHandler: (e: MouseEvent) => {
           props.closePopupCallback();
           props.setCursorAvailable(true);
@@ -136,6 +135,7 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
       };
       props.createPopupCallback(e.x, e.y + window.scrollY, coralCallbacks);
       props.setCursorAvailable(false);
+      gl.domElement.addEventListener('click', closePopupHandler);
       setSelected(true);
     } else if (selected) {
       props.setCursorAvailable(true);
@@ -159,7 +159,7 @@ const Coral: React.FC<CoralProps> = (props: CoralProps) => {
 
   return (
     <>
-      {meshRef.current && selected && <Outline selection={[meshRef.current]} blendFunction={BlendFunction.ALPHA} visibleEdgeColor={0xFF0000} hiddenEdgeColor={0xFFFFFF} blur={false} edgeStrength={2} />}
+      {meshRef.current && selected && <Outline selection={[meshRef.current]} blendFunction={BlendFunction.ALPHA} visibleEdgeColor={0xFFFFFF} hiddenEdgeColor={0x999999} blur={false} edgeStrength={2} />}
       <mesh ref={meshRef} onClick={handleClick} />
     </>
   );

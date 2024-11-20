@@ -1,10 +1,8 @@
 const { MongoClient, ObjectId } = require('mongodb');
-const jwt = require('jsonwebtoken');
 
 module.exports = async function getCoralsHandler(req, res) {
-    if (!req.body.id) {
+    if (!req.body.id)
         return res.status(400).json({ error: "Invalid request" });
-    }
 
     const dbClient = new MongoClient(process.env.MONGODB_URI);
     try {

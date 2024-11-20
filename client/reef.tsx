@@ -40,19 +40,20 @@ const Reef: React.FC<ReefProps> = (props: ReefProps) => {
   }, []);
 
   useEffect(() => {
+    const scale = 1.0;
     if (camRef.current) {
       const aspect = size.width / size.height;
       const camWidth = 2;
       const camHeight = camWidth / aspect;
-      camRef.current.top = camHeight / 2;
-      camRef.current.bottom = -camHeight / 2;
-      camRef.current.left = -camWidth / 2;
-      camRef.current.right = camWidth / 2;
+      camRef.current.top = (camHeight / 2) * scale;
+      camRef.current.bottom = -camHeight / 2 * scale;
+      camRef.current.left = -camWidth / 2 * scale;
+      camRef.current.right = camWidth / 2 * scale;
       camRef.current.near = 0.001;
       camRef.current.far = 500;
       camRef.current.position.z = 1 * 50;
       camRef.current.position.x = 1 * 50;
-      camRef.current.position.y = 0.75 * 50;
+      camRef.current.position.y = 0.50 * 50;
       camRef.current.lookAt(0, 0, 0);
       camRef.current.updateProjectionMatrix();
       set({ camera: camRef.current });
@@ -74,9 +75,8 @@ const Reef: React.FC<ReefProps> = (props: ReefProps) => {
       }
     </EffectComposer>
     <Sand setSandMesh={setSandMesh} />
-    <ambientLight intensity={1.0} color={0xCCF9FF} />
+    <ambientLight intensity={2.0} color={0xCCF9FF} />
     <directionalLight ref={lightRef} />
-    <ambientLight />
   </>
   )
 }

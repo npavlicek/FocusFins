@@ -16,7 +16,6 @@ export default function Dashboard() {
   const moveButtonRef = useRef<HTMLButtonElement>(null);
   const rotateButtonRef = useRef<HTMLButtonElement>(null);
   const deleteButtonRef = useRef<HTMLButtonElement>(null);
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -268,8 +267,6 @@ export default function Dashboard() {
         moveButtonRef.current.onclick = coralCallbacks.moveButtonHandler;
       if (rotateButtonRef.current)
         rotateButtonRef.current.onclick = coralCallbacks.rotateButtonHandler;
-      if (closeButtonRef.current)
-        closeButtonRef.current.onclick = coralCallbacks.closeButtonHandler;
       if (deleteButtonRef.current)
         deleteButtonRef.current.onclick = coralCallbacks.deleteButtonHandler;
     }
@@ -289,9 +286,7 @@ export default function Dashboard() {
           <button ref={moveButtonRef} className="popup-button">move</button>
           <button ref={rotateButtonRef} className="popup-button">rotate</button>
           <button ref={deleteButtonRef} className="popup-button-delete">delete</button>
-          <button ref={closeButtonRef} className="popup-button">close</button>
         </div>
-
 
         <div id="mainContent">
           <Timer bubbles={bubbles} addBalance={addBalance} />
