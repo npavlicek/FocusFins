@@ -13,22 +13,23 @@ module.exports = async function registerHandler(req, res) {
 
         const existingUser = await db.collection('users').findOne({ username: username });
 
-        if (existingUser)
-            return res.status(400).json({ error: 'User already exists' });
+        if (existingUser) {
+            res.status(400).json({ error: 'User already exists' });
+        } else {
+            const hashedPass = await bcrypt.hash(password, 10);
 
-        const hashedPass = await bcrypt.hash(password, 10);
+            await db.collection('users').insertOne(
+                {
+                    username: username,
+                    password: hashedPass,
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    bubbles: 50
+                });
 
-        await db.collection('users').insertOne(
-            {
-                username: username,
-                password: hashedPass,
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                bubbles: 50
-            });
-
-        res.status(201).json({ message: 'User registered successfully' });
+            res.status(201).json({ message: 'User registered successfully' });
+        }
     } catch (err) {
         console.error("Error at /api/register route: " + err);
         res.status(500).json({ error: "Internal server error" });

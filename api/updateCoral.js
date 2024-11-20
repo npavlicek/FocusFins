@@ -6,41 +6,36 @@ module.exports = async function updateCoralHandler(req, res) {
         return res.status(400).json({ error: "Invalid request" });
     }
 
+    const dbClient = new MongoClient(process.env.MONGODB_URI);
     try {
-        const dbClient = new MongoClient(process.env.MONGODB_URI);
         await dbClient.connect();
         let db = dbClient.db("FocusFins");
 
-        jwt.verify(req.body.token, req.secretToken, (err, decoded) => {
-            if (err) {
-                res.status(401).json({ error: "Unauthenticated" });
-            } else {
+        const decoded = jwt.verify(req.body.token, req.secretToken);
 
-                /**
-                 * {
-                *   token: <token>,
-                *   coralId: id
-                *   coral: {
-                *       <coral data>
-                *   }
-                 */
+        /**
+         * {
+        *   token: <token>,
+        *   coralId: id
+        *   coral: {
+        *       <coral data>
+        *   }
+         */
 
-                db.collection('reefs').updateOne({
-                    userId: decoded.id,
-                    "corals.coralId": req.body.coralId
-                }, {
-                    $set: { "corals.$": req.body.coral }
-                }, {
-                    upsert: true
-                }).then(() => {
-                    res.sendStatus(200);
-                }).catch(err => {
-                    throw new Error(err);
-                });
-            }
+        await db.collection('reefs').updateOne({
+            userId: decoded.id,
+            "corals.coralId": req.body.coralId
+        }, {
+            $set: { "corals.$": req.body.coral }
+        }, {
+            upsert: true
         });
+
+        res.sendStatus(200);
     } catch (err) {
         console.error("Error at /api/updateCoral route: " + err);
         res.status(500).json({ error: "Internal server error" });
+    } finally {
+        await dbClient.close();
     }
 }

@@ -15,13 +15,13 @@ module.exports = async function getBubblesHandler(req, res) {
         const user = await db.collection('users').findOne({ _id: new ObjectId(decoded.id) });
 
         if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+            res.status(404).json({ error: 'User not found' });
+        } else {
+            res.status(200).json({ bubbles: user.bubbles });
         }
-
-        return res.status(200).json({ bubbles: user.bubbles });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: 'Internal server error' });
     } finally {
         await client.close();
     }

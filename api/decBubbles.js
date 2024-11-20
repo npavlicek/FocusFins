@@ -17,13 +17,13 @@ module.exports = async function decBubblesHandler(req, res) {
         });
 
         if (dbRes.modifiedCount === 1) {
-            return res.sendStatus(200);
+            res.sendStatus(200);
         } else {
-            return res.status(400).json({ error: 'user does not exist' });
+            res.status(400).json({ error: 'user does not exist' });
         }
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: 'Internal server error' });
     } finally {
         await client.close();
     }

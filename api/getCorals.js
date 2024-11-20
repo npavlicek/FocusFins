@@ -6,43 +6,33 @@ module.exports = async function getCoralsHandler(req, res) {
         return res.status(400).json({ error: "Invalid request" });
     }
 
+    const dbClient = new MongoClient(process.env.MONGODB_URI);
     try {
-        const dbClient = new MongoClient(process.env.MONGODB_URI);
         await dbClient.connect();
         let db = dbClient.db("FocusFins");
 
-        db.collection('reefs').findOne({ userId: req.body.id }).then(val => {
-            if (val) {
-                res.status(200).json(val);
+        const reef = await db.collection('reefs').findOne({ userId: req.body.id });
+        if (reef) {
+            res.status(200).json(reef);
+        } else {
+            const user = await db.collection('users').findOne({ _id: new ObjectId(req.body.id) });
+            if (user) {
+                const newReefRecord = {
+                    userId: req.body.id,
+                    currentCoralIdx: 0,
+                    corals: []
+                };
+                await db.collection('reefs').insertOne(newReefRecord);
+                res.status(200).json(newReefRecord);
             } else {
-                db.collection('users').findOne({ _id: new ObjectId(req.body.id) }).then(val => {
-                    if (val) {
-                        db.collection('reefs').insertOne({
-                            userId: req.body.id,
-                            currentCoralIdx: 0,
-                            corals: []
-                        }).then(val => {
-                            res.status(200).json({
-                                userId: req.body.id,
-                                currentCoralIdx: 0,
-                                corals: []
-                            });
-                        }).catch(err => {
-                            throw new Error(err);
-                        });
-                    } else {
-                        throw new Error("user does not exist");
-                    }
-                }).catch(err => {
-                    throw new Error(err);
-                });
+                res.status(400).json({ error: "user does not exist" });
             }
-        }).catch(err => {
-            console.error(err);
-            return res.status(500).json({ error: "Internal server error" });
-        });
+        }
     } catch (err) {
         console.error("Error at /api/updateCorals route: " + err);
-        return res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ error: "Internal server error" });
+    } finally {
+        await dbClient.close();
     }
+
 }
