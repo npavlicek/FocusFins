@@ -15,7 +15,7 @@ export default function Timer(props: TimerProps) {
   const [isBreakMode, setIsBreakMode] = useState(false); // New state for break mode
   const navigate = useNavigate();
 
-  const FULL_DASH_ARRAY = 315;
+  const FULL_DASH_ARRAY = 313;
 
   useEffect(() => {
     setTimeLeft(timeLimit);
@@ -153,7 +153,7 @@ export default function Timer(props: TimerProps) {
                   ▼
                 </button>
               </div>
-              <span style={{ fontSize: '2.6rem', minWidth: '50px', textAlign: 'center', marginLeft: '8px' }}>
+              <span style={{ fontSize: '2.3rem', minWidth: '50px', textAlign: 'center', marginLeft: '8px' }}>
                 {String(timeLeft.seconds).padStart(2, '0')}
               </span>
             </div>
