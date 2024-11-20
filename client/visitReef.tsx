@@ -54,6 +54,7 @@ const VisitReefWrapper: React.FC = () => {
   return (
     <>
       {isError && <p>User does not exist!</p>}
+      <h1 style={{ color: 'white', position: 'absolute', top: '15px', left: '50px', zIndex: 99 }}>{searchParams.get('username')}'s Reef</h1 >
       <Canvas shadows>
         <VisitReef coralsData={coralsData} />
       </Canvas>
@@ -92,7 +93,11 @@ const VisitReef: React.FC<VisitReefProps> = (props: VisitReefProps) => {
   const sandMeshRef = useRef<Mesh | null>(null);
   const camRef = useRef<OrthographicCamera | null>(null);
   const lightRef = useRef<DirectionalLight>(null);
-  const { scene, size, set } = useThree();
+  const { scene, size, set, gl } = useThree();
+
+  useEffect(() => {
+    gl.domElement.style.marginTop = '15vh';
+  }, []);
 
   useEffect(() => {
     if (lightRef.current) {

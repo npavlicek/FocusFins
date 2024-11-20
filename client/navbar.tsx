@@ -12,8 +12,7 @@ export default function Navbar() {
 
     const handleSearch = (e: any) => {
         e.preventDefault();
-        console.log('Search for:', searchTerm);
-        //^^^ Replace with search api when ready
+        navigate(`/visitReef?username=${searchTerm}`);
     };
 
     return (
