@@ -194,7 +194,7 @@ input[type="submit"]:focus {
 
 /* Timer Page Styling */
 .timer-container {
-    margin-top: 60px;
+    margin-top: 20px;
     flex-direction: column;
     align-items: center;
     margin-right: 1%;
@@ -409,6 +409,7 @@ input[type="number"]::-webkit-outer-spin-button {
 /* Logout button */
 .logout-button {
     padding: 8px 16px;
+    margin-top: 10px;
     font-size: 1rem;
     background-color: rgba(166, 63, 65, 0.624);
     color: #fff;
@@ -478,11 +479,11 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .store-button {
     margin-left: auto; /* Push the button to the right within the navbar */
-
     position: absolute;
-    top: 10px;
+    top: 5px;
     right: 0px;
     padding: 8px 16px;
+    margin-top: -5px; 
     font-size: 1rem;
     background-color: rgba(41, 75, 108, 0.8);
     color: #fff;
@@ -501,6 +502,27 @@ input[type="number"]::-webkit-outer-spin-button {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
+.find-friends-button{
+    padding: 8px 16px;
+    font-size: 1rem;
+    margin-top:10px;
+    background-color: rgba(50, 88 ,95,.8);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.close-button {
+    padding: 2px;
+    padding-left: -5px;
+    background: none;
+    border: transparent;
+    border-radius: 1px;
+    font-size: 12px;
+    cursor: pointer;
+    color:rgba(166, 63, 65, 0.8);}
 /*#296c6b green    #a63f41  red*/
 
 
