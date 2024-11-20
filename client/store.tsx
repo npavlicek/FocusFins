@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, MouseEvent } from 'react';
+import { useState, useEffect, useCallback, MouseEvent } from 'react';
 
 interface CoralType {
   modelId: number;
@@ -46,6 +46,11 @@ const coralPrices: number[] = [
 
 const Store: React.FC<StoreProps> = (props: StoreProps) => {
   const [coralTypes, setCoralTypes] = useState<CoralType[]>();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleStore = () => {
+    setIsOpen(!isOpen);
+  };
 
   const purchaseCoral = useCallback((coralType: CoralType) => {
     if (props.money >= coralType.price) {
@@ -66,20 +71,28 @@ const Store: React.FC<StoreProps> = (props: StoreProps) => {
   }, []);
 
   return (
-    <div className="storeWrapper">
-      <h3 style={{ fontSize: '1.5rem', marginTop: 9, marginBottom: 2 }}>Store</h3>
-      <div className="bubble-bank" style={{ fontSize: '1rem', textAlign: 'center', color: 'white', marginBottom: '05px' }}>
-        Bubble Bank: {props.money} 🫧
-      </div>
-      <ul className="storeList">
-        {coralTypes &&
-          coralTypes.map((item, index) => (
-            <StoreItem key={index} coralType={item} purchaseCoralCallback={purchaseCoral} />
-          ))
-        }
-      </ul>
-    </div >
+    <div className="storeContainer">
+      <button onClick={toggleStore} className="store-toggle-button">
+        {isOpen ? 'Close Store' : 'Open Store'}
+      </button>
+      {isOpen && (
+        <div className={`storeWrapper ${isOpen ? 'store-open' : ''}`}>
+          <h3 style={{ fontSize: '1.5rem', marginTop: 9, marginBottom: 2 }}>Store</h3>
+          <div className="bubble-bank" style={{ fontSize: '1rem', textAlign: 'center', color: 'white', marginBottom: '5px' }}>
+            Bubble Bank: {props.money} 🫧
+          </div>
+          <ul className="storeList">
+            {coralTypes &&
+              coralTypes.map((item, index) => (
+                <StoreItem key={index} coralType={item} purchaseCoralCallback={purchaseCoral} />
+              ))
+            }
+          </ul>
+        </div>
+      )}
+    </div>
   );
+  
 }
 
 export default Store;

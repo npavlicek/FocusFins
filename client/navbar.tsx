@@ -10,7 +10,7 @@ export default function Navbar() {
         navigate('/login');
     };
 
-    const handleSearch = (e) => {
+    const handleSearch = (e: any) => {
         e.preventDefault();
         console.log('Search for:', searchTerm); 
         //^^^ Replace with search api when ready
