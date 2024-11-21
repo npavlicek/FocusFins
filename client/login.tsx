@@ -25,7 +25,6 @@ export default function LoginForm() {
     });
 
     if (localStorage.getItem('logged-in') === 'true') {
-      console.log("NAVIGAING");
       navigate('/dashboard');
     }
   }, []);
@@ -34,14 +33,13 @@ export default function LoginForm() {
   React.useEffect(() => {
     const params = new URLSearchParams(location.search);
     if (params.get('registered') === 'true') {
-      setSuccessMessage('Registration successful! Login here.');
+      setSuccessMessage('Registration successful. Please check your email for a verification link!');
     }
   }, [location]);
 
   function doLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setErrorMessage(''); // Clear any previous error message
-    console.log("HERE");
 
     fetch('/api/login', {
       method: 'POST',
@@ -63,7 +61,13 @@ export default function LoginForm() {
           console.error(err);
         });
       } else {
-        setErrorMessage('Invalid username or password');
+        res.json().then(data => {
+          if (data.emailVerified === false) {
+            setErrorMessage("Please verify your email!");
+          } else {
+            setErrorMessage("Invalid username or password!");
+          }
+        });
       }
     }).catch(err => {
       setErrorMessage('An error occurred. Please try again later.');
@@ -107,6 +111,10 @@ export default function LoginForm() {
           <span className="small-text">New to FocusFins?</span>
           <Link to="/register">
             <button type="button" className="register-button">Register here!</button>
+          </Link>
+          or
+          <Link to="/resetPassword">
+            <button type="button" className="register-button">Reset your password</button>
           </Link>
         </div>
       </form>

@@ -3,7 +3,7 @@ const { MongoClient, ObjectId } = require('mongodb');
 
 module.exports = async function getBubblesHandler(req, res) {
     if (req.body.token === undefined) {
-        res.status(400).json({ error: 'invalid request' });
+        return res.status(400).json({ error: 'invalid request' });
     }
 
     const client = new MongoClient(process.env.MONGODB_URI);

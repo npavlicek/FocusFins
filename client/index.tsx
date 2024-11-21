@@ -4,6 +4,8 @@ import LoginForm from './login';
 import Dashboard from './dashboard';
 import Register from './register';
 import VisitReefWrapper from './visitReef';
+import ResetPassword from './resetPassword';
+import Verify from './verify';
 import './styles.css';
 
 const root = document.getElementById('root')!;
@@ -30,6 +32,14 @@ const router = createBrowserRouter([
   {
     path: '/visitReef',
     element: <VisitReefWrapper />
+  },
+  {
+    path: '/resetPassword',
+    element: <ResetPassword />
+  },
+  {
+    path: '/verify',
+    element: <Verify />
   }
 ]);
 

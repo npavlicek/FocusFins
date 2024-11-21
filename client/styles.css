@@ -81,7 +81,8 @@ form div {
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="email"] {
     width: 100%;
     padding: 15px;
     border: 2px solid #dde6ec;
@@ -91,7 +92,8 @@ input[type="password"] {
 }
 
 input[type="text"]:focus,
-input[type="password"]:focus {
+input[type="password"]:focus,
+input[type="email"]:focus {
     border-color: #66afe9;
     box-shadow: 0 0 5px rgba(102, 175, 233, 0.5);
     outline: none;

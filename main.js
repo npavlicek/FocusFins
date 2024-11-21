@@ -13,6 +13,7 @@ const getBubblesHandler = require('./api/getBubbles');
 const decBubblesHandler = require('./api/decBubbles');
 const incBubblesHandler = require('./api/incBubbles');
 const getCoralsByUsernameHandler = require('./api/getCoralsByUsername');
+const verifyEmailHandler = require('./api/verifyEmail');
 const crypt = require("node:crypto");
 const path = require("node:path");
 
@@ -39,6 +40,7 @@ app.post('/api/getBubbles', getBubblesHandler);
 app.post('/api/decBubbles', decBubblesHandler);
 app.post('/api/incBubbles', incBubblesHandler);
 app.post('/api/getCoralsByUsername', getCoralsByUsernameHandler);
+app.post('/api/verifyEmail', verifyEmailHandler);
 
 app.get('*', (req, res) => {
 	res.sendFile(path.join(__dirname, 'build/index.html'));
