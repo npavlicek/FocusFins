@@ -511,6 +511,7 @@ input[type="number"]::-webkit-outer-spin-button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Drop shadow added */
     transition: background-color 0.3s ease;
 }
 .find-friends-button:hover{
@@ -761,7 +762,6 @@ li {
     margin: 10px auto; /* Center the button */
     padding: 8px 16px;
     font-size: 1rem;
-    width: 150px; /* Ensure consistent width */
     text-align: center; /* Center text inside the button */
     background-color: rgba(41, 75, 108, 0.8);
     color: #fff;
@@ -878,4 +878,75 @@ li {
   .lpLoginButton:hover {
     background-color:rgba(0, 35, 57, 0.572);
  }
+  
+   /* ------------------------------------------------------------------------------------ */
+/* -------------------------------------- MUSIC -------------------------------------- */
+/* ------------------------------------------------------------------------------------ */
+
+.study-sounds-button {
+    padding: 8px 16px;
+    margin-top: 20px;
+    margin-left: 920px;
+    font-size: 1.02rem;
+    background-color: rgba(50, 88, 95, 0.95);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Drop shadow added */
+}
+
+.study-sounds-button:hover {
+    background-color: rgba(50, 88, 95, 1); /* Slightly darker on hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .popup-content h2 {
+    margin-top: 0;
+  }
+  
+  .popup-content ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .popup-content li {
+    margin: 10px 0;
+  }
+  
+  .popup-content button {
+/* Logout button */
+    padding: 8px 16px;
+    margin-top: 15px;
+    font-size: 1rem;
+    background-color: rgba(166, 63, 65, 0.624);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+  }
   
