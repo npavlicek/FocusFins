@@ -7,6 +7,7 @@ interface CoralType {
 };
 
 interface StoreItemProps {
+  index: number;
   coralType: CoralType;
   purchaseCoralCallback: (coralType: CoralType) => void;
 };
@@ -17,9 +18,12 @@ const StoreItem: React.FC<StoreItemProps> = (props: StoreItemProps) => {
     props.purchaseCoralCallback(props.coralType);
   }, [props.purchaseCoralCallback]);
 
+  const path = `/public/${props.index}.png`;
+
   return (
     <a className="storeListItem" href="#" onClick={clickHandler}>
       <li>
+        <img width={75} src={path} />
         {props.coralType.name} - {props.coralType.price} 🫧
       </li>
     </a>
@@ -74,7 +78,7 @@ const Store: React.FC<StoreProps> = (props: StoreProps) => {
       <ul className="storeList">
         {coralTypes &&
           coralTypes.map((item, index) => (
-            <StoreItem key={index} coralType={item} purchaseCoralCallback={purchaseCoral} />
+            <StoreItem key={index} coralType={item} index={index} purchaseCoralCallback={purchaseCoral} />
           ))
         }
       </ul>
