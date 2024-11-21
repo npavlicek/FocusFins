@@ -883,10 +883,20 @@ li {
 /* -------------------------------------- MUSIC -------------------------------------- */
 /* ------------------------------------------------------------------------------------ */
 
-.study-sounds-button {
+
+
+
+
+  /*STUDY SOUNDS STYLING*/
+  .studySoundsContainer {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .study-sounds-toggle-button {
     padding: 8px 16px;
     margin-top: 20px;
-    margin-left: 920px;
+    margin-left: 910px;
     font-size: 1.02rem;
     background-color: rgba(50, 88, 95, 0.95);
     color: #fff;
@@ -895,58 +905,54 @@ li {
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Drop shadow added */
-}
-
-.study-sounds-button:hover {
-    background-color: rgba(50, 88, 95, 1); /* Slightly darker on hover */
+  }
+  .study-sounds-button:hover{
+    background-color: rgba(50, 88, 95, .6); /* Slightly darker on hover */
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
-}
-
-.popup-overlay {
-    position: fixed;
-    top: 0;
+  }
+  
+  .studySoundsWrapper {
+    position: absolute;
+    top: calc(100% + 10px); /* Positioning under the button */
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .popup-content {
-    background: white;
-    padding: 20px;
+    margin-left: 910px;
+    background: transparent;
     border-radius: 8px;
-    width: 300px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    padding: 20px;
+    z-index: 10;
+  }
+
+  .titleSong{
+     font-size: 1.5rem;
+      margin: 10px 0;
+      color:white;
   }
   
-  .popup-content h2 {
-    margin-top: 0;
-  }
-  
-  .popup-content ul {
+  .studySoundsList {
     list-style: none;
+    color:white;
     padding: 0;
+    margin: 0;
   }
   
-  .popup-content li {
+  .studySoundsListItem {
     margin: 10px 0;
   }
   
-  .popup-content button {
-/* Logout button */
-    padding: 8px 16px;
-    margin-top: 15px;
-    font-size: 1rem;
-    background-color: rgba(166, 63, 65, 0.624);
-    color: #fff;
+  .studySoundsListItem button {
+    background: #007bff;
+    color: white;
     border: none;
-    border-radius: 5px;
+    padding: 10px 15px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-
+    width: 100%;
   }
+  
+  .studySoundsListItem button:hover {
+    background: #0056b3;
+  }
+  
   

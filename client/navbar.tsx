@@ -1,19 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const songs = [
-  { name: 'Focus Song 1', url: '/public/song1.mp3' }, // Place this in the public folder
+  { name: 'Focus Song 1', url: '//song1.mp3' },
   { name: 'Focus Song 2', url: 'https://example.com/song2.mp3' },
   { name: 'Focus Song 3', url: 'https://example.com/song3.mp3' },
 ];
 
-function StudySoundsPopup({ isVisible, onClose }: { isVisible: boolean; onClose: () => void }) {
+function StudySounds({ money }: { money: number }) {
+  const [isOpen, setIsOpen] = useState(false);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+  };
 
   const handlePlay = (url: string) => {
     if (audio) {
-      audio.pause(); // Stop the currently playing audio
-      audio.currentTime = 0; // Reset playback position
+      audio.pause();
+      audio.currentTime = 0;
     }
     const newAudio = new Audio(url);
     setAudio(newAudio);
@@ -22,30 +27,23 @@ function StudySoundsPopup({ isVisible, onClose }: { isVisible: boolean; onClose:
     });
   };
 
-  useEffect(() => {
-    return () => {
-      if (audio) {
-        audio.pause(); // Pause audio when the component is unmounted
-        setAudio(null);
-      }
-    };
-  }, [audio]);
-
-  if (!isVisible) return null;
-
   return (
-    <div className="popup-overlay">
-      <div className="popup-content">
-        <h2>Study Sounds</h2>
-        <ul>
-          {songs.map((song, index) => (
-            <li key={index}>
-              <button onClick={() => handlePlay(song.url)}>{song.name}</button>
-            </li>
-          ))}
-        </ul>
-        <button onClick={onClose}>Close</button>
-      </div>
+    <div className="studySoundsContainer">
+      <button onClick={togglePopup} className="study-sounds-toggle-button">
+        {isOpen ? 'Study Sounds' : 'Study Sounds'}
+      </button>
+      {isOpen && (
+        <div className="studySoundsWrapper">
+          <h3 className="titleSong">Study Sounds</h3>
+          <ul className="studySoundsList">
+            {songs.map((song, index) => (
+              <li key={index} className="studySoundsListItem">
+                <button onClick={() => handlePlay(song.url)}>{song.name}</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
@@ -54,7 +52,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearchVisible, setIsSearchVisible] = useState(false);
-  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [money, setMoney] = useState(1000); // Example money state for Bubble Bank
 
   const handleLogout = () => {
     localStorage.clear();
@@ -64,10 +62,6 @@ export default function Navbar() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Search for:', searchTerm);
-  };
-
-  const handleTogglePopup = () => {
-    setIsPopupVisible(!isPopupVisible);
   };
 
   return (
@@ -105,11 +99,8 @@ export default function Navbar() {
         </form>
       )}
 
-      <button onClick={handleTogglePopup} className="study-sounds-button">
-        Study Sounds
-      </button>
-
-      <StudySoundsPopup isVisible={isPopupVisible} onClose={handleTogglePopup} />
+      {/* Study Sounds Popup */}
+      <StudySounds money={money} />
     </div>
   );
 }

@@ -15,8 +15,8 @@ const incBubblesHandler = require('./api/incBubbles');
 const crypt = require("node:crypto");
 const path = require("node:path");
 
-const SECRET_TOKEN = crypt.randomBytes(64).toString("hex");
-//const SECRET_TOKEN = '05fae87c04f81f6469554be10b95f78442c394d4de598efaebe4a109ab8486386a2b2bc842de2d7ca58efed700fda63376c3401921deedb17fe457c1d67d5a64';
+//const SECRET_TOKEN = crypt.randomBytes(64).toString("hex");
+const SECRET_TOKEN = '05fae87c04f81f6469554be10b95f78442c394d4de598efaebe4a109ab8486386a2b2bc842de2d7ca58efed700fda63376c3401921deedb17fe457c1d67d5a64';
 
 const app = express();
 
