@@ -31,11 +31,10 @@ html {
 #root {
     width: 100%;
     height: 100%;
-    font-family: 'Work Sans', sans-serif;
-    /* Less opaque */
-
     display: flex;
     flex-direction: column;
+    background: transparent;
+    /* Ensure no background is applied here */
 }
 
 #dashboard {
@@ -46,6 +45,7 @@ html {
 
 /* Body Styling */
 .centeredCard {
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -61,12 +61,46 @@ html {
 /* ------------------------------------------------------------------------------------ */
 form {
     background-color: rgba(255, 255, 255, 0.9);
+
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     max-width: 19vw;
     width: 100%;
 }
+
+.registerBack {
+    background-color: #f0f8ff;
+    /* Change this to your desired color */
+    background-image: url('res/blue.png');
+    /* Optional: Add an image */
+    background-size: cover;
+    /* Ensures the background image covers the container */
+    background-position: center;
+    min-height: 100vh;
+    /* Ensures it spans the full viewport height */
+    display: flex;
+    /* Centers the content */
+    align-items: center;
+    justify-content: center;
+}
+
+.login-background {
+    background-color: #f0f8ff;
+    /* Change this to your desired color */
+    background-image: url('res/blue.png');
+    /* Optional: Add an image */
+    background-size: cover;
+    /* Ensures the background image covers the container */
+    background-position: center;
+    min-height: 100vh;
+    /* Ensures it spans the full viewport height */
+    display: flex;
+    /* Centers the content */
+    align-items: center;
+    justify-content: center;
+}
+
 
 .login-title {
     font-size: 36px;
@@ -175,10 +209,10 @@ input[type="submit"]:focus {
 
 /* Timer Page Styling */
 .timer-container {
-    margin-top: 60px;
+    margin-top: 20px;
     flex-direction: column;
     align-items: center;
-    margin-left: 17%;
+    margin-right: 1%;
     gap: 10px;
     display: flex;
     justify-content: center;
@@ -218,8 +252,8 @@ svg {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 3rem;
-    font-weight: 700;
+    font-size: 2.5rem;
+    font-weight: 600;
     color: #2c3e50;
     display: flex;
     align-items: center;
@@ -344,9 +378,11 @@ button {
 
 /* Specific styles for each button(start pause reser */
 .controls button:nth-child(1) {
-    background-color: rgba(41, 75, 108, 0.8);
+    background-color: rgba(50, 88, 95, .95);
+    ;
     color: white;
-    border-color: rgba(41, 75, 108, 0.8);
+    border-color: rgba(50, 88, 95, .5);
+    ;
 }
 
 .controls button:nth-child(2) {
@@ -384,11 +420,13 @@ input[type="number"]::-webkit-outer-spin-button {
     display: flex;
     align-items: center;
     gap: 10px;
+
 }
 
 /* Logout button */
 .logout-button {
     padding: 8px 16px;
+    margin-top: 15px;
     font-size: 1rem;
     background-color: rgba(166, 63, 65, 0.624);
     color: #fff;
@@ -457,10 +495,13 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .store-button {
+    margin-left: auto;
+    /* Push the button to the right within the navbar */
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 1px;
+    right: 0px;
     padding: 8px 16px;
+    margin-top: -5px;
     font-size: 1rem;
     background-color: rgba(41, 75, 108, 0.8);
     color: #fff;
@@ -477,6 +518,43 @@ input[type="number"]::-webkit-outer-spin-button {
 .store-button:focus {
     outline: none;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.find-friends-button {
+    padding: 8px 16px;
+    font-size: 1rem;
+    margin-top: 15px;
+    background-color: rgba(50, 88, 95, .8);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    /* Drop shadow added */
+    transition: background-color 0.3s ease;
+}
+
+.find-friends-button:hover {
+    padding: 8px 16px;
+    font-size: 1rem;
+    margin-top: 15px;
+    background-color: rgba(50, 88, 95, 0.537);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.close-button {
+    padding: 2px;
+    padding-left: -5px;
+    background: none;
+    border: transparent;
+    border-radius: 1px;
+    font-size: 12px;
+    cursor: pointer;
+    color: rgba(166, 63, 65, 0.8);
 }
 
 /*#296c6b green    #a63f41  red*/
@@ -625,28 +703,21 @@ input[type="number"]::-webkit-outer-spin-button {
     /* Removes bullet points */
     font-family: Arial, sans-serif;
     max-width: 300px;
-    margin: 0 auto;
+    margin: 0;
     padding: 16px;
-    border: 2px solid #ccc;
     border-radius: 8px;
-    background-color: rgba(50, 88, 95, .8);
+    background-color: rgba(50, 88, 95, 0.8);
     max-height: 600px;
     /* Adjust to the desired height */
     overflow-y: auto;
     /* Enable vertical scrolling */
-
-
 }
-
-
-
 
 .storeWrapper h3 {
     text-align: center;
     margin-bottom: 16px;
     color: white;
 }
-
 
 .storeListItem {
     display: block;
@@ -655,7 +726,6 @@ input[type="number"]::-webkit-outer-spin-button {
     text-decoration: none;
     color: rgb(41, 75, 108);
     background-color: #fff;
-    border: 1px solid #ddd;
     border-radius: 4px;
     text-align: left;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
@@ -664,17 +734,84 @@ input[type="number"]::-webkit-outer-spin-button {
 .storeListItem:hover {
     background-color: #e6f4ff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    color: rgba(41, 75, 108, .8);
+    color: rgba(41, 75, 108, 0.8);
 }
 
 .storeListItem:active {
     background-color: #cce7ff;
-    color: rgba(41, 75, 108, .7);
+    color: rgba(41, 75, 108, 0.7);
 }
 
 li {
     margin: 0;
 }
+
+/* Container for store and toggle button */
+.storeContainer {
+    position: absolute;
+    /* Allows positioning of child elements */
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Align content to the left */
+}
+
+/* Wrapper for store content */
+.storeWrapper {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 900px;
+    padding: 16px;
+    border-radius: 8px;
+    max-height: 600px;
+    overflow-y: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: margin-right 0.3s ease;
+    /* Smooth movement */
+}
+
+/* Adjust position when store is open */
+/* Adjust position when store is open */
+.storeWrapper.store-open {
+    margin-top: 50px;
+    /* Move further down when open */
+    transition: margin 0.3s ease;
+    /* Smooth animation */
+
+}
+
+
+.store-toggle-button {
+    position: fixed;
+    /* Keeps the button in a fixed spot */
+    top: 20px;
+    /* Adjust distance from the top of the container */
+    right: 20px;
+    /* Adjust distance from the left of the container */
+    display: block;
+    margin: 10px auto;
+    /* Center the button */
+    padding: 8px 16px;
+    font-size: 1rem;
+    text-align: center;
+    /* Center text inside the button */
+    background-color: rgba(41, 75, 108, 0.8);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.store-toggle-button:hover {
+    background-color: rgba(30, 70, 111, 0.6);
+}
+
+
 
 
 /* ------------------------------------------------------------------------------------ */
@@ -733,4 +870,128 @@ li {
 .popup-button-delete:hover {
     background-color: rgba(166, 63, 65, 0.8);
     /* Darker red on hover */
+}
+
+/* ------------------------------------------------------------------------------------ */
+/* -------------------------------------- LANDING PAGE -------------------------------------- */
+/* ------------------------------------------------------------------------------------ */
+
+/* LandingPage.css */
+.landingPage {
+    background-image: url('res/FocusFins.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* Change alignment */
+    align-items: center;
+    background-color: #000715;
+    color: white;
+    text-align: center;
+    padding-top: 530px;
+    /* Add padding to push everything down */
+}
+
+.landingPage h1 {
+    margin-bottom: 10px;
+}
+
+.lpLoginButton {
+    font-size: 21px;
+    margin-left: 60px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(0, 35, 57, .7);
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+.lpLoginButton:hover {
+    background-color: rgba(0, 35, 57, 0.572);
+}
+
+/* ------------------------------------------------------------------------------------ */
+/* -------------------------------------- MUSIC -------------------------------------- */
+/* ------------------------------------------------------------------------------------ */
+
+
+
+
+
+/*STUDY SOUNDS STYLING*/
+.studySoundsContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.study-sounds-toggle-button {
+    padding: 8px 16px;
+    margin-top: 20px;
+    margin-left: 910px;
+    font-size: 1.02rem;
+    background-color: rgba(50, 88, 95, 0.95);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    /* Drop shadow added */
+}
+
+.study-sounds-button:hover {
+    background-color: rgba(50, 88, 95, .6);
+    /* Slightly darker on hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+    /* Stronger shadow on hover */
+}
+
+.studySoundsWrapper {
+    position: absolute;
+    top: calc(100% + 10px);
+    /* Positioning under the button */
+    left: 0;
+    margin-left: 910px;
+    background: transparent;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    padding: 20px;
+    z-index: 10;
+}
+
+.titleSong {
+    font-size: 1.5rem;
+    margin: 10px 0;
+    color: white;
+}
+
+.studySoundsList {
+    list-style: none;
+    color: white;
+    padding: 0;
+    margin: 0;
+}
+
+.studySoundsListItem {
+    margin: 10px 0;
+}
+
+.studySoundsListItem button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.studySoundsListItem button:hover {
+    background: #0056b3;
 }

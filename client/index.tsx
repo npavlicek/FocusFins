@@ -6,6 +6,8 @@ import Register from './register';
 import VisitReefWrapper from './visitReef';
 import ResetPassword from './resetPassword';
 import Verify from './verify';
+import LandingPage from './landing_page'
+
 import './styles.css';
 
 const root = document.getElementById('root')!;
@@ -14,8 +16,7 @@ const reactRoot = ReactDOM.createRoot(root);
 const router = createBrowserRouter([
   {
     path: '/',
-    element:
-      <LoginForm />
+    element: <LandingPage />
   },
   {
     path: '/dashboard',
