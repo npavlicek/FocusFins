@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useLoader } from '@react-three/fiber';
 import { Mesh } from 'three/src/objects/Mesh';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -31,6 +31,7 @@ const VisitReefWrapper: React.FC = () => {
   const [coralsData, setCoralsData] = useState<CoralData[] | null>(null);
   const [searchParams] = useSearchParams();
   const [isError, setIsError] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const username = searchParams.get('username');
@@ -51,13 +52,23 @@ const VisitReefWrapper: React.FC = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (isError) {
+      setTimeout(() => navigate(-1), 1000);
+    }
+  }, [isError]);
+
   return (
     <>
-      {isError && <p>User does not exist!</p>}
-      <h1 style={{ color: 'white', position: 'absolute', top: '15px', left: '50px', zIndex: 99 }}>{searchParams.get('username')}'s Reef</h1 >
-      <Canvas shadows>
-        <VisitReef coralsData={coralsData} />
-      </Canvas>
+      {isError && <h2 style={{ color: 'red' }}>User does not exist!</h2>}
+      {!isError &&
+        <>
+          <h1 style={{ color: 'white', position: 'absolute', top: '15px', left: '50px', zIndex: 99 }}>{searchParams.get('username')}'s Reef</h1>
+          <Canvas shadows>
+            <VisitReef coralsData={coralsData} />
+          </Canvas>
+        </>
+      }
     </>
   );
 };

@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 const Verify: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [verified, setVerified] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('/api/verifyEmail', {
@@ -23,6 +24,12 @@ const Verify: React.FC = () => {
       console.error(err);
     });
   }, []);
+
+  useEffect(() => {
+    if (verified === true) {
+      setTimeout(() => navigate('/login'), 1000);
+    }
+  }, [verified]);
 
   return (
     <>

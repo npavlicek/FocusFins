@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken');
 const { MongoClient } = require('mongodb');
+const bcrypt = require('bcrypt');
 
-module.exports = async function verifyEmailHandler(req, res) {
-    if (req.body.key === undefined) {
-        return res.status(400).json({ error: "key required" });
+module.exports = async function submitPasswordResetHandler(req, res) {
+    if (req.body.key === undefined || req.body.password === undefined) {
+        return res.sendStatus(400);
     }
 
     const dbClient = new MongoClient(process.env.MONGODB_URI);
@@ -17,11 +18,13 @@ module.exports = async function verifyEmailHandler(req, res) {
             email: decoded.email
         });
 
+        const hashedPass = await bcrypt.hash(req.body.password, 10);
+
         if (user) {
             await db.collection("users").updateOne({
                 email: decoded.email
             }, {
-                $set: { emailVerified: true }
+                $set: { password: hashedPass }
             });
             res.sendStatus(200);
         } else {
