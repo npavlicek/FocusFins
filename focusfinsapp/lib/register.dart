@@ -95,35 +95,29 @@ class _MyRegisterState extends State<MyRegister>
   {
     return Scaffold
     (
-      body: Center(
-        child: Container(
-          constraints: const BoxConstraints
+      body: Center
+      (
+        child: Card
+        (
+          child: Column
           (
-            maxWidth: 300,
-            minHeight: 400,
-            maxHeight: 700,
-          ),
-          child: Card(
-            child: Column
-            (
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Text
-                (
-                  textScaler: TextScaler.linear(2),
-                  'Register an Account'
-                ),
-                TextBox(controller: emailController, label: 'Email',),
-                TextBox(controller: usernameController, label: 'Username',),
-                PasswordTextBox(controller: passwordController, label: 'Password', passwordChanged: passwordChanged,),
-                TextBox(controller: firstNameController, label: 'First Name',),
-                TextBox(controller: lastNameController, label: 'Last Name',),
-                ElevatedButton(onPressed: submitRegister, style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(20)),  child: const Text('Register'),),
-                ElevatedButton(onPressed: switchToLoginPage, style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(20),), child: const Text('Back to Login'),),
-                Text(passwordError),
-                Text(errorMessage),
-              ],
-            ),
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const Text
+              (
+                textScaler: TextScaler.linear(2),
+                'Register an Account'
+              ),
+              TextBox(controller: emailController, label: 'Email',),
+              TextBox(controller: usernameController, label: 'Username',),
+              PasswordTextBox(controller: passwordController, label: 'Password', passwordChanged: passwordChanged,),
+              TextBox(controller: firstNameController, label: 'First Name',),
+              TextBox(controller: lastNameController, label: 'Last Name',),
+              ElevatedButton(onPressed: submitRegister, style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(20)),  child: const Text('Register'),),
+              ElevatedButton(onPressed: switchToLoginPage, style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(20),), child: const Text('Back to Login'),),
+              Text(passwordError),
+              Text(errorMessage),
+            ],
           ),
         ),
       ),

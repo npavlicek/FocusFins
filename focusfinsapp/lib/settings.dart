@@ -18,24 +18,6 @@ class _MySettingsState extends State<MySettings> {
     setEmpty();
     Navigator.pop(context, true);
   }
-  void changePassword() async
-  {
-    if(newPasswordCheckController.text != newPasswordController.text)
-    {
-      return;
-    }
-    Map<String, dynamic> reqBody = 
-    {
-      'username': userUsername,
-      'password': originalPasswordController.text,
-    };
-    API res = await callServer(reqBody, '/api/login');
-    if(res.statuscode != 200)
-    {
-      return;
-    }
-    // CALL ON CHANGE PASSWORD API
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold
@@ -47,40 +29,24 @@ class _MySettingsState extends State<MySettings> {
           children: [
             Card(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Settings for $userFirstName $userLastName'),
-                  ElevatedButton(onPressed: logout, child: const Text('Logout')),
-                  TextField
+                  Row
                   (
-                    obscureText: true,
-                    controller: originalPasswordController,
-                    decoration: const InputDecoration
-                    (
-                      border: OutlineInputBorder(),
-                      labelText: 'Current Password',
-                    ),
-                  ),
-                  TextField
-                  (
-                    obscureText: true,
-                    controller: newPasswordController,
-                    decoration: const InputDecoration
-                    (
-                      border: OutlineInputBorder(),
-                      labelText: 'New Password',
-                    ),
-                  ),
-                  TextField
-                  (
-                    obscureText: true,
-                    controller: newPasswordCheckController,
-                    decoration: const InputDecoration
-                    (
-                      border: OutlineInputBorder(),
-                      labelText: 'Confirm Password',
-                    ),
-                  ),
-                  ElevatedButton(onPressed: changePassword, child: const Text('Update Password')),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children:
+                    [
+                      ElevatedButton
+                      (
+                        onPressed: (){}, child: const Text('Light Mode')
+                      ),
+                      ElevatedButton
+                      (
+                        onPressed: (){}, child: const Text('Dark Mode')
+                      ),
+                    ]),
+                  Row(),
                 ],
               ),
             )

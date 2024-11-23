@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:focusfinsapp/reef.dart';
 import 'package:focusfinsapp/timer.dart';
 import 'package:focusfinsapp/store.dart';
-import 'package:focusfinsapp/settings.dart';
+// import 'package:focusfinsapp/settings.dart';
 
 class MyHome extends StatefulWidget
 {
@@ -15,6 +15,22 @@ class _MyHomeState extends State<MyHome>
 {
 
   int currentPage = 0;
+  bool isNavigationDestination = true;
+  
+  // Unlocks and Locks the Navigation Destinations
+  // So user cannot navigate while timer is going (ALSO STOPS FROM CRASH WHEN LEAVING TIMER)
+  void navigationDestinationsTrue()
+  {
+    setState(() {
+      isNavigationDestination = true;
+    });
+  }
+  void navigationDestinationsFalse()
+  {
+    setState(() {
+      isNavigationDestination = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,27 +45,31 @@ class _MyHomeState extends State<MyHome>
           });
         },
         selectedIndex: currentPage,
-        destinations: const <Widget> [
+        destinations: <Widget> [
           NavigationDestination
           (
-            icon: Icon(Icons.anchor_rounded),
+            enabled: isNavigationDestination,
+            icon: const Icon(Icons.anchor_rounded),
             label: 'Reef',
           ),
           NavigationDestination
           (
-            icon: Icon(Icons.timer),
+            enabled: isNavigationDestination,
+            icon: const Icon(Icons.timer),
             label: 'Timer',
           ),
           NavigationDestination
           (
-            icon: Icon(Icons.store),
+            enabled: isNavigationDestination,
+            icon: const Icon(Icons.store),
             label: 'Bazaar',
           ),
-          NavigationDestination
-          (
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
+          // NavigationDestination
+          // (
+          //   enabled: isNavigationDestination,
+          //   icon: const Icon(Icons.settings),
+          //   label: 'Settings',
+          // ),
         ]
       ),
       body: 
@@ -58,9 +78,9 @@ class _MyHomeState extends State<MyHome>
           <Widget>
           [
             const MyReef(),
-            const MyTimer(),
+            MyTimer(navigationDestinationsTrue: navigationDestinationsTrue, navigationDestinationsFalse: navigationDestinationsFalse),
             const MyStore(),
-            const MySettings(),
+            // const MySettings(),
           ][currentPage],
         ]
       ),

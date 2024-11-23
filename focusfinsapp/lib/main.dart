@@ -1,5 +1,6 @@
 // Packages
 import 'package:flutter/material.dart';
+import 'package:focusfinsapp/forgot_password.dart';
 import 'package:focusfinsapp/util.dart';
 
 // Pages
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget
       {
         '/Register' : (BuildContext context) => const MyRegister(),
         '/Home' : (BuildContext context) => const MyHome(),
+        '/ForgotPassword' : (BuildContext context) => const ForgotPasswordPage(),
       }
     );
   }

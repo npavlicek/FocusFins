@@ -16,12 +16,15 @@ samples, guidance on mobile development, and a full API reference.
 - May need to install http for flutter - 'flutter pub add http'
 - Code is under /lib/
 - Unit Testing is under /test/widget_test.dart
+- If need to Brute Force in with out logging in on main.dart there is a line "home: const MyLogin()," Change the MyLogin() to MyHome()
 
 ## TODO
-- [ ] Remove Reset Password in Settings
-- [ ] Password Reset Email
-- [X] Email Validation
+- Do we need a Settings Page? # MOST LIKELY NOT
+- [ ] Password Reset Button
+- [X] Email Validation Function (NOT VERIFICATION)
+- [ ] Implement Email Validation
 - [ ] Reef 3D 
 - [ ] Friends
-- [ ] Make App Look Good
-- [ ] Lock on Timer Page (Timer will break if running and swapping pages)
+- [ ] Make App Look Better
+- [X] Lock on Timer Page (Timer will break if running and swapping pages)
+- [ ] Check to Make Sure Everything Functions

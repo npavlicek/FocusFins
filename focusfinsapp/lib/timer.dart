@@ -5,7 +5,14 @@ import 'dart:async';
 
 class MyTimer extends StatefulWidget
 {
-  const MyTimer({super.key});
+  const MyTimer
+  ({
+    super.key, 
+    required this.navigationDestinationsTrue(),
+    required this.navigationDestinationsFalse(),
+  });
+  final VoidCallback navigationDestinationsTrue;
+  final VoidCallback navigationDestinationsFalse;
   @override
   State<MyTimer> createState() => _MyTimerState();
 }
@@ -13,6 +20,8 @@ class MyTimer extends StatefulWidget
 class _MyTimerState extends State<MyTimer> 
   with TickerProviderStateMixin
 {
+  late VoidCallback navigationDestinationsTrue = widget.navigationDestinationsTrue;
+  late VoidCallback navigationDestinationsFalse = widget.navigationDestinationsFalse;
   TimeOfDay? time = const TimeOfDay(hour: 0, minute: 20);
   late AnimationController controller;
   Timer? timer;
@@ -39,11 +48,13 @@ class _MyTimerState extends State<MyTimer>
     {
       clickString = 'Start';
       pauseTimer();
+      navigationDestinationsTrue();
     }
     else
     {
       clickString = 'Pause';
       startTimer();
+      navigationDestinationsFalse();
     }
   }
 
@@ -69,10 +80,9 @@ class _MyTimerState extends State<MyTimer>
           timeTillBubble -= secondsForBubble;
           bubbleAmount++;
         }
-        controller
-          ..forward(from: controller.value)
-          ..repeat();
         remainTimeInSeconds--;
+        // controller.forward(from: controller.value); // Smooth Ticking Down
+        controller.value = 1 - (remainTimeInSeconds / startTimeInSeconds); // Step Ticking Down
       });
     });
   }
@@ -99,6 +109,7 @@ class _MyTimerState extends State<MyTimer>
       isTimerRunning = false;
       timeTillBubble = 0;
     });
+    navigationDestinationsTrue();
     timer?.cancel();
   }
 
@@ -118,6 +129,7 @@ class _MyTimerState extends State<MyTimer>
       startTimeInSeconds = (hour * 3600) + (minute *60);
       resetTimer();
     });
+    navigationDestinationsTrue();
   }
 
   void incBubbleFunction() async

@@ -34,40 +34,15 @@ class _MyLoginState extends State<MyLogin>
     Navigator.pushNamed(context, '/Home');
   }
 
-  // void passwordChanged()
-  // {
-  //   (bool, String) passwordCheck = isPassword(passwordController.text);
-  //   setState(() {
-  //     if(!passwordCheck.$1)
-  //     {
-  //       passwordError = passwordCheck.$2;
-  //     }
-  //     else 
-  //     {
-  //       passwordError = '';
-  //     }
-  //   });
-  // }
+  void switchToForgotPasswordPage()
+  {
+    Navigator.pushNamed(context, '/ForgotPassword');
+  }
 
   void submitLogin() async
   {
     final username = usernameController.text;
     final password = passwordController.text;
-
-    // bool flag = false;
-    // (bool, String) passwordCheck = isPassword(password);
-    // setState(() {
-    //   if(!passwordCheck.$1)
-    //   {
-    //     passwordError = passwordCheck.$2;
-    //     flag = true;
-    //   }
-    //   else
-    //   {
-    //     passwordError = '';
-    //   }
-    // });
-    // if(flag) return;
 
     Map<String, dynamic> reqBody =  <String, String>
     {
@@ -106,36 +81,27 @@ class _MyLoginState extends State<MyLogin>
     (
       body:
       Center(
-        child: Container
+        child: Card
         (
-          constraints: const BoxConstraints
+          child: Column
           (
-            maxHeight: 550,
-            minHeight: 100,
-          ),
-            child: 
-            Card
-            (
-              child: Column
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: 
+            [
+              const Text
               (
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: 
-                [
-                  const Text
-                  (
-                    textScaler: TextScaler.linear(3),
-                    'Login'
-                  ),
-                  Text(errorMessage),
-                  TextBox(controller: usernameController, label: 'Username',),
-                  PasswordTextBox(controller: passwordController, label: 'Password', passwordChanged: () {},),
-                  ElevatedButton(onPressed: submitLogin, child: const Text('Submit')),
-                  ElevatedButton(onPressed: switchToRegisterPage, child: const Text('New to FocusFins?')),
-                  // Text(passwordError),
-                ],
+                textScaler: TextScaler.linear(3),
+                'Login'
               ),
-            ),
+              Text(errorMessage),
+              TextBox(controller: usernameController, label: 'Username',),
+              PasswordTextBox(controller: passwordController, label: 'Password', passwordChanged: () {},),
+              ElevatedButton(onPressed: submitLogin, child: const Text('Submit')),
+              ElevatedButton(onPressed: switchToForgotPasswordPage, child: const Text('Forgot Password?')),
+              ElevatedButton(onPressed: switchToRegisterPage, child: const Text('New to FocusFins?')),
+            ],
           ),
+        ),
       ),   
     );
   }
