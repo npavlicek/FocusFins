@@ -174,6 +174,17 @@ input[type="submit"]:focus {
     text-decoration: underline;
     padding: 0;
 }
+.reset-button {
+    background: none;
+  
+    border: none;
+    color: #32585f;
+    font-size: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+}
+
 
 .register-button:hover {
     color: #4f8e8b;
@@ -429,6 +440,8 @@ input[type="number"]::-webkit-outer-spin-button {
     margin-top: 15px;
     font-size: 1rem;
     background-color: rgba(166, 63, 65, 0.624);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -497,13 +510,14 @@ input[type="number"]::-webkit-outer-spin-button {
 .store-button {
     margin-left: auto;
     /* Push the button to the right within the navbar */
-    position: absolute;
+    
     top: 1px;
     right: 0px;
     padding: 8px 16px;
     margin-top: -5px;
     font-size: 1rem;
     background-color: rgba(41, 75, 108, 0.8);
+    
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -722,6 +736,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .storeListItem {
     display: block;
     padding: 10px;
+    font-size: .8rem;
     margin-bottom: 8px;
     text-decoration: none;
     color: rgb(41, 75, 108);
@@ -748,6 +763,7 @@ li {
 
 /* Container for store and toggle button */
 .storeContainer {
+    
     position: absolute;
     /* Allows positioning of child elements */
     top: 0;
@@ -786,15 +802,18 @@ li {
 
 
 .store-toggle-button {
-    position: fixed;
-    /* Keeps the button in a fixed spot */
+    position:absolute;
     top: 20px;
     /* Adjust distance from the top of the container */
     right: 20px;
     /* Adjust distance from the left of the container */
+    margin-right:.5vw;
+    margin-top:1.3vh;
     display: block;
-    margin: 10px auto;
+    width: 135px;
     /* Center the button */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+
     padding: 8px 16px;
     font-size: 1rem;
     text-align: center;
@@ -892,7 +911,7 @@ li {
     background-color: #000715;
     color: white;
     text-align: center;
-    padding-top: 530px;
+    padding-top: 74vh;
     /* Add padding to push everything down */
 }
 
@@ -902,7 +921,7 @@ li {
 
 .lpLoginButton {
     font-size: 21px;
-    margin-left: 60px;
+    margin-left: 10vh;
     cursor: pointer;
     border: none;
     border-radius: 5px;
@@ -924,6 +943,7 @@ li {
 
 
 /*STUDY SOUNDS STYLING*/
+
 .studySoundsContainer {
     position: relative;
     display: inline-block;
@@ -932,7 +952,7 @@ li {
 .study-sounds-toggle-button {
     padding: 8px 16px;
     margin-top: 20px;
-    margin-left: 910px;
+    margin-left: 61vw;
     font-size: 1.02rem;
     background-color: rgba(50, 88, 95, 0.95);
     color: #fff;
@@ -958,16 +978,20 @@ li {
     left: 0;
     margin-left: 910px;
     background: transparent;
-    border-radius: 8px;
+    border-radius: 11px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 250px;
-    padding: 20px;
+   
     z-index: 10;
 }
 
 .titleSong {
-    font-size: 1.5rem;
-    margin: 10px 0;
+    margin: 1px;
+    padding-top: .1vw;
+
+   padding-left: 4vw;
+    font-size: 1.2rem;
+    margin-left:1pm;
     color: white;
 }
 
@@ -983,8 +1007,8 @@ li {
 }
 
 .studySoundsListItem button {
-    background: #007bff;
-    color: white;
+    background-color:white;
+    color: rgb(44, 81, 87);
     border: none;
     padding: 10px 15px;
     border-radius: 4px;
@@ -993,5 +1017,34 @@ li {
 }
 
 .studySoundsListItem button:hover {
-    background: #0056b3;
+    color: rgb(44, 81, 87,.7);
 }
+
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .popup-content button {
+    margin: 5px;
+    color:white;
+    background-color:rgba(41, 75, 108, 0.9);
+  }
+  

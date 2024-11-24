@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const songs = [
-  { name: 'Focus Song 1', url: '//song1.mp3' },
-  { name: 'Focus Song 2', url: 'https://example.com/song2.mp3' },
-  { name: 'Focus Song 3', url: 'https://example.com/song3.mp3' },
+  { name: 'Focus Song 1', url: './public/song1.mp3' },
+  { name: 'Focus Song 2', url: '/public/song2.mp3' },
+  { name: 'Focus Song 3', url: '/public/song3.mp3' },
 ];
 
 function StudySounds() {
@@ -15,12 +15,13 @@ function StudySounds() {
     setIsOpen(!isOpen);
   };
 
-  const handlePlay = (url: string) => {
+  const handlePlay = (index: number) => {
     if (audio) {
       audio.pause();
       audio.currentTime = 0;
     }
-    const newAudio = new Audio(url);
+    const newAudio = new Audio(`./public/song${index}.mp3`);
+    newAudio.loop = true; // Enable looping
     setAudio(newAudio);
     newAudio.play().catch((err) => {
       console.error('Playback failed:', err);
@@ -39,7 +40,7 @@ function StudySounds() {
           <ul className="studySoundsList">
             {songs.map((song, index) => (
               <li key={index} className="studySoundsListItem">
-                <button onClick={() => handlePlay(song.url)}>{song.name}</button>
+                <button onClick={() => handlePlay(index+1)}>{song.name}</button>
               </li>
             ))}
           </ul>
