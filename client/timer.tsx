@@ -160,7 +160,7 @@ export default function Timer(props: TimerProps) {
                   ▼
                 </button>
               </div>
-              <span style={{ fontSize: '2.3rem', minWidth: '50px', textAlign: 'center', marginLeft: '8px' }}>
+              <span style={{ fontSize: '2.8rem', minWidth: '50px', textAlign: 'center', marginLeft: '8px' }}>
                 {String(timeLeft.seconds).padStart(2, '0')}
               </span>
             </div>

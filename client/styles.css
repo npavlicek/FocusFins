@@ -1,5 +1,8 @@
-.work-sans-login {
+* {
     font-family: "Work Sans", sans-serif;
+}
+
+.work-sans-login {
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
@@ -171,9 +174,10 @@ input[type="submit"]:focus {
     text-decoration: underline;
     padding: 0;
 }
+
 .reset-button {
     background: none;
-  
+
     border: none;
     color: #32585f;
     font-size: inherit;
@@ -507,14 +511,14 @@ input[type="number"]::-webkit-outer-spin-button {
 .store-button {
     margin-left: auto;
     /* Push the button to the right within the navbar */
-    
+
     top: 1px;
     right: 0px;
     padding: 8px 16px;
     margin-top: -5px;
     font-size: 1rem;
     background-color: rgba(41, 75, 108, 0.8);
-    
+
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -760,7 +764,7 @@ li {
 
 /* Container for store and toggle button */
 .storeContainer {
-    
+
     position: absolute;
     /* Allows positioning of child elements */
     top: 0;
@@ -799,13 +803,13 @@ li {
 
 
 .store-toggle-button {
-    position:absolute;
+    position: absolute;
     top: 20px;
     /* Adjust distance from the top of the container */
     right: 20px;
     /* Adjust distance from the left of the container */
-    margin-right:.5vw;
-    margin-top:1.3vh;
+    margin-right: .5vw;
+    margin-top: 1.3vh;
     display: block;
     width: 135px;
     /* Center the button */
@@ -978,7 +982,7 @@ li {
     border-radius: 11px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 250px;
-   
+
     z-index: 10;
 }
 
@@ -986,9 +990,9 @@ li {
     margin: 1px;
     padding-top: .1vw;
 
-   padding-left: 4vw;
+    padding-left: 4vw;
     font-size: 1.2rem;
-    margin-left:1pm;
+    margin-left: 1pm;
     color: white;
 }
 
@@ -1004,7 +1008,7 @@ li {
 }
 
 .studySoundsListItem button {
-    background-color:white;
+    background-color: white;
     color: rgb(44, 81, 87);
     border: none;
     padding: 10px 15px;
@@ -1014,7 +1018,7 @@ li {
 }
 
 .studySoundsListItem button:hover {
-    color: rgb(44, 81, 87,.7);
+    color: rgb(44, 81, 87, .7);
 }
 
 
@@ -1029,19 +1033,18 @@ li {
     justify-content: center;
     align-items: center;
     z-index: 1000;
-  }
-  
-  .popup-content {
+}
+
+.popup-content {
     background: white;
     padding: 20px;
     border-radius: 8px;
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .popup-content button {
+}
+
+.popup-content button {
     margin: 5px;
-    color:white;
-    background-color:rgba(41, 75, 108, 0.9);
-  }
-  
+    color: white;
+    background-color: rgba(41, 75, 108, 0.9);
+}
