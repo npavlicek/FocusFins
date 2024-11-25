@@ -46,11 +46,8 @@ mocha.describe('FocusFins App Login', (m) => {
 
 	mocha.it('should respond with a 201 status code with a message when registering', (done) => {
 		const payload = {
-			username: 'user',
-			password: 'password',
-			firstName: 'John',
-			lastName: 'Doe',
-			email: 'npavlicek00@gmail.com'
+			username: 'test',
+			password: 'user',
 		};
 		request(app).post('/api/register').send(payload).set('Content-Type', 'application/json').accept('Accept', 'application/json').end((err, res) => {
 			if (err) return done(err);
