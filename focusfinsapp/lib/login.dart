@@ -40,27 +40,25 @@ class _MyLoginState extends State<MyLogin> {
       'password': password,
     };
     API result = await callServer(reqBody, '/api/login');
-    setState(() async {
-      if (result.statuscode == -1) {
-        errorMessage = 'Could Not Send Request';
-        return; // Could Not Connect to Server?
+    if (result.statuscode == -1) {
+      errorMessage = 'Could Not Send Request';
+      return; // Could Not Connect to Server?
+    }
+    if (result.statuscode != 200) {
+      if (result.body['error'] != null) {
+        errorMessage = result.body['error'];
       }
-      if (result.statuscode != 200) {
-        if (result.body['error'] != null) {
-          errorMessage = result.body['error'];
-        }
-        return;
-      }
-      errorMessage = '';
-      userUsername = username;
-      await storage.write(key: 'token', value: result.body['token']);
-      await storage.write(key: 'id', value: result.body['id']);
-      await storage.write(key: 'firstName', value: result.body['firstName']);
-      await storage.write(key: 'lastName', value: result.body['lastName']);
-      getBubbles();
-      switchToTimerPage();
       return;
-    });
+    }
+    errorMessage = '';
+    userUsername = username;
+    await storage.write(key: 'token', value: result.body['token']);
+    await storage.write(key: 'id', value: result.body['id']);
+    await storage.write(key: 'firstName', value: result.body['firstName']);
+    await storage.write(key: 'lastName', value: result.body['lastName']);
+    getBubbles();
+    switchToTimerPage();
+    return;
   }
 
   @override

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:focusfinsapp/util.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_plus/webview_flutter_plus.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/services.dart';
@@ -14,43 +13,34 @@ class MyReef extends StatefulWidget {
 }
 
 class _MyReefState extends State<MyReef> {
-  final WebViewControllerPlus _controller = WebViewControllerPlus();
+  WebViewControllerPlus _controller = WebViewControllerPlus();
 
-  void randomFunction() async {
-    await getBubbles();
+  @override
+  void initState() {
+    _controller = WebViewControllerPlus();
+    _controller.setJavaScriptMode(JavaScriptMode.unrestricted);
+    _controller.loadFlutterAssetServer('assets/index.html');
+    _controller.addJavaScriptChannel('FocusFinsState',
+        onMessageReceived: (message) {
+      storage.read(key: 'token').then((token) {
+        storage.read(key: 'id').then((id) {
+          if (token != null && id != null) {
+            _controller
+                .runJavaScript('initApp("$token", "$id");')
+                .onError((err, stacktrace) {
+              if (err != null) {
+                print("THERE IS AN ERROR RUNNING THE JS: " + err.toString());
+              }
+            });
+          }
+        });
+      });
+    });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    _controller.setJavaScriptMode(JavaScriptMode.unrestricted);
-    _controller
-        .loadFlutterAssetServer('assets/index.html')
-        .whenComplete(() async {
-      String js = await rootBundle.loadString('assets/assets/bundle.js');
-      _controller.runJavaScript(js).whenComplete(() {
-        storage.read(key: 'token').then((token) {
-          storage.read(key: 'id').then((id) {
-            if (token != null && id != null) {
-              _controller
-                  .runJavaScript('initApp("$token", "$id");')
-                  .onError((err, stacktrace) {
-                if (err != null) {
-                  print(err);
-                }
-              });
-            }
-          });
-        });
-      }).onError((err, stacktrace) {
-        if (err != null) {
-          print(err);
-        }
-      });
-    }).onError((error, stacktrace) {
-      if (error != null) {
-        print(error);
-      }
-    });
     return WebViewWidget(controller: _controller);
   }
 }
