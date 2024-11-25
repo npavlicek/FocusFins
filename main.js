@@ -16,6 +16,7 @@ const getCoralsByUsernameHandler = require('./api/getCoralsByUsername');
 const verifyEmailHandler = require('./api/verifyEmail');
 const resetPasswordHandler = require('./api/resetPassword');
 const submitPasswordResetHandler = require('./api/submitPasswordReset');
+const getCoralIdxHandler = require('./api/getCoralIdx');
 const crypt = require("node:crypto");
 const path = require("node:path");
 
@@ -51,6 +52,7 @@ app.post('/api/getCoralsByUsername', getCoralsByUsernameHandler);
 app.post('/api/verifyEmail', verifyEmailHandler);
 app.post('/api/resetPassword', resetPasswordHandler);
 app.post('/api/submitPasswordReset', submitPasswordResetHandler);
+app.post('/api/getCoralIdx', getCoralIdxHandler);
 
 app.get('*', (req, res) => {
 	res.sendFile(path.join(__dirname, 'build/index.html'));
