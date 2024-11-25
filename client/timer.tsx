@@ -27,6 +27,13 @@ export default function Timer(props: TimerProps) {
     if (!isRunning) return;
 
     const interval = setInterval(() => {
+      if (timeLeft.minutes > 0 && timeLeft.seconds == 1) {
+        if (Math.random() > 0.5)
+          props.addBalance(2);
+        else
+          props.addBalance(4);
+      }
+
       setTimeLeft((prev) => {
         const { minutes, seconds } = prev;
         if (seconds > 0) {
@@ -178,20 +185,20 @@ export default function Timer(props: TimerProps) {
             Reset
           </button>
         </div>
-        <div style={{ display: 'flex',color:'rgba(41, 108, 107, 0.9)', justifyContent: 'center', marginTop: '10px' }}>
-        <button
-  onClick={handleToggleBreak}
-  style={{
-    backgroundColor: isBreakMode ? '#296C6B' : 'rgb(41, 75, 108)', // Different background for break and focus modes
-    color: '#fff', // Ensure text is visible
-    border: 'none',
-    padding: '5px 15px', // Adjust to match original button size
-    borderRadius: '5px',
-    cursor: 'pointer',
-  }}
->
-  {isBreakMode ? 'Back to Focus' : 'Take a Break'}
-</button>
+        <div style={{ display: 'flex', color: 'rgba(41, 108, 107, 0.9)', justifyContent: 'center', marginTop: '10px' }}>
+          <button
+            onClick={handleToggleBreak}
+            style={{
+              backgroundColor: isBreakMode ? '#296C6B' : 'rgb(41, 75, 108)', // Different background for break and focus modes
+              color: '#fff', // Ensure text is visible
+              border: 'none',
+              padding: '5px 15px', // Adjust to match original button size
+              borderRadius: '5px',
+              cursor: 'pointer',
+            }}
+          >
+            {isBreakMode ? 'Back to Focus' : 'Take a Break'}
+          </button>
 
         </div>
       </div>

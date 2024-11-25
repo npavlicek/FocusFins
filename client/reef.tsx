@@ -9,6 +9,7 @@ import { CoralCallbacks, CoralData } from './coral';
 
 import Sand from './sand';
 import Coral from './coral';
+import Fishies from './fishies';
 
 interface ReefProps {
   cursorAvailable: boolean;
@@ -25,6 +26,8 @@ const Reef: React.FC<ReefProps> = (props: ReefProps) => {
   const lightRef = useRef<DirectionalLight>(null);
   const [camDir, setCamDir] = useState<Vector3>(new Vector3(0, 0, 0));
   const [sandMesh, setSandMesh] = useState<Mesh>();
+  const [fishiesData, setFishiesData] = useState<number[]>([]);
+  const [oldScore, setOldScore] = useState<number>(0);
 
   const { scene, size, set } = useThree();
 
@@ -38,6 +41,46 @@ const Reef: React.FC<ReefProps> = (props: ReefProps) => {
       lightRef.current.position.set(0, 5, 5);
     }
   }, []);
+
+  useEffect(() => {
+    const totalScore = props.coralsData.length;
+    if (oldScore !== totalScore) {
+      let totalRare = 0;
+      let totalNormal = 0;
+      if (totalScore >= 15) {
+        totalRare = 0.3 * totalScore - 3.5;
+        totalRare = Math.floor(totalRare);
+      }
+
+      totalNormal = 0.5 * totalScore + 1.0;
+      totalNormal = Math.floor(totalNormal);
+
+      let newFishiesData = [];
+
+      for (let x = 0; x < totalRare; x++) {
+        const c = Math.random();
+        if (c > 0.5)
+          newFishiesData.push(0);
+        else
+          newFishiesData.push(3);
+      }
+
+      for (let x = 0; x < totalNormal; x++) {
+        const c = Math.random();
+        if (c < 0.25)
+          newFishiesData.push(1);
+        else if (c < 0.5)
+          newFishiesData.push(2);
+        else if (c < 0.75)
+          newFishiesData.push(4);
+        else if (c < 1.0)
+          newFishiesData.push(5);
+      }
+
+      setOldScore(totalScore);
+      setFishiesData(newFishiesData);
+    }
+  }, [props.coralsData]);
 
   useEffect(() => {
     const scale = 1.0;
@@ -68,13 +111,16 @@ const Reef: React.FC<ReefProps> = (props: ReefProps) => {
   return (<>
     <orthographicCamera ref={camRef} />
     <EffectComposer autoClear={false}>
-      {
-        props.coralsData.map(val => (
-          <Coral key={val.coralId} coralData={val} sandMesh={sandMesh!} camDir={camDir} setCursorAvailable={props.setCursorAvailable} cursorAvailable={props.cursorAvailable} createPopupCallback={props.createPopupCallback} closePopupCallback={props.closePopupCallback} deleteCoralCallback={props.deleteCoralCallback} updateCoralCallback={props.updateCoralCallback} />
-        ))
-      }
+      <>
+        <Fishies fishiesData={fishiesData} />
+        {
+          props.coralsData.map(val => (
+            <Coral key={val.coralId} coralData={val} sandMesh={sandMesh!} camDir={camDir} setCursorAvailable={props.setCursorAvailable} cursorAvailable={props.cursorAvailable} createPopupCallback={props.createPopupCallback} closePopupCallback={props.closePopupCallback} deleteCoralCallback={props.deleteCoralCallback} updateCoralCallback={props.updateCoralCallback} />
+          ))
+        }
+        <Sand setSandMesh={setSandMesh} />
+      </>
     </EffectComposer>
-    <Sand setSandMesh={setSandMesh} />
     <ambientLight intensity={2.0} color={0xCCF9FF} />
     <directionalLight ref={lightRef} />
   </>
