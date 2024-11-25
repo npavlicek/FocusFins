@@ -169,11 +169,17 @@ export default function Dashboard(props: DashboardParams) {
           <button ref={deleteButtonRef} className="popup-button-delete">delete</button>
         </div>
 
-        <div id="mainContent">
-          <Canvas shadows>
-            <Reef coralsData={corals} cursorAvailable={cursorAvail} setCursorAvailable={setCursorAvail} createPopupCallback={createPopup} closePopupCallback={closePopup} deleteCoralCallback={deleteCoral} updateCoralCallback={updateCoral} />
-          </Canvas>
-        </div>
+        {error &&
+          <h1>ERROR</h1>
+        }
+
+        {!error &&
+          <div id="mainContent">
+            <Canvas shadows>
+              <Reef coralsData={corals} cursorAvailable={cursorAvail} setCursorAvailable={setCursorAvail} createPopupCallback={createPopup} closePopupCallback={closePopup} deleteCoralCallback={deleteCoral} updateCoralCallback={updateCoral} />
+            </Canvas>
+          </div>
+        }
       </div >
     </StrictMode >
   );
