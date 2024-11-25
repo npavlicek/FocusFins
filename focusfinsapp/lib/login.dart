@@ -62,36 +62,129 @@ class _MyLoginState extends State<MyLogin> {
   }
 
   @override
-  build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          constraints: const BoxConstraints(
-            maxHeight: 550,
-            minHeight: 100,
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image:
+                AssetImage('assets/blue2.png'), // Path to your background image
+            fit: BoxFit.cover, // Ensures the image covers the entire background
           ),
-          child: Card(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                const Text(textScaler: TextScaler.linear(3), 'Login'),
-                Text(errorMessage),
-                TextBox(
-                  controller: usernameController,
-                  label: 'Username',
+        ),
+        child: Center(
+          child: Container(
+            constraints: const BoxConstraints(
+                maxHeight: 400, minWidth: 300, maxWidth: 380),
+            child: Container(
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 52, 90, 95)
+                    .withOpacity(0.6), // Semi-transparent black background
+                borderRadius: BorderRadius.circular(8), // Rounded corners
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0), // Spacing inside the box
+                child: Column(
+                  mainAxisAlignment:
+                      MainAxisAlignment.start, // Align items to the top
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      textScaler: TextScaler.linear(3),
+                      'Login',
+                      style: TextStyle(
+                          color: Colors.white), // Make the title white
+                    ),
+                    SizedBox(height: 8), // Space between Login and errorMessage
+                    Text(
+                      errorMessage,
+                      style: const TextStyle(
+                          color: Colors.red), // Error message style
+                    ),
+                    SizedBox(
+                        height: 12), // Space between errorMessage and TextBox
+                    TextField(
+                      controller: usernameController,
+                      decoration: InputDecoration(
+                        labelText: 'Username',
+                        labelStyle: const TextStyle(
+                            color: Colors.white), // White label text
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              width: 2),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide:
+                              const BorderSide(color: Colors.white, width: 1),
+                        ),
+                      ),
+                      style: const TextStyle(
+                          color: Colors.white), // White text input
+                    ),
+                    SizedBox(
+                        height:
+                            12), // Space between username and password fields
+                    TextField(
+                      controller: passwordController,
+                      obscureText: true, // Hide password input
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        labelStyle: const TextStyle(
+                            color: Colors.white), // White label text
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                              color: Colors.white,
+                              width: 2), // White border on focus
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                              color: Colors.white,
+                              width: 1), // White border when enabled
+                        ),
+                      ),
+                      style: const TextStyle(
+                          color: Colors.white), // White text input
+                    ),
+
+                    SizedBox(height: 16), // Space before the Submit button
+                    ElevatedButton(
+                      onPressed: submitLogin,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Colors.white, // Button background color
+                        foregroundColor: Colors.black, // Button text color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text('Submit'),
+                    ),
+                    ElevatedButton(
+                      onPressed: switchToRegisterPage,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Colors.white, // Button background color
+                        foregroundColor: Colors.black, // Button text color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text('New to FocusFins?'),
+                    ),
+                  ],
                 ),
-                PasswordTextBox(
-                  controller: passwordController,
-                  label: 'Password',
-                  passwordChanged: () {},
-                ),
-                ElevatedButton(
-                    onPressed: submitLogin, child: const Text('Submit')),
-                ElevatedButton(
-                    onPressed: switchToRegisterPage,
-                    child: const Text('New to FocusFins?')),
-                // Text(passwordError),
-              ],
+              ),
             ),
           ),
         ),
