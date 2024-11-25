@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 const songs = [
-  { name: 'Focus Song 1', url: './public/song1.mp3' },
-  { name: 'Focus Song 2', url: './public/song2.mp3' },
-  { name: 'Focus Song 3', url: './public/song3.mp3' },
+  { name: 'Calm Tune', url: './public/song1.mp3' },
+  { name: 'Chill Song', url: './public/song2.mp3' },
+  { name: 'Neutral Flow', url: './public/song3.mp3' },
 ];
 
 export default function StudySounds() {
