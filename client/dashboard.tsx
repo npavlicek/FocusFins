@@ -174,11 +174,9 @@ export default function Dashboard(props: DashboardParams) {
 				}
 
 				{!error &&
-					<div id="mainContent">
-						<Canvas shadows>
-							<Reef coralsData={corals} cursorAvailable={cursorAvail} setCursorAvailable={setCursorAvail} createPopupCallback={createPopup} closePopupCallback={closePopup} deleteCoralCallback={deleteCoral} updateCoralCallback={updateCoral} />
-						</Canvas>
-					</div>
+					<Canvas shadows>
+						<Reef coralsData={corals} cursorAvailable={cursorAvail} setCursorAvailable={setCursorAvail} createPopupCallback={createPopup} closePopupCallback={closePopup} deleteCoralCallback={deleteCoral} updateCoralCallback={updateCoral} />
+					</Canvas>
 				}
 			</div >
 		</StrictMode >

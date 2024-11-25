@@ -32,3 +32,6 @@ declare global {
 };
 
 window.initApp = initApp;
+
+// @ts-ignore
+FocusFinsState.postMessage("WOWEEE");
