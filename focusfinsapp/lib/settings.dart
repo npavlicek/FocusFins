@@ -1,90 +1,103 @@
 import 'package:flutter/material.dart';
 import 'package:focusfinsapp/util.dart';
 
-
-class MySettings extends StatefulWidget
-{
+class MySettings extends StatefulWidget {
   const MySettings({super.key});
+
   @override
   State<MySettings> createState() => _MySettingsState();
 }
 
 class _MySettingsState extends State<MySettings> {
-  TextEditingController originalPasswordController = TextEditingController();
-  TextEditingController newPasswordController = TextEditingController();
-  TextEditingController newPasswordCheckController = TextEditingController();
-  void logout()
-  {
+  void logout() {
     setEmpty();
     Navigator.pop(context, true);
   }
-  void changePassword() async
-  {
-    if(newPasswordCheckController.text != newPasswordController.text)
-    {
-      return;
-    }
-    Map<String, dynamic> reqBody = 
-    {
-      'username': userUsername,
-      'password': originalPasswordController.text,
-    };
-    API res = await callServer(reqBody, '/api/login');
-    if(res.statuscode != 200)
-    {
-      return;
-    }
-    // CALL ON CHANGE PASSWORD API
-  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold
-    (
-      body: Center(
-        child: Column
-        (
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Card(
-              child: Column(
-                children: [
-                  Text('Settings for $userFirstName $userLastName'),
-                  ElevatedButton(onPressed: logout, child: const Text('Logout')),
-                  TextField
-                  (
-                    obscureText: true,
-                    controller: originalPasswordController,
-                    decoration: const InputDecoration
-                    (
-                      border: OutlineInputBorder(),
-                      labelText: 'Current Password',
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/blue.png'), // Background image
+            fit: BoxFit.cover, // Covers the entire background
+          ),
+        ),
+        child: Center(
+          child: Container(
+            width: 350.0, // Consistent container width
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2), // Semi-transparent background
+              borderRadius: BorderRadius.circular(12.0), // Rounded corners
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Fit content height
+              crossAxisAlignment: CrossAxisAlignment.stretch, // Stretch to fill width
+              children: [
+                const Text(
+                  'Settings',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    shadows: [
+                      Shadow(
+                        offset: Offset(2.0, 2.0),
+                        blurRadius: 4.0,
+                        color: Colors.black45,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Display account info
+                Text(
+                  'Logged in as:',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.white70,
+                  ),
+                ),
+                Text(
+                  '$userFirstName $userLastName',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Username: $userUsername',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+                // Logout button
+                ElevatedButton(
+                  onPressed: logout,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.all(16.0),
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  TextField
-                  (
-                    obscureText: true,
-                    controller: newPasswordController,
-                    decoration: const InputDecoration
-                    (
-                      border: OutlineInputBorder(),
-                      labelText: 'New Password',
-                    ),
-                  ),
-                  TextField
-                  (
-                    obscureText: true,
-                    controller: newPasswordCheckController,
-                    decoration: const InputDecoration
-                    (
-                      border: OutlineInputBorder(),
-                      labelText: 'Confirm Password',
-                    ),
-                  ),
-                  ElevatedButton(onPressed: changePassword, child: const Text('Update Password')),
-                ],
-              ),
-            )
-          ],
+                  child: const Text('Logout'),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
