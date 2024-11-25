@@ -9,14 +9,14 @@ interface CoralType {
 interface StoreItemProps {
   index: number;
   coralType: CoralType;
-  purchaseCoralCallback: (coralType: CoralType) => void;
+  initiatePurchaseCallback: (coralType: CoralType) => void;
 };
 
 const StoreItem: React.FC<StoreItemProps> = (props: StoreItemProps) => {
   const clickHandler = useCallback((e: MouseEvent) => {
     e.preventDefault(); // Prevent navigation on <a>
-    props.purchaseCoralCallback(props.coralType);
-  }, [props.purchaseCoralCallback]);
+    props.initiatePurchaseCallback(props.coralType);
+  }, [props.initiatePurchaseCallback]);
 
   const path = `/public/${props.index}.png`;
 
@@ -51,19 +51,27 @@ const coralPrices: number[] = [
 const Store: React.FC<StoreProps> = (props: StoreProps) => {
   const [coralTypes, setCoralTypes] = useState<CoralType[]>();
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedCoral, setSelectedCoral] = useState<CoralType | null>(null);
 
   const toggleStore = () => {
     setIsOpen(!isOpen);
   };
 
-  const purchaseCoral = useCallback((coralType: CoralType) => {
-    if (props.money >= coralType.price) {
-      props.subtractBalance(coralType.price);
-      props.spawnCoralCallback(coralType.modelId);
-    } else {
-      alert("Not enough money!"); // Simple popup for insufficient funds
+  const confirmPurchase = useCallback(() => {
+    if (selectedCoral) {
+      if (props.money >= selectedCoral.price) {
+        props.subtractBalance(selectedCoral.price);
+        props.spawnCoralCallback(selectedCoral.modelId);
+        setSelectedCoral(null); // Close popup after purchase
+      } else {
+        alert("Not enough money!");
+      }
     }
-  }, [props.money, props.spawnCoralCallback, props.subtractBalance]);
+  }, [props.money, props.spawnCoralCallback, props.subtractBalance, selectedCoral]);
+
+  const initiatePurchase = (coralType: CoralType) => {
+    setSelectedCoral(coralType); // Show popup with selected coral
+  };
 
   useEffect(() => {
     const newCoralTypes: CoralType[] = coralNames.map((val, index) => ({
@@ -82,21 +90,30 @@ const Store: React.FC<StoreProps> = (props: StoreProps) => {
       {isOpen && (
         <div className={`storeWrapper ${isOpen ? 'store-open' : ''}`}>
           <h3 style={{ fontSize: '1.5rem', marginTop: 9, marginBottom: 2 }}>Store</h3>
-          <div className="bubble-bank" style={{ fontSize: '1rem', textAlign: 'center', color: 'white', marginBottom: '5px' }}>
+          <div className="bubble-bank" style={{ fontSize: '.8rem', textAlign: 'center', color: 'white', marginBottom: '5px' }}>
             Bubble Bank: {props.money} 🫧
           </div>
           <ul className="storeList">
             {coralTypes &&
               coralTypes.map((item, index) => (
-                <StoreItem key={index} index={index} coralType={item} purchaseCoralCallback={purchaseCoral} />
+                <StoreItem key={index} index={index} coralType={item} initiatePurchaseCallback={initiatePurchase} />
               ))
             }
           </ul>
         </div>
       )}
+      {selectedCoral && (
+        <div className="popup">
+          <div className="popup-content">
+            <p>Confirm purchase of <strong>{selectedCoral.name}</strong> for <strong>{selectedCoral.price} 🫧</strong>?</p>
+            <button onClick={() => setSelectedCoral(null)}>Cancel</button>
+            <button onClick={confirmPurchase}>Confirm</button>
+        
+          </div>
+        </div>
+      )}
     </div>
   );
-
-}
+};
 
 export default Store;

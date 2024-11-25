@@ -27,3 +27,4 @@ const Sand: React.FC<SandProps> = (props: SandProps) => {
 }
 
 export default Sand;
+

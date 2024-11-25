@@ -7,6 +7,7 @@ export default function LoginForm() {
   const [password, setPassword] = React.useState('');
   const [successMessage, setSuccessMessage] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState('');
+  const [showResetPassword, setShowResetPassword] = React.useState(false); // State to control reset password visibility
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -15,7 +16,9 @@ export default function LoginForm() {
       token: localStorage.getItem('token')
     });
     fetch('/api/isAuthenticated', {
-      method: 'post', body: reqBody, headers: {
+      method: 'post',
+      body: reqBody,
+      headers: {
         "Content-Type": "application/json"
       }
     }).then(res => {
@@ -29,7 +32,6 @@ export default function LoginForm() {
     }
   }, []);
 
-  // Check for 'registered' query parameter on component mount
   React.useEffect(() => {
     const params = new URLSearchParams(location.search);
     if (params.get('registered') === 'true') {
@@ -39,7 +41,8 @@ export default function LoginForm() {
 
   function doLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setErrorMessage(''); // Clear any previous error message
+    setErrorMessage('');
+    setShowResetPassword(false); // Hide reset password option initially
 
     fetch('/api/login', {
       method: 'POST',
@@ -66,6 +69,7 @@ export default function LoginForm() {
             setErrorMessage("Please verify your email!");
           } else {
             setErrorMessage("Invalid username or password!");
+            setShowResetPassword(true); // Show reset password option on invalid credentials
           }
         });
       }
@@ -73,55 +77,52 @@ export default function LoginForm() {
       setErrorMessage('An error occurred. Please try again later.');
       console.error(err);
     });
-
-    console.log("HERE2");
   }
 
   return (
     <div className="login-background">
+      <div className="centeredCard">
+        <form onSubmit={doLogin}>
+          <h2 className="login-title work-sans-login">Login</h2>
 
-    <div className="centeredCard">
-      <form onSubmit={doLogin}>
-        <h2 className="login-title work-sans-login">Login</h2>
+          {successMessage && <p className="success-message">{successMessage}</p>}
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-        {/* Display success message if registration was successful */}
-        {successMessage && <p className="success-message">{successMessage}</p>}
-
-        {/* Display error message if login failed */}
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-
-        <div>
-          <input
-            type="text"
-            placeholder="Username"
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <input type="submit" value="Submit" />
-        </div>
-        <div className="register-container">
-          <span className="small-text">New to FocusFins?</span>
-          <Link to="/register">
-            <button type="button" className="register-button">Register here!</button>
-          </Link>
-          or
-          <Link to="/resetPassword">
-            <button type="button" className="register-button">Reset your password</button>
-          </Link>
-        </div>
-      </form>
+          <div>
+            <input
+              type="text"
+              placeholder="Username"
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <input
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <input type="submit" value="Submit" />
+          </div>
+          <div className="register-container">
+            <span className="small-text">New to FocusFins?</span>
+            <Link to="/register">
+              <button type="button" className="register-button">Register here!</button>
+            </Link>
+            {showResetPassword && (
+              <>
+                or
+                <Link to="/resetPassword">
+                  <button type="button" className="register-button">Reset your password</button>
+                </Link>
+              </>
+            )}
+          </div>
+        </form>
+      </div>
     </div>
-    </div>
-
   );
 }
