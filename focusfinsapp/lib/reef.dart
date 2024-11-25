@@ -29,7 +29,7 @@ class _MyReefState extends State<MyReef> {
                 .runJavaScript('initApp("$token", "$id");')
                 .onError((err, stacktrace) {
               if (err != null) {
-                print("THERE IS AN ERROR RUNNING THE JS: " + err.toString());
+                print("$err");
               }
             });
           }
