@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:focusfinsapp/util.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-final storage = const FlutterSecureStorage();
+final storage = new FlutterSecureStorage();
 
 class MyLogin extends StatefulWidget {
   const MyLogin({super.key});
