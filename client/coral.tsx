@@ -40,7 +40,7 @@ interface CoralCallbacks {
 };
 
 const Coral: React.FC<CoralProps> = (props: CoralProps) => {
-  const sceneLoaded = useLoader(GLTFLoader, './public/cartoon_seaweed_9.glb');
+  const sceneLoaded = useLoader(GLTFLoader, 'assets/cartoon_seaweed_9.glb');
   const meshRef = useRef<Mesh | null>(null);
   const [selected, setSelected] = useState<boolean>(false);
   const [moving, setMoving] = useState<boolean>(false);

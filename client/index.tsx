@@ -1,49 +1,31 @@
 import * as ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import LoginForm from './login';
 import Dashboard from './dashboard';
-import Register from './register';
-import VisitReefWrapper from './visitReef';
-import ResetPassword from './resetPassword';
-import Verify from './verify';
-import LandingPage from './landing_page'
 
 import './styles.css';
 
 const root = document.getElementById('root')!;
 const reactRoot = ReactDOM.createRoot(root);
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <LandingPage />
-  },
-  {
-    path: '/dashboard',
-    element: <Dashboard />
-  },
-  {
-    path: '/register',
-    element: <Register />
-  },
-  {
-    path: '/login',
-    element: <LoginForm />
-  },
-  {
-    path: '/visitReef',
-    element: <VisitReefWrapper />
-  },
-  {
-    path: '/resetPassword',
-    element: <ResetPassword />
-  },
-  {
-    path: '/verify',
-    element: <Verify />
-  }
-]);
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
 
-reactRoot.render(
-  <RouterProvider router={router} />
-);
+const token = urlParams.get('token');
+const id = urlParams.get('id');
+
+fetch('./api/isAuthenticated', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  }, body: JSON.stringify({ token })
+}).then(res => {
+  if (res.status === 200) {
+    reactRoot.render(
+      <Dashboard token={token!} id={id!} />
+    );
+  } else {
+    reactRoot.render(
+      <h1 style={{ color: 'white' }}>Not logged in!</h1>
+    );
+  }
+});
+

@@ -1,14 +1,14 @@
-import Timer from './timer';
 import { Canvas } from '@react-three/fiber';
 import Reef from './reef';
 import { StrictMode, useState, useCallback, useRef, useEffect } from 'react';
-import Store from './store';
-import Navbar from './navbar';
 import { CoralCallbacks, CoralData } from './coral';
-import { useNavigate } from 'react-router-dom';
 
-export default function Dashboard() {
-  const [bubbles, setBubbles] = useState<number>(0);
+interface DashboardParams {
+  id: string;
+  token: string;
+};
+
+export default function Dashboard(props: DashboardParams) {
   const [cursorAvail, setCursorAvail] = useState(true);
   const [corals, setCoralsData] = useState<CoralData[]>([]);
   const [currentCoralId, setCurrentCoralId] = useState<number>(0);
@@ -16,32 +16,15 @@ export default function Dashboard() {
   const moveButtonRef = useRef<HTMLButtonElement>(null);
   const rotateButtonRef = useRef<HTMLButtonElement>(null);
   const deleteButtonRef = useRef<HTMLButtonElement>(null);
-  const navigate = useNavigate();
+  const [error, setError] = useState<boolean>();
 
   useEffect(() => {
-    const reqBody = JSON.stringify({
-      token: localStorage.getItem('token')
-    });
-    fetch('/api/isAuthenticated', {
-      method: 'post', body: reqBody, headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(res => {
-      if (res.status !== 200) {
-        localStorage.clear();
-      }
-    });
-
-    if (localStorage.getItem('logged-in') !== 'true') {
-      navigate('/login');
-    }
-
     if (popupRef.current) {
       popupRef.current.style.display = "none";
     }
 
     const getCoralsReqBody = JSON.stringify({
-      id: localStorage.getItem('id')
+      id: props.id
     });
 
     fetch('/api/getCorals', {
@@ -57,33 +40,17 @@ export default function Dashboard() {
           setCurrentCoralId(data.currentCoralIdx);
         });
       } else {
-        localStorage.clear();
-        navigate('/login');
+        setError(true);
       }
     });
-
-    fetch('/api/getBubbles', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ token: localStorage.getItem('token') })
-    }).then(res => {
-      res.json().then(data => {
-        setBubbles(data.bubbles);
-      });
-    });
   }, []);
-
-  useEffect(() => {
-  }, [bubbles]);
 
   /**
    * push entire coral state and override on database
    */
   const pushCorals = (newCorals: CoralData[]) => {
     const reqBody = JSON.stringify({
-      token: localStorage.getItem('token'),
+      token: props.token,
       corals: newCorals
     });
 
@@ -95,31 +62,7 @@ export default function Dashboard() {
       body: reqBody
     }).then(res => {
       if (res.status !== 200) {
-        localStorage.clear();
-        navigate('/login');
-      }
-    });
-  };
-
-  /**
-   * push one new coral to reef
-   */
-  const pushNewCoral = (newCoral: CoralData) => {
-    const reqBody = JSON.stringify({
-      token: localStorage.getItem('token'),
-      coral: newCoral
-    });
-
-    fetch('./api/addCoral', {
-      method: 'post',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: reqBody
-    }).then(res => {
-      if (res.status !== 200) {
-        localStorage.clear();
-        navigate('/login');
+        setError(true);
       }
     });
   };
@@ -129,7 +72,7 @@ export default function Dashboard() {
    */
   const pushRemoveCoral = (coralId: number) => {
     const reqBody = JSON.stringify({
-      token: localStorage.getItem('token'),
+      token: props.token,
       coralId: coralId
     });
 
@@ -141,9 +84,7 @@ export default function Dashboard() {
       body: reqBody
     }).then(res => {
       if (res.status !== 200) {
-        console.error(res);
-        localStorage.clear();
-        navigate('/login');
+        setError(true);
       }
     });
   };
@@ -153,7 +94,7 @@ export default function Dashboard() {
    */
   const pushUpdateCoral = (coralData: CoralData) => {
     const reqBody = JSON.stringify({
-      token: localStorage.getItem('token'),
+      token: props.token,
       coralId: coralData.coralId,
       coral: coralData
     });
@@ -166,30 +107,10 @@ export default function Dashboard() {
       body: reqBody
     }).then(res => {
       if (res.status !== 200) {
-        console.error(res);
-        localStorage.clear();
-        navigate('/login');
+        setError(true);
       }
     });
   };
-
-  const spawnCoral = useCallback((newCoralModelId: number) => {
-    let newCoral: CoralData = {
-      coralModelId: newCoralModelId,
-      coralId: currentCoralId,
-      position: {
-        x: 0,
-        y: 0,
-        z: 0
-      },
-      rotation: {
-        y: 0
-      }
-    };
-    pushNewCoral(newCoral);
-    setCoralsData(prevCorals => [...prevCorals, newCoral]);
-    setCurrentCoralId(prevVal => { return ++prevVal; });
-  }, [corals, currentCoralId, pushCorals]);
 
   const updateCoral = useCallback((newCoralData: CoralData) => {
     pushUpdateCoral(newCoralData);
@@ -204,50 +125,10 @@ export default function Dashboard() {
     });
   }, [corals, pushCorals]);
 
-  const subtractBalance = (amount: number) => {
-    fetch('/api/decBubbles', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        token: localStorage.getItem('token'),
-        amount: amount
-      })
-    }).then(res => {
-      if (res.status !== 200) {
-        localStorage.clear();
-        console.error(res);
-        navigate('/login');
-      }
-    });
-    setBubbles((prevBubbles) => prevBubbles - amount);
-  };
-
-  const addBalance = (amount: number) => {
-    fetch('/api/incBubbles', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        token: localStorage.getItem('token'),
-        amount: amount
-      })
-    }).then(res => {
-      if (res.status !== 200) {
-        localStorage.clear();
-        console.error(res);
-        navigate('/login');
-      }
-    });
-    setBubbles((prevBubbles) => prevBubbles + amount);
-  };
-
   const deleteCoral = useCallback((coralId: number) => {
     pushRemoveCoral(coralId);
     setCoralsData(oldCorals => {
-      return oldCorals.filter((val, idx) => {
+      return oldCorals.filter((val) => {
         if (val.coralId != coralId)
           return true;
         else
@@ -289,13 +170,10 @@ export default function Dashboard() {
         </div>
 
         <div id="mainContent">
-          <Timer bubbles={bubbles} addBalance={addBalance} />
           <Canvas shadows>
             <Reef coralsData={corals} cursorAvailable={cursorAvail} setCursorAvailable={setCursorAvail} createPopupCallback={createPopup} closePopupCallback={closePopup} deleteCoralCallback={deleteCoral} updateCoralCallback={updateCoral} />
           </Canvas>
         </div>
-        <Store spawnCoralCallback={spawnCoral} money={bubbles} subtractBalance={subtractBalance} />
-        <Navbar />
       </div >
     </StrictMode >
   );

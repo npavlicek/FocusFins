@@ -8,7 +8,7 @@ interface SandProps {
 };
 
 const Sand: React.FC<SandProps> = (props: SandProps) => {
-  const sandModel = useLoader(GLTFLoader, './public/sand.glb');
+  const sandModel = useLoader(GLTFLoader, 'assets/sand.glb');
   const meshRef = useRef<Mesh>(null);
 
   useEffect(() => {

@@ -20,7 +20,7 @@ interface FishProps {
 
 const Fish: React.FC<FishProps> = (props: FishProps) => {
   const fishMeshRef = useRef<Mesh>(null);
-  const fishiesModels = useLoader(GLTFLoader, './public/fishies.glb');
+  const fishiesModels = useLoader(GLTFLoader, 'assets/fishies.glb');
   const [moveFinished, setMoveFinished] = useState<boolean>(true);
   const [destination, setDestination] = useState<Vector3>(new Vector3());
 
