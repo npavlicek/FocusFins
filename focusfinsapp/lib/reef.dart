@@ -11,8 +11,6 @@ class MyReef extends StatefulWidget {
 class _MyReefState extends State<MyReef> {
   final WebViewController _controller = WebViewController();
 
-  Uri uri = Uri.parse('http://focusfins.org/visitReef?username=bea');
-
   void randomFunction() async {
     await getBubbles();
   }
@@ -22,12 +20,9 @@ class _MyReefState extends State<MyReef> {
     _controller.setJavaScriptMode(JavaScriptMode.unrestricted);
     _controller.setNavigationDelegate(
         NavigationDelegate(onNavigationRequest: (NavigationRequest req) {
-      print(req.url);
       return NavigationDecision.navigate;
-    }, onProgress: (p) {
-      print(p);
     }));
-    _controller.loadRequest(uri);
+    _controller.loadFlutterAsset('assets/index.html');
     return WebViewWidget(controller: _controller);
   }
 }
