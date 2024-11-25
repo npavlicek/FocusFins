@@ -6,6 +6,7 @@ import Store from './store';
 import Navbar from './navbar';
 import { CoralCallbacks, CoralData } from './coral';
 import { useNavigate } from 'react-router-dom';
+import StudySounds from './StudySounds';
 
 export default function Dashboard() {
   const [bubbles, setBubbles] = useState<number>(0);
@@ -281,22 +282,27 @@ export default function Dashboard() {
   return (
     <StrictMode>
       <div id="dashboard">
-
+  
         <div ref={popupRef} className="popup-container">
           <button ref={moveButtonRef} className="popup-button">move</button>
           <button ref={rotateButtonRef} className="popup-button">rotate</button>
           <button ref={deleteButtonRef} className="popup-button-delete">delete</button>
         </div>
-
+  
         <div id="mainContent">
           <Timer bubbles={bubbles} addBalance={addBalance} />
           <Canvas shadows>
             <Reef coralsData={corals} cursorAvailable={cursorAvail} setCursorAvailable={setCursorAvail} createPopupCallback={createPopup} closePopupCallback={closePopup} deleteCoralCallback={deleteCoral} updateCoralCallback={updateCoral} />
           </Canvas>
         </div>
+  
+        {/* Add StudySounds here */}
+        <StudySounds />
+  
         <Store spawnCoralCallback={spawnCoral} money={bubbles} subtractBalance={subtractBalance} />
         <Navbar />
       </div >
     </StrictMode >
   );
+  
 }

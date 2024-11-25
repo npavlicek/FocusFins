@@ -20,8 +20,8 @@ html {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 100%;
-    background-image: url('res/blue2.png');
+    height: calc(100vh - env(safe-area-inset-bottom));
+    background-image: url('res/blue3.png');
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -30,7 +30,7 @@ html {
 
 #root {
     width: 100%;
-    height: 100%;
+    height: calc(100vh - env(safe-area-inset-bottom));
     display: flex;
     flex-direction: column;
     background: transparent;
@@ -49,7 +49,7 @@ html {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 90vh;
+    height: 100%;
     margin: 0;
 }
 
@@ -943,73 +943,67 @@ li {
 
 
 
-/*STUDY SOUNDS STYLING*/
-
 .studySoundsContainer {
-    position: relative;
+    position: absolute; /* Fix to screen */
+    top: 30px; /* Adjust distance from the top */
+    right: 185px; /* Adjust distance from the right */
     display: inline-block;
+    z-index: 100; /* Ensure it stays above most other elements */
 }
 
 .study-sounds-toggle-button {
     padding: 8px 16px;
-    margin-top: 20px;
-    margin-left: 61vw;
     font-size: 1.02rem;
-    background-color: rgba(50, 88, 95, 0.95);
-    color: #fff;
+    background-color: rgba(50, 88, 95, 0.95); /* Original button color */
+    color: #fff; /* Original button text color */
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    /* Drop shadow added */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Original shadow */
 }
 
-.study-sounds-button:hover {
-    background-color: rgba(50, 88, 95, .6);
-    /* Slightly darker on hover */
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
-    /* Stronger shadow on hover */
+.study-sounds-toggle-button:hover {
+    background-color: rgba(50, 88, 95, 0.6); /* Original hover color */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
 }
 
 .studySoundsWrapper {
-    position: absolute;
-    top: calc(100% + 10px);
-    /* Positioning under the button */
-    left: 0;
-    margin-left: 910px;
-    background: transparent;
-    border-radius: 11px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 250px;
-
-    z-index: 10;
+    position: absolute; /* Positioned relative to the container */
+    top: calc(100% + 10px); /* Below the button */
+    right: 0; /* Align popup with the button on the right */
+    transform: translateX(0); /* Remove horizontal centering */
+    background: rgba(255, 255, 255, 0.05); /* Semi-transparent background */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Original shadow */
+    width: 270px;
+    padding: 15px;
+    z-index: 101; /* Higher than other elements */
 }
 
 .titleSong {
     margin: 1px;
-    padding-top: .1vw;
-
-    padding-left: 4vw;
+    padding-top: 0.1vw;
     font-size: 1.2rem;
-    margin-left: 1pm;
-    color: white;
+    color: white; /* Original text color */
+    text-align: center;
 }
 
 .studySoundsList {
     list-style: none;
-    color: white;
+    color: white; /* Original list text color */
     padding: 0;
     margin: 0;
 }
 
 .studySoundsListItem {
+    width: 250px;
     margin: 10px 0;
 }
 
 .studySoundsListItem button {
-    background-color: white;
-    color: rgb(44, 81, 87);
+    background-color: white; /* Original button background */
+    color: rgb(44, 81, 87); /* Original button text color */
     border: none;
     padding: 10px 15px;
     border-radius: 4px;
@@ -1018,11 +1012,46 @@ li {
 }
 
 .studySoundsListItem button:hover {
-    color: rgb(44, 81, 87, .7);
+    color: rgba(44, 81, 87, 0.7); /* Original hover text color */
+    background-color: rgba(255, 255, 255, 0.9); /* Original hover background */
 }
 
+.play-pause-button {
+    display: inline-block;
+    margin-left:90px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .play-pause-button.play {
+    background-color: rgba(50, 88, 95, 0.8); /* Green for play */
+  }
+  
+  .play-pause-button.play:hover {
+    background-color: rgb(50, 88, 95); /* Darker green on hover */
+  }
+  
+  .play-pause-button.pause {
+    background-color: rgba(166, 63, 65, 0.8);; /* Red for pause */
+  }
+  
+  .play-pause-button.pause:hover {
+    background-color: rgb(166, 63, 65);; /* Darker red on hover */
+  }
+  
+  .play-pause-button:active {
+    transform: scale(0.95); /* Slightly reduce size on click */
+  }
+  
+  
 
-.popup {
+  .popup {
     position: fixed;
     top: 0;
     left: 0;

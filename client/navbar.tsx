@@ -1,55 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const songs = [
-  { name: 'Focus Song 1', url: './public/song1.mp3' },
-  { name: 'Focus Song 2', url: '/public/song2.mp3' },
-  { name: 'Focus Song 3', url: '/public/song3.mp3' },
-];
-
-function StudySounds() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
-
-  const togglePopup = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handlePlay = (index: number) => {
-    if (audio) {
-      audio.pause();
-      audio.currentTime = 0;
-    }
-    const newAudio = new Audio(`./public/song${index}.mp3`);
-    newAudio.loop = true; // Enable looping
-    setAudio(newAudio);
-    newAudio.play().catch((err) => {
-      console.error('Playback failed:', err);
-    });
-  };
-
-
-  return (
-    <div className="studySoundsContainer">
-      <button onClick={togglePopup} className="study-sounds-toggle-button">
-        {isOpen ? 'Study Sounds' : 'Study Sounds'}
-      </button>
-      {isOpen && (
-        <div className="studySoundsWrapper">
-          <h3 className="titleSong">Study Sounds</h3>
-          <ul className="studySoundsList">
-            {songs.map((song, index) => (
-              <li key={index} className="studySoundsListItem">
-                <button onClick={() => handlePlay(index+1)}>{song.name}</button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default function Navbar() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
@@ -99,9 +50,6 @@ export default function Navbar() {
           </button>
         </form>
       )}
-
-      {/* Study Sounds Popup */}
-      <StudySounds />
     </div>
   );
 }
