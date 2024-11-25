@@ -9,6 +9,7 @@ import { Canvas } from '@react-three/fiber';
 import { useThree } from '@react-three/fiber';
 import { DirectionalLight } from 'three/src/lights/DirectionalLight';
 import { EffectComposer } from '@react-three/postprocessing';
+import Fishies from './fishies';
 
 interface CoralData {
   coralId: number;
@@ -25,6 +26,7 @@ interface CoralData {
 
 interface VisitReefProps {
   coralsData: CoralData[] | null;
+  fishiesData: number[];
 };
 
 const VisitReefWrapper: React.FC = () => {
@@ -32,6 +34,8 @@ const VisitReefWrapper: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [isError, setIsError] = useState<boolean>(false);
   const navigate = useNavigate();
+  const [fishiesData, setFishiesData] = useState<number[]>([]);
+  const [oldScore, setOldScore] = useState<number>(0);
 
   useEffect(() => {
     const username = searchParams.get('username');
@@ -53,6 +57,48 @@ const VisitReefWrapper: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    if (coralsData) {
+      const totalScore = coralsData.length;
+      if (oldScore !== totalScore) {
+        let totalRare = 0;
+        let totalNormal = 0;
+        if (totalScore >= 15) {
+          totalRare = 0.3 * totalScore - 3.5;
+          totalRare = Math.floor(totalRare);
+        }
+
+        totalNormal = 0.5 * totalScore + 1.0;
+        totalNormal = Math.floor(totalNormal);
+
+        let newFishiesData = [];
+
+        for (let x = 0; x < totalRare; x++) {
+          const c = Math.random();
+          if (c > 0.5)
+            newFishiesData.push(0);
+          else
+            newFishiesData.push(3);
+        }
+
+        for (let x = 0; x < totalNormal; x++) {
+          const c = Math.random();
+          if (c < 0.25)
+            newFishiesData.push(1);
+          else if (c < 0.5)
+            newFishiesData.push(2);
+          else if (c < 0.75)
+            newFishiesData.push(4);
+          else if (c < 1.0)
+            newFishiesData.push(5);
+        }
+
+        setOldScore(totalScore);
+        setFishiesData(newFishiesData);
+      }
+    }
+  }, [coralsData]);
+
+  useEffect(() => {
     if (isError) {
       setTimeout(() => navigate(-1), 1000);
     }
@@ -65,7 +111,7 @@ const VisitReefWrapper: React.FC = () => {
         <>
           <h1 style={{ color: 'white', position: 'absolute', top: '15px', left: '50px', zIndex: 99 }}>{searchParams.get('username')}'s Reef</h1>
           <Canvas shadows>
-            <VisitReef coralsData={coralsData} />
+            <VisitReef fishiesData={fishiesData} coralsData={coralsData} />
           </Canvas>
         </>
       }
@@ -155,6 +201,7 @@ const VisitReef: React.FC<VisitReefProps> = (props: VisitReefProps) => {
       <orthographicCamera ref={camRef} />
       <EffectComposer>
         <>
+          <Fishies fishiesData={props.fishiesData} />
           {props.coralsData && props.coralsData.map(val => (
             <Coral coralData={val} />
           ))
